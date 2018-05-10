@@ -10,8 +10,6 @@
     - postgresql-contrib
     - python-psycopg2
     - libpq-dev
-    # RabbitMQ
-    - rabbitmq-server
     # Needed for the ASE visualizer
     - python-gtk2
     # For AiiDA
@@ -33,19 +31,19 @@
     name: "{{ aiida_postgres_db_user }}"
     password: "{{ aiida_postgres_db_pw }}"
 
-# Note: this installs also a number of plugins. However at the moment,
-# for the case of the quantum espresso plugin, we later force a specific
-# version (for the others, e.g. aiida-ase etc., not yet - note that the
-# dependency int he meta package is >= for these plugins).
-#
 ## NOTE ALSO THAT LATER WE REINSTALL AIIDA AT A DIFFERENT VERSION!
 ## Moreover, it installs a specific old version of pip
 ## TODO: replace this with installing the needed packages
 ##   that should only be "aiida-ase>=1.0.1", "aiida-codtools>=1.0.1", "aiida-nwchem>=1.0.1".
 - name: Install the aiida meta package
   pip:
-    name: "aiida=={{ aiida_version }}"
+    name: "{{ item }}"
     virtualenv: "{{ aiida_venv }}"
+  with_items:
+  - aiida-core=={{ aiida_version }}
+  - aiida-ase>=1.0.1
+  - aiida-codtools>=1.0.1
+  - aiida-nwchem>=1.0.1
   register: pip_install
 
 # get anyway the GIT code, it is often useful; checkout the same version (now actually we are forcing a different branch/tag...)
@@ -60,21 +58,6 @@
   pip:
     name: "pip>=10.0.0"
     virtualenv: "{{ aiida_venv }}"
-
-# In reinstall and override the pip_install variable, for all extras
-## To pass the list of extras separated by comma, you need to pass 'name' as
-## a list of packages, otherwise it will convert commas as spaces
-- name: "Reinstall AiiDA from the source package"
-  pip:
-    name:
-      - "file://${HOME}/codes/aiida_core[{{ aiida_extras | join(',') }}]"
-    editable: True
-    virtualenv: "{{ aiida_venv }}"
-  register: pip_install
-
-# this is necessary, since the meta package installs plugins
-- name: run reentry scan
-  shell: "{{ aiida_venv }}/bin/reentry scan -r aiida"
   when: pip_install.changed
 
 - name: Additional pip dependencies
