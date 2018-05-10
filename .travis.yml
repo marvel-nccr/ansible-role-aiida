@@ -11,6 +11,7 @@ env:
     - docker_image: marvelnccr/ubuntu-docker-base
       version: 1.0
       ansible_user: ubuntu
+      roles_dir: /etc/ansible/roles
 
 services:
   - docker
@@ -20,13 +21,15 @@ before_install:
   - 'sudo docker pull ${docker_image}:${version}'
 
 script:
-  - 'sudo docker run --name ${container_id} --detach --privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro --volume="${PWD}":/etc/ansible/roles/${ansible_role}:ro ${docker_image}:${version}'
+  - 'sudo docker run --name ${container_id} --detach --privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro --volume="${PWD}":${roles_dir}/${ansible_role}:ro ${docker_image}:${version}'
   # install role dependency  (until we find a better way)
-  - 'sudo docker exec --user ${ansible_user} "${container_id}" env ANSIBLE_FORCE_COLOR=1 ansible-galaxy install marvel-nccr.current-user -p /etc/ansible/roles/'
-  - 'sudo docker exec --user ${ansible_user} "${container_id}" env ANSIBLE_FORCE_COLOR=1 ansible-playbook -v /etc/ansible/roles/${ansible_role}/tests/test.yml --syntax-check'
-  - 'sudo docker exec --user ${ansible_user} "${container_id}" env ANSIBLE_FORCE_COLOR=1 ansible-playbook -v /etc/ansible/roles/${ansible_role}/tests/test.yml -i /etc/ansible/roles/${ansible_role}/tests/inventory'
+  # See http://docs.ansible.com/ansible/latest/user_guide/become.html#becoming-an-unprivileged-user
+  - 'sudo docker exec --user ${ansible_user} "${container_id}" sudo apt-get install acl'
+  - 'sudo docker exec --user ${ansible_user} "${container_id}" env ANSIBLE_FORCE_COLOR=1 ansible-galaxy install marvel-nccr.current-user -p ${roles_dir}'
+  - 'sudo docker exec --user ${ansible_user} "${container_id}" env ANSIBLE_FORCE_COLOR=1 ansible-playbook -v ${roles_dir}/${ansible_role}/tests/test.yml --syntax-check'
+  - 'sudo docker exec --user ${ansible_user} "${container_id}" env ANSIBLE_FORCE_COLOR=1 ansible-playbook -v ${roles_dir}/${ansible_role}/tests/test.yml
   - >
-    sudo docker exec --user ${ansible_user} "${container_id}" env ANSIBLE_FORCE_COLOR=1 ansible-playbook -v /etc/ansible/roles/${ansible_role}/tests/test.yml -i /etc/ansible/roles/${ansible_role}/tests/inventory
+    sudo docker exec --user ${ansible_user} "${container_id}" env ANSIBLE_FORCE_COLOR=1 ansible-playbook -v ${roles_dir}/${ansible_role}/tests/test.yml
     | tee /dev/tty
     | grep -q 'changed=0.*failed=0'
     && (echo 'Idempotency test: pass' && exit 0)
