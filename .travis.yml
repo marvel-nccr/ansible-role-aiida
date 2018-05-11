@@ -27,6 +27,7 @@ script:
   - 'sudo docker run --name ${container_id} --detach --privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro --volume="${PWD}":${roles_dir}/${ansible_role}:ro ${docker_image}:${version}'
   # install role dependency  (until we find a better way)
   # See http://docs.ansible.com/ansible/latest/user_guide/become.html#becoming-an-unprivileged-user
+  - 'sudo docker exec --user ${ansible_user} "${container_id}" sudo apt-get update'
   - 'sudo docker exec --user ${ansible_user} "${container_id}" sudo apt-get install acl'
   - 'sudo docker exec --user ${ansible_user} "${container_id}" setfacl'
   - 'sudo docker exec --user ${ansible_user} "${container_id}" env ANSIBLE_FORCE_COLOR=1 ansible-galaxy install marvel-nccr.current-user -p ${roles_dir}'
