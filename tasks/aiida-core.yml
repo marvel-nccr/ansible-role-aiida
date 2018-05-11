@@ -21,7 +21,7 @@
 # This can be necessary on docker
 - name: Make sure postgres service is started
   become: True
-  become_user: "{{ roota_user }}"
+  become_user: "{{ root_user }}"
   service:
     name: "postgresql"
     state: "started"
