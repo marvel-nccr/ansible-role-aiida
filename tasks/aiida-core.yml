@@ -6,8 +6,9 @@
       state: present
   with_items:
     # Compilation
-    - postgresql-9.5
-    - postgresql-contrib
+    - postgresql 
+    - postgresql-server-dev-all 
+    - postgresql-client
     - python-psycopg2
     - libpq-dev
     # Needed for the ASE visualizer
@@ -16,6 +17,14 @@
     - libffi-dev
     - libssl-dev
     - graphviz
+
+# This can be necessary on docker
+- name: Make sure postgres service is started
+  become: True
+  become_user: "{{ roota_user }}"
+  service:
+    name: "postgresql"
+    state: "started"
 
 - name: Setup postgres db
   become: True
