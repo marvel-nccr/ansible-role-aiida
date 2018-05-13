@@ -1,27 +1,10 @@
 ---
-# get the GIT code so we can install a specific branch/tag more easily
-- name: Get the AiiDA-quantumespresso code from GIT
-  git:
-    repo: 'https://github.com/aiidateam/aiida-quantumespresso.git'
-    dest: "${HOME}/codes/aiida-quantumespresso"
-    version: "{{ aiida_quantumespresso_version }}"
-  register: aiida_qe_fetched
-
-# In reinstall and override the pip_install variable, for all extras
-- name: "Install AiiDA-quantumepresso from the source package"
+- name: "install aiida-quantumespresso-{{ aiida_quantumespresso_version }} from PyPI"
   pip:
-    name: "file://${HOME}/codes/aiida-quantumespresso"
-    editable: True
+    name: aiida-quantumespresso
+    version: "{{ aiida_quantumespresso_version }}"
     virtualenv: "{{ aiida_venv }}"
   register: aiida_qe_installed
-  when: aiida_qe_fetched
-
-#- name: "install aiida-quantumespresso-{{ aiida_quantumespresso_version }} from PyPI"
-#  pip:
-#    name: aiida-quantumespresso
-#    version: "{{ aiida_quantumespresso_version }}"
-#    virtualenv: "{{ aiida_venv }}"
-#  register: aiida_qe_installed
 
 - name: run reentry scan
   shell: "{{ aiida_venv }}/bin/reentry scan -r aiida"

@@ -1,4 +1,12 @@
 ---
+# note: current-user is a dependency, but it won't run
+# if you use a tag to select just the daemon tasks
+- name: Get info on current user
+  include_role: 
+    name: marvel-nccr.current-user
+  tags: always
+  when: not current_user defined
+   
 - import_tasks: aiida-core.yml
   tags: aiida,aiida_core
 - import_tasks: aiida-daemon.yml

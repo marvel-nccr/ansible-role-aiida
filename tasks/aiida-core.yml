@@ -121,7 +121,10 @@
 ## I removed the when condition, it's fast enough;
 ## TODO: find a way to set the 'changed_when' ansible condition
 - name: "Set the default AiiDA profile"
-  shell: "{{ aiida_venv }}/bin/verdi profile setdefault default"
+  shell: "{{ aiida_venv }}/bin/verdi profile setdefault {{item}} default"
+  with_items:
+  - verdi
+  - daemon
 
 - include_role:
     name: release_notes
