@@ -32,13 +32,15 @@
   postgresql_db:
     name: "{{ aiida_postgres_db }}"
 
-- name: Setup postgres user
+- name: Setup postgres db user
   become: True
   become_user: "{{ aiida_postgres_user }}"
   postgresql_user:
     db: "{{ aiida_postgres_db }}"
     name: "{{ aiida_postgres_db_user }}"
     password: "{{ aiida_postgres_db_pw }}"
+    #password: "{{ aiida_postgres_db_pw | string | password_hash('sha512') }}"
+    encrypted: True
 
 ## NOTE ALSO THAT LATER WE REINSTALL AIIDA AT A DIFFERENT VERSION!
 ## Moreover, it installs a specific old version of pip
@@ -114,9 +116,11 @@
        --backend django \
        --db_host localhost --db_port 5432 \
        --db_name {{ aiida_postgres_db }} \
-       --db_user {{ aiida_postgres_db_user }} --db_pass '{{ aiida_postgres_db_pw }}' \
+       --db_user {{ aiida_postgres_db_user }} --db_pass '{{ aiida_postgres_db_pw  }}' \
        --repo ${HOME}/.aiida/repository-aiida/
   when: aiida_config_file.stat.exists == False
+
+  #     --db_user {{ aiida_postgres_db_user }} --db_pass '{{ aiida_postgres_db_pw | string | password_hash("sha512")  }}' \
 
 ## I removed the when condition, it's fast enough;
 ## TODO: find a way to set the 'changed_when' ansible condition

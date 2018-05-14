@@ -14,6 +14,12 @@
 #- shell: whoami
 #  register: whoami
 
+# note: current-user is a dependency, but it won't run
+# if you use a tag to select just the daemon tasks
+- include_role: 
+    name: marvel-nccr.current-user
+  when: not current_user defined
+   
 - name: Add AiiDA Daemon as system service
   become: True
   become_user: "{{ root_user }}"
