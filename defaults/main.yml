@@ -27,6 +27,7 @@ aiida_plugin_versions:
   aiida_cp2k: "0.9.0"
   aiida_yambo: "0.2.5"
   aiida_wannier90: "1.0.0"
+  aiida_zeopp: "master"
 
 aiida_plugins: "{{ aiida_plugin_versions.keys() }}"
 

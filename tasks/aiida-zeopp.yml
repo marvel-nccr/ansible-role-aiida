@@ -1,0 +1,35 @@
+- name: Get aiida-zeopp from github
+  git:
+    repo: 'https://github.com/ltalirz/aiida-zeopp.git'
+    dest: "{{ ansible_env.HOME }}/codes/aiida-zeopp"
+    version: "{{ aiida_zeopp_version }}"
+
+- name: Install aiida-zeopp
+  pip:
+    name: "aiida-zeopp/"
+    virtualenv: "{{ aiida_venv }}"
+    chdir: "{{ aiida_code_folder }}"
+  register: pip_install
+
+- name: run reentry scan
+  shell: "{{ aiida_venv }}/bin/reentry scan -r aiida"
+  when: pip_install.changed
+
+- name: set up zeopp codes for localhost
+  import_tasks: code-setup.yml
+  vars:
+    code: zeopp
+    aiida_code_name:  "zeopp-{{zeopp_version}}"
+    aiida_code_template:  zeopp.code
+    aiida_computer_name:  "{{ aiida_localhost_name }}"
+  when: zeopp_executables is defined
+
+- import_role:
+    name: release_notes
+  vars:
+    section: AiiDA
+    option: aiida-zeopp
+    value: >-
+      aiida-zeopp v{{ aiida_zeopp_version}} is installed.
+      See 'verdi code list' for available codes.
+  when: release_notes
