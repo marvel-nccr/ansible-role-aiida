@@ -1,8 +1,8 @@
-{{ aiida_code_name }}
+{{ aiida_code.name }}
 zeo++ v{{ zeopp_version }}
 False
 zeopp.network
 {{ aiida_computer_name }}
-{{ zeopp_topdir }}/{{ code }}
+{{ abspath }}
 
 

@@ -1,16 +1,25 @@
-- name: "Check if {{ aiida_code_name }} is already present"
-  shell: "{{ aiida_venv }}/bin/verdi code show {{ aiida_code_name }}@{{ aiida_computer_name }}"
+---
+- name: "Check if {{ aiida_code.name }} is already present"
+  shell: "{{ aiida_venv }}/bin/verdi code show {{ aiida_code.name }}@{{ aiida_computer_name }}"
   ignore_errors: True
   register: aiida_check_code
   changed_when: False
 
-- name: "Copy {{ aiida_code_template }} to setup the AiiDA code"
-  template:
-    src: "{{ aiida_code_template }}"
-    dest: "${HOME}/.local/share/marvelnccr/"
-    mode: 0755
-  when: aiida_check_code.rc != 0
+- name: set up code
+  block:
+  - include_role:
+      name: marvel-nccr.current-user
+    when: not current_user defined    
 
-- name: "Set up the {{ aiida_code_name }} code for AiiDA"
-  shell: "cat ${HOME}/.local/share/marvelnccr/{{ aiida_code_template }} | {{ aiida_venv }}/bin/verdi code setup"
+  - name: Get absolute path
+    set_fact:
+        abspath: "{{ aiida_code.folder |  regex_replace('\\$\\{HOME}', current_user_home) }}/{{ aiida_code.executable}}"
+  - name: "Copy {{ aiida_code.template }} to setup the AiiDA code"
+    template:
+      src: "{{ aiida_code.template }}"
+      dest: "${HOME}/.local/share/marvelnccr/"
+      mode: 0755
+
+  - name: "Set up the {{ aiida_code.name }} code for AiiDA"
+    shell: "cat ${HOME}/.local/share/marvelnccr/{{ aiida_code.template }} | {{ aiida_venv }}/bin/verdi code setup"
   when: aiida_check_code.rc != 0

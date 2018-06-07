@@ -10,14 +10,17 @@
   shell: "{{ aiida_venv }}/bin/reentry scan -r aiida"
   when: pip_install.changed
 
-- name: set up Wannier90 codes for localhost
-  include_tasks: code-setup.yml code={{ item.execname }}
-  with_items: "{{ wannier90_executables }}"
+- name: set up wannier90 codes for localhost
+  include_tasks: code-setup.yml
   vars:
-   - aiida_code_name:  "wannier90-{{wannier90_version}}"
-   - aiida_code_template:  wannier90.code
+   - aiida_code:
+       name:  "wannier90-{{wannier90_version}}"
+       template:  wannier90.code
+       executable: "{{ item }}"
+       folder: "{{ wannier90_topdir }}"
    - aiida_computer_name:  "{{ aiida_localhost_name }}"
-  # Only Wannier90.x has a plugin for AiiDA so far
+  with_items: "{{wannier90_executables}}"
+  # Only wannier90.x has a plugin for AiiDA so far
   when: wannier90_executables is defined and items.execname == "wannier90.x"
 
 - include_role:

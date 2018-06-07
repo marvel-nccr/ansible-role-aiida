@@ -11,12 +11,15 @@
   when: pip_install.changed
 
 - name: set up cp2k codes for localhost
-  include_tasks: code-setup.yml code={{ item }}
-  with_items: "{{cp2k_executables}}"
+  include_tasks: code-setup.yml
   vars:
-   - aiida_code_name:  "cp2k-{{cp2k_version}}"
-   - aiida_code_template:  cp2k.code
+   - aiida_code:
+       name:  "cp2k-{{cp2k_version}}"
+       template:  cp2k.code
+       executable: "{{ item }}"
+       folder: "{{ cp2k_topdir }}/exe"
    - aiida_computer_name:  "{{ aiida_localhost_name }}"
+  with_items: "{{cp2k_executables}}"
   when: cp2k_executables is defined
 
 - include_role:

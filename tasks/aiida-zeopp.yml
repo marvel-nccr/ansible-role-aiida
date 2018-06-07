@@ -16,12 +16,15 @@
   when: pip_install.changed
 
 - name: set up zeopp codes for localhost
-  import_tasks: code-setup.yml
+  include_tasks: code-setup.yml
   vars:
-    code: zeopp
-    aiida_code_name:  "zeopp-{{zeopp_version}}"
-    aiida_code_template:  zeopp.code
-    aiida_computer_name:  "{{ aiida_localhost_name }}"
+   - aiida_code:
+       name:  "zeopp-{{zeopp_version}}"
+       template:  zeopp.code
+       executable: "{{ item }}"
+       folder: "{{ zeopp_topdir }}"
+   - aiida_computer_name:  "{{ aiida_localhost_name }}"
+  with_items: "{{zeopp_executables}}"
   when: zeopp_executables is defined
 
 - import_role:
