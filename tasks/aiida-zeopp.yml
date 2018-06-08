@@ -27,7 +27,7 @@
   with_items: "{{zeopp_executables}}"
   when: zeopp_executables is defined
 
-- import_role:
+- include_role:
     name: release_notes
   vars:
     section: AiiDA
