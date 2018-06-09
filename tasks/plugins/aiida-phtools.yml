@@ -1,0 +1,35 @@
+---
+- name: "install aiida-phtools-{{ aiida_phtools_version }}"
+  pip:
+    name: git+https://github.com/ltalirz/aiida-phtools@v{{ aiida_phtools_version }}
+    virtualenv: "{{ aiida_venv }}"
+  register: pip_install
+
+- name: run reentry scan
+  shell: "{{ aiida_venv }}/bin/reentry scan -r aiida"
+  when: pip_install.changed
+
+- name: set up phtools codes for localhost
+  include_tasks: code-setup.yml
+  vars:
+   - aiida_code:
+       label:  "phtools-{{phtools_version}}-{{item.name}}"
+       template:  generic.code
+       executable: "{{ item.name }}"
+       folder: "{{ item.folder }}"
+       plugin: "{{ item.plugin }}"
+       description: "phtools v{{phtools_version}}"
+  with_items: "{{phtools_executables}}"
+  when: 
+  - phtools_executables is defined
+  - item.plugin is defined
+
+- include_role:
+    name: release_notes
+  vars:
+    section: AiiDA
+    option: aiida-phtools
+    value: >-
+      aiida-phtools v{{ aiida_phtools_version}} is installed.
+      See 'verdi code list' for available codes.
+  when: release_notes is defined and release_notes

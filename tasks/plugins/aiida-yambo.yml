@@ -14,17 +14,16 @@
   include_tasks: code-setup.yml
   vars:
    - aiida_code:
-       name:  "yambo-{{yambo_version}}"
-       template:  yambo.code
-       executable: "{{ item }}"
-       folder: "{{ yambo_topdir }}/bin"
-   - aiida_computer_name:  "{{ aiida_localhost_name }}"
-  # not all executables have an AiiDA plugin
-  #with_items: "{{yambo_executables}}"
-  with_items: 
-   - yambo
-   - p2y
-  when: yambo_executables is defined
+       label:  "yambo-{{yambo_version}}-{{item.name}}"
+       template:  generic.code
+       executable: "{{ item.name }}"
+       folder: "{{ item.folder }}"
+       plugin: "{{ item.plugin }}"
+       description: "yambo v{{yambo_version}}"
+  with_items: "{{yambo_executables}}"
+  when: 
+  - yambo_executables is defined
+  - item.plugin is defined
 
 - include_role:
     name: release_notes

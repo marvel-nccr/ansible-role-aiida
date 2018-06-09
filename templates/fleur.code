@@ -1,8 +1,0 @@
-{{ aiida_code.name }}
-fleur v{{ fleur_version }} {{ fleur_release }} 
-False
-fleur.{{ aiida_code.executable }}
-{{ aiida_computer_name }}
-{{ abspath }}
-ulimit -s unlimited
-

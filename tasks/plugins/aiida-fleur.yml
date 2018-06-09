@@ -15,13 +15,16 @@
   include_tasks: code-setup.yml
   vars:
    - aiida_code:
-       name:  "fleur-{{fleur_version}}-{{item}}"
-       template:  fleur.code
-       executable: "{{ item }}" 
-       folder: "{{ fleur_topdir }}/build"
-   - aiida_computer_name:  "{{ aiida_localhost_name }}"
+       label:  "fleur-{{fleur_version}}-{{item.name}}"
+       template:  generic.code
+       executable: "{{ item.name }}"
+       folder: "{{ item.folder }}"
+       plugin: "{{ item.plugin }}"
+       description: "fleur {{item.name}} v{{fleur_version}}"
   with_items: "{{fleur_executables}}"
-  when: fleur_executables is defined
+  when: 
+  - fleur_executables is defined
+  - item.plugin is defined
 
 - include_role:
     name: release_notes

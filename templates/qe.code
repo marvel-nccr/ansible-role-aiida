@@ -1,8 +1,0 @@
-{{ aiida_code.name }}
-{{ aiida_code.executable }} from Quantum ESPRESSO {{ quantum_espresso_version }}
-False
-quantumespresso.{{ item }}
-{{ aiida_computer_name }}
-{{ abspath }}
-
-

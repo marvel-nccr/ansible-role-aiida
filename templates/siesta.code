@@ -1,8 +1,0 @@
-{{ aiida_code.name }}
-siesta v{{ siesta_version }}
-False
-siesta.{{ aiida_code.executable }}
-{{ aiida_computer_name }}
-{{ abspath }}
-
-

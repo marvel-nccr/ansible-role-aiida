@@ -14,13 +14,16 @@
   include_tasks: code-setup.yml
   vars:
    - aiida_code:
-       name:  "cp2k-{{cp2k_version}}"
-       template:  cp2k.code
-       executable: "{{ item }}"
-       folder: "{{ cp2k_topdir }}/exe"
-   - aiida_computer_name:  "{{ aiida_localhost_name }}"
+       label:  "cp2k-{{cp2k_version}}"
+       template:  generic.code
+       executable: "{{ item.executable }}"
+       folder: "{{ item.folder }}"
+       plugin: "{{ item.plugin }}"
+       description: "cp2k v{{cp2k_version}}"
   with_items: "{{cp2k_executables}}"
-  when: cp2k_executables is defined
+  when: 
+  - cp2k_executables is defined
+  - item.plugin is defined
 
 - include_role:
     name: release_notes

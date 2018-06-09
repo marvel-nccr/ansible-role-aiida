@@ -19,13 +19,16 @@
   include_tasks: code-setup.yml
   vars:
    - aiida_code:
-       name:  "zeopp-{{zeopp_version}}"
-       template:  zeopp.code
-       executable: "{{ item }}"
-       folder: "{{ zeopp_topdir }}"
-   - aiida_computer_name:  "{{ aiida_localhost_name }}"
+       label:  "zeopp-{{zeopp_version}}"
+       template:  generic.code
+       executable: "{{ item.name }}"
+       folder: "{{ item.folder }}"
+       plugin: "{{ item.plugin }}"
+       description: "zeopp v{{zeopp_version}}"
   with_items: "{{zeopp_executables}}"
-  when: zeopp_executables is defined
+  when: 
+  - zeopp_executables is defined
+  - item.plugin is defined
 
 - include_role:
     name: release_notes

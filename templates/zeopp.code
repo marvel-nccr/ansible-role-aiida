@@ -1,8 +1,0 @@
-{{ aiida_code.name }}
-zeo++ v{{ zeopp_version }}
-False
-zeopp.network
-{{ aiida_computer_name }}
-{{ abspath }}
-
-

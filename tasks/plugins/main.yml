@@ -1,0 +1,63 @@
+---
+- import_tasks: aiida-quantumespresso.yml
+  tags: aiida_quantumespresso
+  vars:
+    aiida_quantumespresso_version: "{{ aiida_plugin_versions.aiida_quantumespresso }}"
+  when: "'aiida_quantumespresso' in aiida_plugins"
+
+- import_tasks: aiida-yambo.yml
+  tags: aiida_yambo
+  vars:
+    aiida_yambo_version: "{{ aiida_plugin_versions.aiida_yambo }}"
+  when: "'aiida_yambo' in aiida_plugins"
+
+- import_tasks: aiida-fleur.yml
+  tags: aiida_fleur
+  vars:
+    aiida_fleur_version: "{{ aiida_plugin_versions.aiida_fleur }}"
+  when: "'aiida_fleur' in aiida_plugins"
+
+- import_tasks: aiida-siesta.yml
+  tags: aiida_siesta
+  vars:
+    aiida_siesta_version: "{{ aiida_plugin_versions.aiida_siesta }}"
+  when: "'aiida_siesta' in aiida_plugins"
+# AiiDA-cp2k reinstalls an older version of AiiDA
+
+- import_tasks: aiida-cp2k.yml
+  tags: aiida_cp2k
+  vars:
+    aiida_cp2k_version: "{{ aiida_plugin_versions.aiida_cp2k }}"
+  when: "'aiida_cp2k' in aiida_plugins"
+
+- import_tasks: aiida-wannier90.yml
+  tags: aiida_wannier90
+  vars:
+    aiida_wannier90_version: "{{ aiida_plugin_versions.aiida_wannier90 }}"
+  when: "'aiida_wannier90' in aiida_plugins"
+
+- import_tasks: aiida-zeopp.yml
+  tags: aiida_zeopp
+  vars:
+    aiida_zeopp_version: "{{ aiida_plugin_versions.aiida_zeopp }}"
+  when: "'aiida_zeopp' in aiida_plugins"
+
+- import_tasks: aiida-raspa.yml
+  tags: aiida_raspa
+  vars:
+    aiida_raspa_version: "{{ aiida_plugin_versions.aiida_raspa }}"
+  when: "'aiida_raspa' in aiida_plugins"
+
+- import_tasks: aiida-gudhi.yml
+  tags: aiida_gudhi
+  vars:
+    aiida_gudhi_version: "{{ aiida_plugin_versions.aiida_gudhi }}"
+  when: "'aiida_gudhi' in aiida_plugins"
+
+- import_tasks: aiida-phtools.yml
+  tags: aiida_phtools
+  vars:
+    aiida_phtools_version: "{{ aiida_plugin_versions.aiida_phtools }}"
+  when: "'aiida_phtools' in aiida_plugins"
+
+
