@@ -1,14 +1,9 @@
-- name: Get aiida-zeopp from github
-  git:
-    repo: 'https://github.com/ltalirz/aiida-zeopp.git'
-    dest: "{{ ansible_env.HOME }}/codes/aiida-zeopp"
-    version: "{{ aiida_zeopp_version }}"
-
-- name: Install aiida-zeopp
+---
+- name: "install aiida-zeopp-{{ aiida_zeopp_version }} from PyPI"
   pip:
-    name: "aiida-zeopp/"
+    name: aiida-zeopp
+    version: "{{ aiida_zeopp_version }}"
     virtualenv: "{{ aiida_venv }}"
-    chdir: "{{ aiida_code_folder }}"
   register: pip_install
 
 - name: run reentry scan

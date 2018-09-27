@@ -1,4 +1,4 @@
-aiida_version: "0.12.0"
+aiida_version: "0.12.2"
 aiida_tag: "v{{ aiida_version }}"
 aiida_extras:
   - rest
@@ -23,16 +23,16 @@ aiida_postgres_db_user: aiida
 # Note: Make sure that these versions coincide with the ones
 # used in the aiidalab
 aiida_plugin_versions:
-  aiida_quantumespresso: "2.0.1"
+  aiida_quantumespresso: "2.1.0"
   aiida_fleur: "0.6.0"
   aiida_siesta: "0.11.5"
   aiida_cp2k: "0.9.0"
   aiida_yambo: "0.2.5"
   aiida_wannier90: "1.0.0"
-  aiida_zeopp: "master"
+  aiida_zeopp: "0.1.1"
   aiida_raspa: "0.2.2"
-  aiida_gudhi: "0.1.0a"
-  aiida_phtools: "0.1.0a0"
+  aiida_gudhi: "0.1.0a3"
+  aiida_phtools: "0.1.0a1"
 
 aiida_plugins: "{{ aiida_plugin_versions.keys() }}"
 
