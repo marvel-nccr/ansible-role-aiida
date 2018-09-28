@@ -5,7 +5,7 @@
   include_role: 
     name: marvel-nccr.current-user
   tags: always
-  when: not current_user defined
+  when: current_user is undefined
    
 - import_tasks: aiida-core.yml
   tags: aiida,aiida_core
