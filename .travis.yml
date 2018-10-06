@@ -7,11 +7,18 @@ env:
     - ansible_role: aiida
     - container_id: ansible-container
 
-  matrix:
-    - docker_image: marvelnccr/ubuntu-docker-base
-      version: 2.1
-      ansible_user: ubuntu
-      roles_dir: /etc/ansible/roles
+matrix:
+  include:
+    - name: Ubuntu-18.04
+      env:
+        - docker_image: marvelnccr/ubuntu-docker-base
+        - version: 2.1
+        - ansible_user: ubuntu
+    - name: Ubuntu-16.04
+      env:
+        - docker_image: marvelnccr/ubuntu-docker-base
+        - version: 1.0
+        - ansible_user: ubuntu
 
 services:
   - docker
