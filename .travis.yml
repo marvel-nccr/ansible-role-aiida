@@ -6,6 +6,7 @@ env:
   global:
     - ansible_role: aiida
     - container_id: ansible-container
+    - roles_dir: /etc/ansible/roles
 
 matrix:
   include:
