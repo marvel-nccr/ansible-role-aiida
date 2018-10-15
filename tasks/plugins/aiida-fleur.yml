@@ -1,9 +1,8 @@
 ---
 - name: "install aiida-fleur-{{ aiida_fleur_version }} from PyPI"
   pip:
-    name: git+https://github.com/broeder-j/aiida-fleur@{{ aiida_fleur_version }}
-    #name: aiida-fleur
-    #version: "{{ aiida_fleur_version }}"
+    name: aiida-fleur
+    version: "{{ aiida_fleur_version }}"
     virtualenv: "{{ aiida_venv }}"
   register: pip_install
 

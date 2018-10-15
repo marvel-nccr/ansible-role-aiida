@@ -24,7 +24,7 @@ aiida_postgres_db_user: aiida
 # used in the aiidalab
 aiida_plugin_versions:
   aiida_quantumespresso: "2.1.0"
-  aiida_fleur: "0.6.0"
+  aiida_fleur: "0.6.2"
   aiida_siesta: "0.11.5"
   aiida_cp2k: "0.9.0"
   aiida_yambo: "0.2.5"
