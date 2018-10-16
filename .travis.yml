@@ -1,53 +1,39 @@
 ---
-# Adapted from https://github.com/drhelius/travis-ansible-demo/blob/master/.travis.yml
-sudo: required
-addons:
-  apt:
-    update: true
+# Adapted from
+# - https://github.com/drhelius/travis-ansible-demo/blob/master/.travis.yml
+# - https://github.com/geerlingguy/ansible-role-docker/blob/master/.travis.yml
+language: python
+services:
+  - docker
 
 env:
   global:
-    - ansible_role: aiida
-    - container_id: ansible-container
-    - roles_dir: /etc/ansible/roles
+    - ANSIBLE_ROLE: aiida
 
 matrix:
   include:
     - name: Ubuntu-18.04
       env:
-        - docker_image: marvelnccr/ubuntu-docker-base
-        - version: 2.2
-        - ansible_user: ubuntu
+        - DOCKER_IMAGE: marvelnccr/ubuntu-docker-base
+        - DOCKER_IMAGE_VERSION: 2.2
+        - ANSIBLE_USER: ubuntu
     - name: Ubuntu-16.04
       env:
         - docker_image: marvelnccr/ubuntu-docker-base
         - version: 1.1
         - ansible_user: ubuntu
 
-services:
-  - docker
+install:
+  - pip install molecule docker
 
-before_install:
-  - sudo apt-get install acl
-  - echo 'DOCKER_OPTS="-H tcp://127.0.0.1:2375 -H unix:///var/run/docker.sock -s devicemapper"' | sudo tee /etc/default/docker > /dev/null
-  - sudo service docker restart
-  - sleep 5
-  - sudo docker --version
-  - sudo docker pull ${docker_image}:${version}
+before_script:
+  # Use actual Ansible Galaxy role name for the project directory.
+  - cd ../
+  - mv ansible-role-$ANSIBLE_ROLE marvel-nccr.$ANSIBLE_ROLE
+  - cd marvel-nccr.$ANSIBLE_ROLE
 
 script:
-  - 'sudo docker run --name ${container_id} --detach --privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro --volume="${PWD}":${roles_dir}/${ansible_role}:ro ${docker_image}:${version}'
-  # install role dependency  (until we find a better way)
-  - 'sudo docker exec --user ${ansible_user} "${container_id}" env ANSIBLE_FORCE_COLOR=1 ansible-galaxy install marvel-nccr.current-user -p ${roles_dir}'
-  - 'sudo docker exec --user ${ansible_user} "${container_id}" env ANSIBLE_FORCE_COLOR=1 ansible-playbook -v ${roles_dir}/${ansible_role}/tests/test.yml --syntax-check'
-  - 'sudo docker exec --user ${ansible_user} "${container_id}" env ANSIBLE_FORCE_COLOR=1 ansible-playbook -v ${roles_dir}/${ansible_role}/tests/test.yml'
-  - >
-    sudo docker exec --user ${ansible_user} "${container_id}" env ANSIBLE_FORCE_COLOR=1 ansible-playbook -v ${roles_dir}/${ansible_role}/tests/test.yml
-    | tee /dev/tty
-    | grep -q 'changed=0.*failed=0'
-    && (echo 'Idempotency test: pass' && exit 0)
-    || (echo 'Idempotency test: fail' && exit 1)
-  - 'sudo docker rm -f "${container_id}"'
+  - molecule test
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

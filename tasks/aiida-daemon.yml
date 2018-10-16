@@ -44,3 +44,4 @@
     masked: false
     daemon-reload: true
     state: restarted
+  when: not (cloud_platform is defined and cloud_platform == 'docker')

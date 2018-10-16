@@ -16,6 +16,7 @@
       - libffi-dev
       - libssl-dev
       - graphviz
+      - python-pip
 
 # This can be necessary on docker
 - name: Make sure postgres service is started
@@ -41,7 +42,13 @@
     # password: "{{ aiida_postgres_db_pw | string | password_hash('sha512') }}"
     encrypted: true
 
-- name: Install the aiida packages
+- name: install virtualenv
+  become: true
+  become_user: "{{ root_user }}"
+  pip:
+    name: virtualenv
+
+- name: Install pip packages
   pip:
     name:
       - pip>=10.0.0
