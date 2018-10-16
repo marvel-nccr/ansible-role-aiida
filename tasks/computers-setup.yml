@@ -1,5 +1,6 @@
+---
 - name: set up aiida computers
-  include_tasks: computer-setup.yml 
+  include_tasks: computer-setup.yml
   vars:
     aiida_computer_name: "{{ item }}"
   with_items:
@@ -14,4 +15,3 @@
         localhost has already been set up and configured.
         List all available computers with 'verdi computer list -a'
   when: release_notes is defined and release_notes
-

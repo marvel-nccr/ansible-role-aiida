@@ -13,17 +13,17 @@
 - name: set up wannier90 codes for localhost
   include_tasks: code-setup.yml
   vars:
-   - aiida_code:
-       label:  "wannier90-{{wannier90_version}}-{{item.name}}"
-       template:  generic.code
-       executable: "{{ item.name }}"
-       folder: "{{ item.folder }}"
-       plugin: "{{ item.plugin }}"
-       description: "wannier90 v{{wannier90_version}}"
+    - aiida_code:
+        label: "wannier90-{{wannier90_version}}-{{item.name}}"
+        template: generic.code
+        executable: "{{ item.name }}"
+        folder: "{{ item.folder }}"
+        plugin: "{{ item.plugin }}"
+        description: "wannier90 v{{wannier90_version}}"
   with_items: "{{wannier90_executables}}"
-  when: 
-  - wannier90_executables is defined
-  - item.plugin is defined
+  when:
+    - wannier90_executables is defined
+    - item.plugin is defined
 
 - include_role:
     name: release_notes

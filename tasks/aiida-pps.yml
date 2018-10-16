@@ -1,3 +1,4 @@
+---
 # add pseudopotential family
 - name: Download "{{ pp.file }}"
   get_url:

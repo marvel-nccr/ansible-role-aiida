@@ -13,17 +13,17 @@
 - name: set up cp2k codes for localhost
   include_tasks: code-setup.yml
   vars:
-   - aiida_code:
-       label:  "cp2k-{{cp2k_version}}"
-       template:  generic.code
-       executable: "{{ item.executable }}"
-       folder: "{{ item.folder }}"
-       plugin: "{{ item.plugin }}"
-       description: "cp2k v{{cp2k_version}}"
+    - aiida_code:
+        label: "cp2k-{{cp2k_version}}"
+        template: generic.code
+        executable: "{{ item.executable }}"
+        folder: "{{ item.folder }}"
+        plugin: "{{ item.plugin }}"
+        description: "cp2k v{{cp2k_version}}"
   with_items: "{{cp2k_executables}}"
-  when: 
-  - cp2k_executables is defined
-  - item.plugin is defined
+  when:
+    - cp2k_executables is defined
+    - item.plugin is defined
 
 - include_role:
     name: release_notes

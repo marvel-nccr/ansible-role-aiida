@@ -13,17 +13,17 @@
 - name: set up siesta codes for localhost
   include_tasks: code-setup.yml
   vars:
-   - aiida_code:
-       label:  "siesta-{{siesta_version}}-{{item.name}}"
-       template:  generic.code
-       executable: "{{ item.name }}"
-       folder: "{{ item.folder }}"
-       plugin: "{{ item.plugin }}"
-       description: "siesta v{{siesta_version}}"
+    - aiida_code:
+        label: "siesta-{{siesta_version}}-{{item.name}}"
+        template: generic.code
+        executable: "{{ item.name }}"
+        folder: "{{ item.folder }}"
+        plugin: "{{ item.plugin }}"
+        description: "siesta v{{siesta_version}}"
   with_items: "{{siesta_executables}}"
-  when: 
-  - siesta_executables is defined
-  - item.plugin is defined
+  when:
+    - siesta_executables is defined
+    - item.plugin is defined
 
 - include_role:
     name: release_notes

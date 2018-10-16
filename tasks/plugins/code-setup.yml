@@ -1,19 +1,19 @@
 ---
 - name: "Check if {{ aiida_code.label }} is already present"
   shell: "{{ aiida_venv }}/bin/verdi code show {{ aiida_code.label }}@{{ aiida_localhost_name }}"
-  ignore_errors: True
+  ignore_errors: true
   register: aiida_check_code
-  changed_when: False
+  changed_when: false
 
 - name: set up code
   block:
   - include_role:
       name: marvel-nccr.current-user
-    when: current_user is undefined    
+    when: current_user is undefined
 
   - name: Get absolute path
     set_fact:
-        abspath: "{{ aiida_code.folder |  regex_replace('\\$\\{HOME}', current_user_home) }}/{{ aiida_code.executable}}"
+      abspath: "{{ aiida_code.folder |  regex_replace('\\$\\{HOME}', current_user_home) }}/{{ aiida_code.executable}}"
   - name: "Copy {{ aiida_code.template }} to setup the AiiDA code"
     template:
       src: "{{ aiida_code.template }}"

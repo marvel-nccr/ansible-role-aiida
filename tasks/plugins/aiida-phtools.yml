@@ -12,17 +12,17 @@
 - name: set up phtools codes for localhost
   include_tasks: code-setup.yml
   vars:
-   - aiida_code:
-       label:  "phtools-{{phtools_version}}-{{item.name}}"
-       template:  generic.code
-       executable: "{{ item.name }}"
-       folder: "{{ item.folder }}"
-       plugin: "{{ item.plugin }}"
-       description: "phtools v{{phtools_version}}"
+    - aiida_code:
+        label: "phtools-{{phtools_version}}-{{item.name}}"
+        template: generic.code
+        executable: "{{ item.name }}"
+        folder: "{{ item.folder }}"
+        plugin: "{{ item.plugin }}"
+        description: "phtools v{{phtools_version}}"
   with_items: "{{phtools_executables}}"
-  when: 
-  - phtools_executables is defined
-  - item.plugin is defined
+  when:
+    - phtools_executables is defined
+    - item.plugin is defined
 
 - include_role:
     name: release_notes

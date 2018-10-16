@@ -1,11 +1,12 @@
+---
 - name: Install DB and more
   become: true
   become_user: "{{ root_user }}"
   apt:
-    name: 
+    name:
       # Compilation
-      - postgresql 
-      - postgresql-server-dev-all 
+      - postgresql
+      - postgresql-server-dev-all
       - postgresql-client
       - python-psycopg2
       - libpq-dev
@@ -18,27 +19,27 @@
 
 # This can be necessary on docker
 - name: Make sure postgres service is started
-  become: True
+  become: true
   become_user: "{{ root_user }}"
   service:
     name: "postgresql"
     state: "started"
 
 - name: Setup postgres db
-  become: True
+  become: true
   become_user: "{{ aiida_postgres_user }}"
   postgresql_db:
     name: "{{ aiida_postgres_db }}"
 
 - name: Setup postgres db user
-  become: True
+  become: true
   become_user: "{{ aiida_postgres_user }}"
   postgresql_user:
     db: "{{ aiida_postgres_db }}"
     name: "{{ aiida_postgres_db_user }}"
     password: "{{ aiida_postgres_db_pw }}"
-    #password: "{{ aiida_postgres_db_pw | string | password_hash('sha512') }}"
-    encrypted: True
+    # password: "{{ aiida_postgres_db_pw | string | password_hash('sha512') }}"
+    encrypted: true
 
 - name: Install the aiida packages
   pip:
@@ -55,9 +56,9 @@
     repo: 'https://github.com/aiidateam/aiida_core.git'
     dest: "${HOME}/codes/aiida_core"
     version: "{{ aiida_tag }}"
-    force: True
+    force: true
 
-## PyGTK cannot be installed with pip... we need to use 
+## PyGTK cannot be installed with pip... we need to use
 ## a workaround, see https://stackoverflow.com/questions/12830662/
 - name: workaround to install pygtk 2 inside the virtualenv [making dir]
   file:
@@ -79,7 +80,7 @@
     - cairo
 
 - name: "Activate TAB completion in virtualenv"
-  lineinfile: 
+  lineinfile:
     path: "{{ aiida_venv }}/bin/activate"
     line: 'eval "$(verdi completioncommand)"'
 
@@ -97,7 +98,7 @@
        --db_name {{ aiida_postgres_db }} \
        --db_user {{ aiida_postgres_db_user }} --db_pass '{{ aiida_postgres_db_pw  }}' \
        --repo ${HOME}/.aiida/repository-aiida/
-  when: aiida_config_file.stat.exists == False
+  when: aiida_config_file.stat.exists == false
 
   #     --db_user {{ aiida_postgres_db_user }} --db_pass '{{ aiida_postgres_db_pw | string | password_hash("sha512")  }}' \
 
@@ -106,8 +107,8 @@
 - name: "Set the default AiiDA profile"
   shell: "{{ aiida_venv }}/bin/verdi profile setdefault {{item}} default"
   with_items:
-  - verdi
-  - daemon
+    - verdi
+    - daemon
 
 - include_role:
     name: release_notes
@@ -123,6 +124,6 @@
     section: "AiiDA"
     option: "usage"
     value: >-
-        AiiDA is installed in a virtual environment. 
+        AiiDA is installed in a virtual environment.
         Type 'workon aiida' to get access to the 'verdi' commands.
   when: release_notes is defined and release_notes

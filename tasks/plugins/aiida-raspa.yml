@@ -12,17 +12,17 @@
 - name: set up raspa codes for localhost
   include_tasks: code-setup.yml
   vars:
-   - aiida_code:
-       label:  "raspa-{{raspa_version}}"
-       template:  generic.code
-       executable: "{{ item.name }}"
-       folder: "{{ item.folder }}"
-       plugin: "{{ item.plugin }}"
-       description: "raspa2-lsmo v{{raspa_version}}"
+    - aiida_code:
+        label: "raspa-{{raspa_version}}"
+        template: generic.code
+        executable: "{{ item.name }}"
+        folder: "{{ item.folder }}"
+        plugin: "{{ item.plugin }}"
+        description: "raspa2-lsmo v{{raspa_version}}"
   with_items: "{{raspa_executables}}"
-  when: 
-  - raspa_executables is defined
-  - item.plugin is defined
+  when:
+    - raspa_executables is defined
+    - item.plugin is defined
 
 - include_role:
     name: release_notes

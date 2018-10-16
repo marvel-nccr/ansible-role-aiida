@@ -14,17 +14,17 @@
 - name: set up quantum_espresso codes for localhost
   include_tasks: code-setup.yml
   vars:
-   - aiida_code:
-       label:  "qe-{{quantum_espresso_version}}-{{item.name}}"
-       template:  generic.code
-       executable: "{{ item.name }}.x"
-       folder: "{{ item.folder }}"
-       plugin: "{{ item.plugin }}"
-       description: "quantum_espresso v{{quantum_espresso_version}}"
+    - aiida_code:
+        label: "qe-{{quantum_espresso_version}}-{{item.name}}"
+        template: generic.code
+        executable: "{{ item.name }}.x"
+        folder: "{{ item.folder }}"
+        plugin: "{{ item.plugin }}"
+        description: "quantum_espresso v{{quantum_espresso_version}}"
   with_items: "{{quantum_espresso_executables}}"
-  when: 
-  - quantum_espresso_executables is defined
-  - item.plugin is defined
+  when:
+    - quantum_espresso_executables is defined
+    - item.plugin is defined
 
 - include_role:
     name: release_notes

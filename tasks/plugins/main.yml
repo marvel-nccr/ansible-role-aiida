@@ -59,5 +59,3 @@
   vars:
     aiida_phtools_version: "{{ aiida_plugin_versions.aiida_phtools }}"
   when: "'aiida_phtools' in aiida_plugins"
-
-

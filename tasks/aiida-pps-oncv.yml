@@ -9,7 +9,7 @@
   unarchive:
     src: "{{ aiida_pp_download.dest }}"
     dest: "{{ aiida_code_folder }}/{{ pp.folder }}"
-    remote_src: True
+    remote_src: true
 
 - name: Copy script to select pseudos
   copy:
