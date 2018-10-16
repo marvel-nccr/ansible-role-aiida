@@ -9,7 +9,7 @@
   block:
   - include_role:
       name: marvel-nccr.current-user
-    when: not current_user defined    
+    when: current_user is undefined    
 
   - name: Get absolute path
     set_fact:

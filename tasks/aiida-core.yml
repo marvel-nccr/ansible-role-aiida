@@ -2,21 +2,19 @@
   become: true
   become_user: "{{ root_user }}"
   apt:
-      name: "{{ item }}"
-      state: present
-  with_items:
-    # Compilation
-    - postgresql 
-    - postgresql-server-dev-all 
-    - postgresql-client
-    - python-psycopg2
-    - libpq-dev
-    # Needed for the ASE visualizer
-    - python-gtk2
-    # For AiiDA
-    - libffi-dev
-    - libssl-dev
-    - graphviz
+    name: 
+      # Compilation
+      - postgresql 
+      - postgresql-server-dev-all 
+      - postgresql-client
+      - python-psycopg2
+      - libpq-dev
+      # Needed for the ASE visualizer
+      - python-gtk2
+      # For AiiDA
+      - libffi-dev
+      - libssl-dev
+      - graphviz
 
 # This can be necessary on docker
 - name: Make sure postgres service is started
@@ -42,17 +40,13 @@
     #password: "{{ aiida_postgres_db_pw | string | password_hash('sha512') }}"
     encrypted: True
 
-# Note: Do not install aiida metapackage 
-# (installs a specific old version of pip)
 - name: Install the aiida packages
   pip:
-    name: "{{ item }}"
+    name:
+      - pip>=10.0.0
+      - aiida=={{ aiida_version }}
+      - seekpath
     virtualenv: "{{ aiida_venv }}"
-  with_items:
-  - aiida-core=={{ aiida_version }}
-  - aiida-ase>=1.0.1
-  - aiida-codtools>=1.0.1
-  - aiida-nwchem>=1.0.1
   register: pip_install
 
 # get anyway the GIT code, it is often useful; checkout the same version (now actually we are forcing a different branch/tag...)
@@ -62,19 +56,6 @@
     dest: "${HOME}/codes/aiida_core"
     version: "{{ aiida_tag }}"
     force: True
-
-- name: Make sure pip is at a recent version
-  pip:
-    name: "pip>=10.0.0"
-    virtualenv: "{{ aiida_venv }}"
-  when: pip_install.changed
-
-- name: Additional pip dependencies
-  pip:
-      name: "{{ item }}"
-      virtualenv: "{{ aiida_venv }}"
-  with_items:
-    - seekpath
 
 ## PyGTK cannot be installed with pip... we need to use 
 ## a workaround, see https://stackoverflow.com/questions/12830662/
