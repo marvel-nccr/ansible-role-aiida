@@ -1,6 +1,9 @@
 ---
 # Adapted from https://github.com/drhelius/travis-ansible-demo/blob/master/.travis.yml
 sudo: required
+addons:
+  apt:
+    update: true
 
 env:
   global:
@@ -25,11 +28,12 @@ services:
   - docker
 
 before_install:
+  - sudo apt-get install acl
   - echo 'DOCKER_OPTS="-H tcp://127.0.0.1:2375 -H unix:///var/run/docker.sock -s devicemapper"' | sudo tee /etc/default/docker > /dev/null
   - sudo service docker restart
   - sleep 5
-  - 'sudo docker --version'
-  - 'sudo docker pull ${docker_image}:${version}'
+  - sudo docker --version
+  - sudo docker pull ${docker_image}:${version}
 
 script:
   - 'sudo docker run --name ${container_id} --detach --privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro --volume="${PWD}":${roles_dir}/${ansible_role}:ro ${docker_image}:${version}'
