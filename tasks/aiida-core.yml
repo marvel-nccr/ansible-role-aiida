@@ -109,13 +109,13 @@
 
   #     --db_user {{ aiida_postgres_db_user }} --db_pass '{{ aiida_postgres_db_pw | string | password_hash("sha512")  }}' \
 
-## I removed the when condition, it's fast enough;
-## TODO: find a way to set the 'changed_when' ansible condition
 - name: "Set the default AiiDA profile"
   shell: "{{ aiida_venv }}/bin/verdi profile setdefault {{item}} default"
   with_items:
     - verdi
     - daemon
+  # not ideal - better to read default profile from config
+  when: aiida_config_file.stat.exists == false
 
 - include_role:
     name: release_notes
