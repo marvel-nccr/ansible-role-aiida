@@ -12,6 +12,7 @@ aiida_code_folder: "${HOME}"
 aiida_examples_folder: "${HOME}"
 aiida_localhost_name: localhost
 aiida_localhost_cpus: 2
+aiida_localhost_scheduler: direct
 aiida_venv: "${HOME}/.virtualenvs/aiida"
 
 # postgres

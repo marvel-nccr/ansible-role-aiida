@@ -3,7 +3,7 @@ localhost
 
 True
 local
-torque
+{{ aiida_localhost_scheduler }}
 #!/bin/bash
 {{aiida_run_folder_abs}}
 mpirun -np {tot_num_mpiprocs}
