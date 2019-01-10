@@ -4,7 +4,6 @@
   become_user: "{{ root_user }}"
   apt:
     name:
-      # Compilation
       - postgresql
       - postgresql-server-dev-all
       - postgresql-client
@@ -17,6 +16,7 @@
       - libssl-dev
       - graphviz
       - python-pip
+      - virtualenvwrapper
 
 # This can be necessary on docker
 - name: Make sure postgres service is started

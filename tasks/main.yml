@@ -11,6 +11,8 @@
   tags: aiida,aiida_core
 - import_tasks: aiida-daemon.yml
   tags: aiida_daemon,aiida_core
+- import_tasks: aiida-rest.yml
+  tags: aiida_rest,aiida_core
 
 - import_tasks: computers-setup.yml
 

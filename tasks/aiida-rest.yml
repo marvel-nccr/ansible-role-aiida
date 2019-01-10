@@ -1,15 +1,13 @@
 ---
-# note: current-user is a dependency, but it won't run
-# if you use a tag to select just the daemon tasks
 - include_role:
     name: marvel-nccr.current-user
   when: current_user is undefined
 
-- name: Add AiiDA Daemon as system service
+- name: Add AiiDA REST API system service template
   become: true
   become_user: "{{ root_user }}"
   template:
-    src: aiida-daemon.service
+    src: aiida-rest.service
     dest: /etc/systemd/system
     owner: root
     group: root
@@ -19,13 +17,12 @@
     daemon_user_home: "{{ current_user_home }}"
     daemon_aiida_venv: "{{ aiida_venv |  regex_replace('\\$\\{HOME}', current_user_home) }}"
 
-- name: Start AiiDA Daemon system service
+- name: Start AiiDA REST API system service
   become: true
   become_user: "{{ root_user }}"
   systemd:
-    name: aiida-daemon
-    enabled: true
+    name: aiida-rest
+    enabled: "{{ aiida_rest_service_enabled }}"
     masked: false
     daemon-reload: true
-    state: restarted
   when: not (cloud_platform is defined and cloud_platform == 'docker')

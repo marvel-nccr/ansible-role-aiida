@@ -62,4 +62,8 @@ aiida_pseudopotentials:
     description: >-
      SG15 Optimized Norm-Conserving Vanderbilt (ONCV) pseudopotentials
 
+# REST API
+# start AiiDA REST API system service on boot?
+aiida_rest_service_enabled: false
+
 root_user: root
