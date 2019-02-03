@@ -8,7 +8,7 @@
 - name: set up code
   block:
   - include_role:
-      name: marvel-nccr.current-user
+      name: marvel-nccr.current_user
     when: current_user is undefined
 
   - name: Get absolute path

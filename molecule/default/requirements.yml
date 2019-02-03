@@ -1,3 +1,3 @@
 ---
-- src: marvel-nccr.current-user
+- src: marvel-nccr.current_user
   version: master
