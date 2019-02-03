@@ -13,13 +13,13 @@
   include_tasks: code-setup.yml
   vars:
     - aiida_code:
-        label: "raspa-{{raspa_version}}"
+        label: "raspa-{{ raspa_version }}"
         template: generic.code
         executable: "{{ item.name }}"
         folder: "{{ item.folder }}"
         plugin: "{{ item.plugin }}"
-        description: "raspa2-lsmo v{{raspa_version}}"
-  with_items: "{{raspa_executables}}"
+        description: "raspa2-lsmo v{{ raspa_version }}"
+  with_items: "{{ raspa_executables }}"
   when:
     - raspa_executables is defined
     - item.plugin is defined
@@ -30,6 +30,6 @@
     section: AiiDA
     option: aiida-raspa
     value: >-
-      aiida-raspa v{{ aiida_raspa_version}} is installed.
+      aiida-raspa v{{ aiida_raspa_version }} is installed.
       See 'verdi code list' for available codes.
   when: release_notes is defined and release_notes

@@ -13,11 +13,11 @@
 
   - name: Get absolute path
     set_fact:
-      abspath: "{{ aiida_code.folder |  regex_replace('\\$\\{HOME}', current_user_home) }}/{{ aiida_code.executable}}"
+      abspath: "{{ aiida_code.folder |  regex_replace('\\$\\{HOME}', current_user_home) }}/{{ aiida_code.executable }}"
   - name: "Copy {{ aiida_code.template }} to setup the AiiDA code"
     template:
       src: "{{ aiida_code.template }}"
-      dest: "${HOME}/.local/share/marvelnccr/{{ aiida_code.label}}.code"
+      dest: "${HOME}/.local/share/marvelnccr/{{ aiida_code.label }}.code"
 
   - name: "Set up the {{ aiida_code.label }} code for AiiDA"
     shell: "cat ${HOME}/.local/share/marvelnccr/{{ aiida_code.label }}.code | {{ aiida_venv }}/bin/verdi code setup"

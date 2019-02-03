@@ -13,13 +13,13 @@
   include_tasks: code-setup.yml
   vars:
     - aiida_code:
-        label: "gudhi-{{gudhi_version}}-{{item.name}}"
+        label: "gudhi-{{ gudhi_version }}-{{item.name}}"
         template: generic.code
         executable: "{{ item.name }}"
         folder: "{{ item.folder }}"
         plugin: "{{ item.plugin }}"
-        description: "gudhi v{{gudhi_version}}"
-  with_items: "{{gudhi_executables}}"
+        description: "gudhi v{{ gudhi_version }}"
+  with_items: "{{ gudhi_executables }}"
   when:
     - gudhi_executables is defined
     - item.plugin is defined
@@ -30,6 +30,6 @@
     section: AiiDA
     option: aiida-gudhi
     value: >-
-      aiida-gudhi v{{ aiida_gudhi_version}} is installed.
+      aiida-gudhi v{{ aiida_gudhi_version }} is installed.
       See 'verdi code list' for available codes.
   when: release_notes is defined and release_notes

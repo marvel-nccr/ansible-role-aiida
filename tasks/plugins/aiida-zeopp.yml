@@ -14,13 +14,13 @@
   include_tasks: code-setup.yml
   vars:
     - aiida_code:
-        label: "zeopp-{{zeopp_version}}"
+        label: "zeopp-{{ zeopp_version }}"
         template: generic.code
         executable: "{{ item.name }}"
         folder: "{{ item.folder }}"
         plugin: "{{ item.plugin }}"
-        description: "zeopp v{{zeopp_version}}"
-  with_items: "{{zeopp_executables}}"
+        description: "zeopp v{{ zeopp_version }}"
+  with_items: "{{ zeopp_executables }}"
   when:
     - zeopp_executables is defined
     - item.plugin is defined
@@ -31,6 +31,6 @@
     section: AiiDA
     option: aiida-zeopp
     value: >-
-      aiida-zeopp v{{ aiida_zeopp_version}} is installed.
+      aiida-zeopp v{{ aiida_zeopp_version }} is installed.
       See 'verdi code list' for available codes.
   when: release_notes is defined and release_notes

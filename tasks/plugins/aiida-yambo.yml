@@ -14,13 +14,13 @@
   include_tasks: code-setup.yml
   vars:
     - aiida_code:
-        label: "yambo-{{yambo_version}}-{{item.name}}"
+        label: "yambo-{{ yambo_version }}-{{item.name}}"
         template: generic.code
         executable: "{{ item.name }}"
         folder: "{{ item.folder }}"
         plugin: "{{ item.plugin }}"
-        description: "yambo v{{yambo_version}}"
-  with_items: "{{yambo_executables}}"
+        description: "yambo v{{ yambo_version }}"
+  with_items: "{{ yambo_executables }}"
   when:
     - yambo_executables is defined
     - item.plugin is defined
