@@ -1,6 +1,6 @@
 ---
 - include_role:
-    name: marvel-nccr.current-user
+    name: marvel-nccr.current_user
   when: current_user is undefined
 
 - name: Add AiiDA REST API system service template

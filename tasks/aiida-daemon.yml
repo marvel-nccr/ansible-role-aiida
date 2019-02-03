@@ -1,8 +1,8 @@
 ---
-# note: current-user is a dependency, but it won't run
+# note: current_user is a dependency, but it won't run
 # if you use a tag to select just the daemon tasks
 - include_role:
-    name: marvel-nccr.current-user
+    name: marvel-nccr.current_user
   when: current_user is undefined
 
 - name: Add AiiDA Daemon as system service

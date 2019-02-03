@@ -17,5 +17,5 @@ galaxy_info:
     - science
 
 dependencies:
-  - role: marvel-nccr.current-user
+  - role: marvel-nccr.current_user
     version: master

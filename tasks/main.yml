@@ -1,9 +1,9 @@
 ---
-# note: current-user is a dependency, but it won't run
+# note: current_user is a dependency, but it won't run
 # if you use a tag to select just the daemon tasks
 - name: Get info on current user
   include_role:
-    name: marvel-nccr.current-user
+    name: marvel-nccr.current_user
   tags: always
   when: current_user is undefined
 
