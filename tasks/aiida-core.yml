@@ -58,6 +58,12 @@
     virtualenv: "{{ aiida_venv }}"
   register: pip_install
 
+  # it seems reentry scan is necessary...
+  # https://travis-ci.org/marvel-nccr/ansible-role-aiida/jobs/507478561#L791
+- name: reentry scan
+  shell: {{ aiida_venv }}/bin/reentry scan
+  when: pip_install.changed
+
 # get anyway the GIT code, it is often useful; checkout the same version (now actually we are forcing a different branch/tag...)
 - name: Get the AiiDA code from GIT
   git:
