@@ -98,7 +98,7 @@
 
 - name: "set up AiiDA profile"
  # Need to use the full path because it's in a virtualenv
- shell: |
+  shell: |
       {{ aiida_venv }}/bin/verdi setup default1 \
       --non-interactive \
       --first-name Max \
