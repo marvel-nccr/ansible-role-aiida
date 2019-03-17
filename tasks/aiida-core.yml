@@ -97,7 +97,7 @@
   register: aiida_config_file
 
 - name: "set up AiiDA profile"
- # Need to use the full path because it's in a virtualenv
+  # Need to use the full path because it's in a virtualenv
   shell: |
       {{ aiida_venv }}/bin/verdi setup default1 \
       --non-interactive \
