@@ -5,17 +5,15 @@
     version: "{{ aiida_quantumespresso_version }}"
     virtualenv: "{{ aiida_venv }}"
   register: aiida_qe_installed
+  notify: reentry scan
 
-- name: run reentry scan
-  shell: "{{ aiida_venv }}/bin/reentry scan -r aiida"
-  when: aiida_qe_installed.changed
-
+- meta: flush_handlers
 
 - name: set up quantum_espresso codes for localhost
   include_tasks: code-setup.yml
   vars:
     - aiida_code:
-        label: "qe-{{ quantum_espresso_version }}-{{item.name}}"
+        label: "qe-{{ quantum_espresso_version }}-{{ item.name }}"
         template: generic.code
         executable: "{{ item.name }}.x"
         folder: "{{ item.folder }}"

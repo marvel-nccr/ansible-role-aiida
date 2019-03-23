@@ -16,7 +16,7 @@
   when: aiida_check_computer.rc != 0
 
 - name: "Setup {{ aiida_computer_name }} computer for AiiDA"
-  shell: "cat ${HOME}/.local/share/marvelnccr/{{ aiida_computer_name }}.computer | {{ aiida_venv }}/bin/verdi computer setup"
+  shell: "executable=/bin/bash set -o pipefail &&  cat ${HOME}/.local/share/marvelnccr/{{ aiida_computer_name }}.computer | {{ aiida_venv }}/bin/verdi computer setup"  # noqa 204
   when: aiida_check_computer.rc != 0
 
 - name: "Configure localhost"

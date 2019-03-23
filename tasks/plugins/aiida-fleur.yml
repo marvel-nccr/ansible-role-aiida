@@ -5,21 +5,20 @@
     version: "{{ aiida_fleur_version }}"
     virtualenv: "{{ aiida_venv }}"
   register: pip_install
+  notify: reentry scan
 
-- name: run reentry scan
-  shell: "{{ aiida_venv }}/bin/reentry scan -r aiida"
-  when: pip_install.changed
+- meta: flush_handlers
 
 - name: set up fleur codes for localhost
   include_tasks: code-setup.yml
   vars:
     - aiida_code:
-        label: "fleur-{{ fleur_version }}-{{item.name}}"
+        label: "fleur-{{ fleur_version }}-{{ item.name }}"
         template: generic.code
         executable: "{{ item.name }}"
         folder: "{{ item.folder }}"
         plugin: "{{ item.plugin }}"
-        description: "fleur {{ item.name }} v{{fleur_version}}"
+        description: "fleur {{ item.name }} v{{ fleur_version }}"
   with_items: "{{ fleur_executables }}"
   when:
     - fleur_executables is defined

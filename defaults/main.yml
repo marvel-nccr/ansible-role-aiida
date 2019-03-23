@@ -20,11 +20,12 @@ aiida_postgres_user: postgres
 aiida_postgres_db: aiidadb
 aiida_postgres_db_pw: "ne9N_LDK-*JSS"
 aiida_postgres_db_user: aiida
+aiida_profile_name: default
 
 # plugins
 # Note: If possible, these versions should coincide with the ones in
 # https://github.com/aiidalab/aiidalab-metapkg/blob/master/requirements.txt
-aiida_plugin_versions:
+aiida_plugin_versions: {}
 #  aiida_cp2k: "0.9.0"
 #  aiida_fleur: "0.6.2"
 #  # aiida_gudhi: "0.1.0a3"

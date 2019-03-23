@@ -18,6 +18,10 @@ provisioner:
   name: ansible
   lint:
     name: ansible-lint
+    options:
+      x:
+        - 305
+        - 503
   playbooks:
     converge: playbook.yml
 scenario:

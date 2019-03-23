@@ -57,12 +57,7 @@
       - seekpath
     virtualenv: "{{ aiida_venv }}"
   register: pip_install
-
-  # it seems reentry scan is necessary...
-  # https://travis-ci.org/marvel-nccr/ansible-role-aiida/jobs/507478561#L791
-- name: reentry scan
-  shell: {{ aiida_venv }}/bin/reentry scan
-  when: pip_install.changed
+  notify: reentry scan
 
 # get anyway the GIT code, it is often useful; checkout the same version (now actually we are forcing a different branch/tag...)
 - name: Get the AiiDA code from GIT
@@ -102,10 +97,10 @@
   stat: path="${HOME}/.aiida/config.json"
   register: aiida_config_file
 
-- name: "set up AiiDA profile"
+- name: "Set up AiiDA profile"
   # Need to use the full path because it's in a virtualenv
   shell: |
-      {{ aiida_venv }}/bin/verdi setup default1 \
+      {{ aiida_venv }}/bin/verdi setup {{ aiida_profile_name }} \
       --non-interactive \
       --first-name Max \
       --last-name Scientist \
@@ -117,12 +112,7 @@
       --db-username '{{ aiida_postgres_db_user }}' \
       --db-password '{{ aiida_postgres_db_pw  }}' \
       --repository "${HOME}/.aiida/repository-aiida/"
-  when: aiida_config_file.stat.exists == false
-
-  # not ideal - better to read default profile from config
-- name: "Set the default AiiDA profile"
-  shell: "{{ aiida_venv }}/bin/verdi profile setdefault default"
-  when: aiida_config_file.stat.exists == false
+  when: not aiida_config_file.stat.exists
 
 - include_role:
     name: release_notes
