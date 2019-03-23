@@ -59,6 +59,8 @@
   register: pip_install
   notify: reentry scan
 
+- meta: flush_handlers
+
 # get anyway the GIT code, it is often useful; checkout the same version (now actually we are forcing a different branch/tag...)
 - name: Get the AiiDA code from GIT
   git:
