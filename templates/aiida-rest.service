@@ -1,0 +1,25 @@
+[Unit]
+Description=AiiDA REST API service
+After=network.target postgresql.service
+
+[Service]
+# simple: endless loop (does not exit)
+Type=simple
+# note: the default host 127.0.0.1 only allows access from within the VM
+ExecStart={{ daemon_aiida_venv }}/bin/verdi restapi -H 0.0.0.0
+
+User={{ daemon_user }}
+Group={{ daemon_user }}
+Restart=on-failure
+# Restart after 1 min if crashes
+RestartSec=5
+#SuccessExitStatus=143
+# give service 5 seconds to stop
+TimeoutStopSec=5
+
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=aiida-rest
+
+[Install]
+WantedBy=multi-user.target

@@ -10,18 +10,20 @@
   shell: "{{ aiida_venv }}/bin/reentry scan -r aiida"
   when: pip_install.changed
 
-# Do not use the yambo_executables directly because not all of them
-# have an AiiDA plugin
-- name: set up Yambo codes for localhost
-  include_tasks: code-setup.yml code={{ item }} 
-  with_items: 
-   - yambo
-   - p2y
+- name: set up yambo codes for localhost
+  include_tasks: code-setup.yml
   vars:
-   - aiida_code_name:  "{{code}}-{{yambo_version}}"
-   - aiida_code_template:  yambo.code
-   - aiida_computer_name:  "{{ aiida_localhost_name }}"
-  when: yambo_executables is defined
+    - aiida_code:
+        label: "yambo-{{ yambo_version }}-{{item.name}}"
+        template: generic.code
+        executable: "{{ item.name }}"
+        folder: "{{ item.folder }}"
+        plugin: "{{ item.plugin }}"
+        description: "yambo v{{ yambo_version }}"
+  with_items: "{{ yambo_executables }}"
+  when:
+    - yambo_executables is defined
+    - item.plugin is defined
 
 - include_role:
     name: release_notes

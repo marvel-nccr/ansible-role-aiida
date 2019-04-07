@@ -1,5 +1,5 @@
 ---
-allow_duplicates: no
+allow_duplicates: false
 
 galaxy_info:
   author: "MARVEL NCCR"
@@ -9,12 +9,13 @@ galaxy_info:
   platforms:
     - name: Ubuntu
       versions:
-      - xenial
+        - xenial
+        - bionic
   galaxy_tags:
     - ubuntu
     - application
     - science
 
 dependencies:
-- role: marvel-nccr.current-user
-  version: master
+  - role: marvel-nccr.current_user
+    version: master

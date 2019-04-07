@@ -1,0 +1,36 @@
+---
+- name: "install aiida-zeopp-{{ aiida_zeopp_version }} from PyPI"
+  pip:
+    name: aiida-zeopp
+    version: "{{ aiida_zeopp_version }}"
+    virtualenv: "{{ aiida_venv }}"
+  register: pip_install
+
+- name: run reentry scan
+  shell: "{{ aiida_venv }}/bin/reentry scan -r aiida"
+  when: pip_install.changed
+
+- name: set up zeopp codes for localhost
+  include_tasks: code-setup.yml
+  vars:
+    - aiida_code:
+        label: "zeopp-{{ zeopp_version }}"
+        template: generic.code
+        executable: "{{ item.name }}"
+        folder: "{{ item.folder }}"
+        plugin: "{{ item.plugin }}"
+        description: "zeopp v{{ zeopp_version }}"
+  with_items: "{{ zeopp_executables }}"
+  when:
+    - zeopp_executables is defined
+    - item.plugin is defined
+
+- include_role:
+    name: release_notes
+  vars:
+    section: AiiDA
+    option: aiida-zeopp
+    value: >-
+      aiida-zeopp v{{ aiida_zeopp_version }} is installed.
+      See 'verdi code list' for available codes.
+  when: release_notes is defined and release_notes
