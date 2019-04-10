@@ -1,7 +1,6 @@
 localhost
 localhost
 localhost (Quantum Mobile)
-True
 local
 {{ aiida_localhost_scheduler }}
 #!/bin/bash

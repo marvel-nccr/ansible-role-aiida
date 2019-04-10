@@ -15,6 +15,7 @@
   tags: aiida_rest,aiida_core
 
 - import_tasks: computers-setup.yml
+  tags: aiida_computers,aiida_core
 
 # codes need to come after computers
 - import_tasks: plugins/main.yml
