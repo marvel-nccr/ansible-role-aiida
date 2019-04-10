@@ -5,20 +5,34 @@
   register: aiida_check_computer
   changed_when: false
 
-- name: "Copy the script to setup the {{ aiida_computer_name }} AiiDA computer"
-  template:
-    src: "{{ aiida_computer_name }}.computer"
-    dest: "${HOME}/.local/share/marvelnccr/"
-    mode: 0755
-  vars:
-    aiida_run_folder_abs: "{{ aiida_run_folder |  regex_replace('\\$\\{HOME}', current_user_home) }}"
-
+# hardcoded in options for the moment - move to a yml file after merging
+# https://github.com/aiidateam/aiida_core/pull/2723
+- name: "Setup {{ aiida_computer_name }} computer for AiiDA"  # noqa 306
+  shell: |
+    {{ aiida_venv }}/bin/verdi computer setup --non-interactive\
+      --label "{{ aiida_computer_name }}" \
+      --hostname "{{ aiida_computer_name }}" \
+      --transport local \
+      --scheduler {{ aiida_localhost_scheduler }} \
+      --work-dir "{{ aiida_run_folder |  regex_replace('\\$\\{HOME}', current_user_home) }}" \
+      --mpirun-command "mpirun -np {tot_num_mpiprocs}" \
+      --mpiprocs-per-machine {{ aiida_localhost_cpus }}
   when: aiida_check_computer.rc != 0
 
-- name: "Setup {{ aiida_computer_name }} computer for AiiDA"
-  shell: "cat ${HOME}/.local/share/marvelnccr/{{ aiida_computer_name }}.computer | {{ aiida_venv }}/bin/verdi computer setup"
-  when: aiida_check_computer.rc != 0
+# - name: "Copy the script to setup the {{ aiida_computer_name }} AiiDA computer"
+#   template:
+#     src: "{{ aiida_computer_name }}.computer"
+#     dest: "${HOME}/.local/share/marvelnccr/"
+#     mode: 0755
+#   vars:
+#     aiida_run_folder_abs: "{{ aiida_run_folder |  regex_replace('\\$\\{HOME}', current_user_home) }}"
+#
+#   when: aiida_check_computer.rc != 0
 
-- name: "Configure localhost"
-  shell: "{{ aiida_venv }}/bin/verdi computer configure {{ aiida_computer_name }} --non-interactive"
+# - name: "Setup {{ aiida_computer_name }} computer for AiiDA"
+#   shell: "cat ${HOME}/.local/share/marvelnccr/{{ aiida_computer_name }}.computer | {{ aiida_venv }}/bin/verdi computer setup"  # noqa 306
+#   when: aiida_check_computer.rc != 0
+
+- name: "Configure {{ aiida_computer_name }}"
+  shell: "{{ aiida_venv }}/bin/verdi computer configure local {{ aiida_computer_name }} --non-interactive"
   when: (aiida_check_computer.rc != 0) and (aiida_computer_name == aiida_localhost_name)

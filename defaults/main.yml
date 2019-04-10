@@ -1,5 +1,5 @@
 ---
-aiida_version: "0.12.3"
+aiida_version: "1.0.0b2"
 aiida_tag: "v{{ aiida_version }}"
 aiida_extras:
   - rest
@@ -20,21 +20,22 @@ aiida_postgres_user: postgres
 aiida_postgres_db: aiidadb
 aiida_postgres_db_pw: "ne9N_LDK-*JSS"
 aiida_postgres_db_user: aiida
+aiida_profile_name: default
 
 # plugins
 # Note: If possible, these versions should coincide with the ones in
 # https://github.com/aiidalab/aiidalab-metapkg/blob/master/requirements.txt
-aiida_plugin_versions:
-  aiida_cp2k: "0.9.0"
-  aiida_fleur: "0.6.2"
-  # aiida_gudhi: "0.1.0a3"
-  aiida_phtools: "0.1.0a1"
-  aiida_quantumespresso: "2.1.0"
-  aiida_raspa: "0.3.1"
-  aiida_siesta: "0.9.10"
-  aiida_yambo: "0.2.5"
-  aiida_wannier90: "1.0.0"
-  aiida_zeopp: "0.2.0"
+aiida_plugin_versions: {}
+#  aiida_cp2k: "0.9.0"
+#  aiida_fleur: "0.6.2"
+#  # aiida_gudhi: "0.1.0a3"
+#  aiida_phtools: "0.1.0a1"
+#  aiida_quantumespresso: "2.1.0"
+#  aiida_raspa: "0.3.1"
+#  aiida_siesta: "0.9.10"
+#  aiida_yambo: "0.2.5"
+#  aiida_wannier90: "1.0.0"
+#  aiida_zeopp: "0.2.0"
 
 aiida_plugins: "{{ aiida_plugin_versions.keys() }}"
 

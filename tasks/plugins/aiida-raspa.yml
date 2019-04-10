@@ -4,10 +4,9 @@
     name: git+https://github.com/yakutovicha/aiida-raspa@v{{ aiida_raspa_version }}
     virtualenv: "{{ aiida_venv }}"
   register: pip_install
+  notify: reentry scan
 
-- name: run reentry scan
-  shell: "{{ aiida_venv }}/bin/reentry scan -r aiida"
-  when: pip_install.changed
+- meta: flush_handlers
 
 - name: set up raspa codes for localhost
   include_tasks: code-setup.yml

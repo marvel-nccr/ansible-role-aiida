@@ -1,5 +1,5 @@
 ---
-- name: Install DB and more
+- name: Install apt (DB and more)
   become: true
   become_user: "{{ root_user }}"
   apt:
@@ -9,6 +9,7 @@
       - postgresql-client
       - python-psycopg2
       - libpq-dev
+      - rabbitmq-server
       # Needed for the ASE visualizer
       - python-gtk2
       # For AiiDA
@@ -51,11 +52,14 @@
 - name: Install pip packages
   pip:
     name:
-      - pip>=10.0.0
-      - aiida=={{ aiida_version }}
+      - pip==18.1
+      - aiida-core=={{ aiida_version }}
       - seekpath
     virtualenv: "{{ aiida_venv }}"
   register: pip_install
+  notify: reentry scan
+
+- meta: flush_handlers
 
 # get anyway the GIT code, it is often useful; checkout the same version (now actually we are forcing a different branch/tag...)
 - name: Get the AiiDA code from GIT
@@ -95,27 +99,22 @@
   stat: path="${HOME}/.aiida/config.json"
   register: aiida_config_file
 
-- name: "Configure AiiDA"
+- name: "Set up AiiDA profile"
   # Need to use the full path because it's in a virtualenv
   shell: |
-       {{ aiida_venv }}/bin/verdi setup default --non-interactive \
-       --email aiida@localhost \
-       --backend django \
-       --db_host localhost --db_port 5432 \
-       --db_name {{ aiida_postgres_db }} \
-       --db_user {{ aiida_postgres_db_user }} --db_pass '{{ aiida_postgres_db_pw  }}' \
-       --repo ${HOME}/.aiida/repository-aiida/
-  when: aiida_config_file.stat.exists == false
-
-  #     --db_user {{ aiida_postgres_db_user }} --db_pass '{{ aiida_postgres_db_pw | string | password_hash("sha512")  }}' \
-
-- name: "Set the default AiiDA profile"
-  shell: "{{ aiida_venv }}/bin/verdi profile setdefault {{item}} default"
-  with_items:
-    - verdi
-    - daemon
-  # not ideal - better to read default profile from config
-  when: aiida_config_file.stat.exists == false
+      {{ aiida_venv }}/bin/verdi setup {{ aiida_profile_name }} \
+      --non-interactive \
+      --first-name Max \
+      --last-name Scientist \
+      --institution "Quantum Mobile" \
+      --email aiida@localhost \
+      --backend django \
+      --db-host localhost --db-port 5432 \
+      --db-name '{{ aiida_postgres_db }}' \
+      --db-username '{{ aiida_postgres_db_user }}' \
+      --db-password '{{ aiida_postgres_db_pw  }}' \
+      --repository "${HOME}/.aiida/repository-aiida/"
+  when: not aiida_config_file.stat.exists
 
 - include_role:
     name: release_notes
