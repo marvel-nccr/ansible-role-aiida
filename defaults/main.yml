@@ -1,5 +1,5 @@
 ---
-aiida_version: "1.0.0b1"
+aiida_version: "1.0.0b2"
 aiida_tag: "v{{ aiida_version }}"
 aiida_extras:
   - rest
