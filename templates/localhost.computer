@@ -1,7 +1,6 @@
 localhost
 localhost
 
-True
 local
 {{ aiida_localhost_scheduler }}
 #!/bin/bash

@@ -20,5 +20,5 @@
   when: aiida_check_computer.rc != 0
 
 - name: "Configure localhost"
-  shell: "{{ aiida_venv }}/bin/verdi computer configure {{ aiida_computer_name }}"
+  shell: "{{ aiida_venv }}/bin/verdi computer configure {{ aiida_computer_name }} --non-interactive"
   when: (aiida_check_computer.rc != 0) and (aiida_computer_name == aiida_localhost_name)
