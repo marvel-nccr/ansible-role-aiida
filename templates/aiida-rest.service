@@ -1,6 +1,6 @@
 [Unit]
 Description=AiiDA REST API service
-After=network.target postgresql.service
+After=network.target postgresql.service rabbitmq-server.service
 
 [Service]
 # simple: endless loop (does not exit)
