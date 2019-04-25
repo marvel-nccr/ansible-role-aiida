@@ -53,13 +53,11 @@
   pip:
     name:
       - pip==18.1
-      - aiida-core=={{ aiida_version }}
+      # - aiida-core=={{ aiida_version }}
       - seekpath
     virtualenv: "{{ aiida_venv }}"
   register: pip_install
   notify: reentry scan
-
-- meta: flush_handlers
 
 # get anyway the GIT code, it is often useful; checkout the same version (now actually we are forcing a different branch/tag...)
 - name: Get the AiiDA code from GIT
@@ -68,6 +66,17 @@
     dest: "${HOME}/codes/aiida_core"
     version: "{{ aiida_tag }}"
     force: true
+
+- name: Install AiiDA git code
+  pip:
+    name:
+      - "${HOME}/codes/aiida_core"
+    virtualenv: "{{ aiida_venv }}"
+    editable: true
+  register: aiida_core_install
+  notify: reentry scan
+
+- meta: flush_handlers
 
 ## PyGTK cannot be installed with pip... we need to use
 ## a workaround, see https://stackoverflow.com/questions/12830662/

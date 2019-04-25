@@ -1,8 +1,8 @@
 {{ aiida_code.label }}
 {{ aiida_code.description }}
-False
 {{ aiida_code.plugin }}
-{{ aiida_localhost_name }}
+True
 {{ abspath }}
+{{ aiida_localhost_name }}
 ulimit -s unlimited
 

@@ -1,6 +1,6 @@
 ---
 aiida_version: "1.0.0b2"
-aiida_tag: "v{{ aiida_version }}"
+aiida_tag: 8b6169c9ff60a9ed120969b53a687f5925a1e51d
 aiida_extras:
   - rest
   - docs
@@ -10,6 +10,7 @@ aiida_extras:
 aiida_run_folder: "${HOME}/.aiida_run"
 aiida_code_folder: "${HOME}"
 aiida_examples_folder: "${HOME}"
+aiida_templates_folder: "${HOME}/.local/share/aiida"
 aiida_localhost_name: localhost
 aiida_localhost_cpus: 2
 aiida_localhost_scheduler: direct
@@ -25,17 +26,17 @@ aiida_profile_name: default
 # plugins
 # Note: If possible, these versions should coincide with the ones in
 # https://github.com/aiidalab/aiidalab-metapkg/blob/master/requirements.txt
-aiida_plugin_versions: {}
-#  aiida_cp2k: "0.9.0"
-#  aiida_fleur: "0.6.2"
-#  # aiida_gudhi: "0.1.0a3"
-#  aiida_phtools: "0.1.0a1"
-#  aiida_quantumespresso: "2.1.0"
-#  aiida_raspa: "0.3.1"
-#  aiida_siesta: "0.9.10"
-#  aiida_yambo: "0.2.5"
-#  aiida_wannier90: "1.0.0"
-#  aiida_zeopp: "0.2.0"
+aiida_plugin_versions:
+  #  aiida_cp2k: "0.9.0"
+  #  aiida_fleur: "0.6.2"
+  #  # aiida_gudhi: "0.1.0a3"
+  #  aiida_phtools: "0.1.0a1"
+  aiida_quantumespresso: e5e1a4b47e7d19c59af8174157d7eb65a3b9292d
+  #  aiida_raspa: "0.3.1"
+  #  aiida_siesta: "0.9.10"
+  #  aiida_yambo: "0.2.5"
+  #  aiida_wannier90: "1.0.0"
+  #  aiida_zeopp: "0.2.0"
 
 aiida_plugins: "{{ aiida_plugin_versions.keys() }}"
 

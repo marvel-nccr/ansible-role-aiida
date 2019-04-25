@@ -22,7 +22,7 @@
 # - name: "Copy the script to setup the {{ aiida_computer_name }} AiiDA computer"
 #   template:
 #     src: "{{ aiida_computer_name }}.computer"
-#     dest: "${HOME}/.local/share/marvelnccr/"
+#     dest: "{{ aiida_templates_folder }}"
 #     mode: 0755
 #   vars:
 #     aiida_run_folder_abs: "{{ aiida_run_folder |  regex_replace('\\$\\{HOME}', current_user_home) }}"
@@ -30,7 +30,7 @@
 #   when: aiida_check_computer.rc != 0
 
 # - name: "Setup {{ aiida_computer_name }} computer for AiiDA"
-#   shell: "cat ${HOME}/.local/share/marvelnccr/{{ aiida_computer_name }}.computer | {{ aiida_venv }}/bin/verdi computer setup"  # noqa 306
+#   shell: "cat {{ aiida_templates_folder }}/{{ aiida_computer_name }}.computer | {{ aiida_venv }}/bin/verdi computer setup"  # noqa 306
 #   when: aiida_check_computer.rc != 0
 
 - name: "Configure {{ aiida_computer_name }}"
