@@ -117,7 +117,7 @@
       --last-name Scientist \
       --institution "Quantum Mobile" \
       --email aiida@localhost \
-      --backend django \
+      --db-backend django \
       --db-host localhost --db-port 5432 \
       --db-name '{{ aiida_postgres_db }}' \
       --db-username '{{ aiida_postgres_db_user }}' \
