@@ -7,7 +7,7 @@
       - postgresql
       - postgresql-server-dev-all
       - postgresql-client
-      - python-psycopg2
+      - python3-psycopg2
       - libpq-dev
       - rabbitmq-server
       # Needed for the ASE visualizer
@@ -16,7 +16,7 @@
       - libffi-dev
       - libssl-dev
       - graphviz
-      - python-pip
+      - python3-pip
       - virtualenvwrapper
 
 # This can be necessary on docker
@@ -52,10 +52,11 @@
 - name: Install pip packages
   pip:
     name:
-      - pip==18.1
+      - pip==19.0.3
       # - aiida-core=={{ aiida_version }}
       - seekpath
     virtualenv: "{{ aiida_venv }}"
+    virtualenv_site_packages: true
   register: pip_install
   notify: reentry scan
 
