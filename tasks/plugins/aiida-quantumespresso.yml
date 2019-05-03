@@ -6,12 +6,21 @@
 #     virtualenv: "{{ aiida_venv }}"
 #   register: aiida_qe_installed
 #   notify: reentry scan
+ 
+- name: Get the aiida-quantumespresso- {{ aiida_quantumespresso_version }} from GIT
+  git:
+    repo: https://github.com/aiidateam/aiida-quantumespresso
+    dest: "${HOME}/codes/aiida-quantumespresso"
+    version: "{{ aiida_quantumespresso_version }}"
+    force: true
 
-- name: "install aiida-quantumespresso-{{ aiida_quantumespresso_version }} from GitHub"
+- name: Install aiida-quantumespresso- {{ aiida_quantumespresso_version }}
   pip:
-    name: git+https://github.com/aiidateam/aiida-quantumespresso@{{ aiida_quantumespresso_version }}#egg=aiida_quantumespressso
+    name:
+      - "${HOME}/codes/aiida-quantumespresso"
     virtualenv: "{{ aiida_venv }}"
-  register: aiida_qe_installed
+    editable: true
+  register: aiida_quantumespresso_install
   notify: reentry scan
 
 - meta: flush_handlers
