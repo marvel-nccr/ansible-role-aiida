@@ -1,6 +1,6 @@
 ---
 aiida_version: "1.0.0b2"
-aiida_tag: 8b6169c9ff60a9ed120969b53a687f5925a1e51d
+aiida_tag: 1f6385d6245fc4941a7501ba6f5cb6e6fe3632fc
 aiida_extras:
   - rest
   - docs
@@ -31,7 +31,7 @@ aiida_plugin_versions:
   #  aiida_fleur: "0.6.2"
   #  # aiida_gudhi: "0.1.0a3"
   #  aiida_phtools: "0.1.0a1"
-  aiida_quantumespresso: e5e1a4b47e7d19c59af8174157d7eb65a3b9292d
+  aiida_quantumespresso: 2f54943ad16ecd2e5be629c8a3b588e2ea77a03c
   #  aiida_raspa: "0.3.1"
   #  aiida_siesta: "0.9.10"
   #  aiida_yambo: "0.2.5"
