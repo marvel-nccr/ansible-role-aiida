@@ -76,6 +76,7 @@
       - "${HOME}/codes/aiida_core"
     virtualenv: "{{ aiida_venv }}"
     editable: true
+    extra_args: --no-use-pep517
   register: aiida_core_install
   notify: reentry scan
 
