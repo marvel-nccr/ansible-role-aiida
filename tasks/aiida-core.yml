@@ -11,7 +11,7 @@
       - libpq-dev
       - rabbitmq-server
       # Needed for the ASE visualizer
-      - python-gtk2
+      - python3-gtk2
       # For AiiDA
       - libffi-dev
       - libssl-dev
@@ -78,27 +78,6 @@
   notify: reentry scan
 
 - meta: flush_handlers
-
-## PyGTK cannot be installed with pip... we need to use
-## a workaround, see https://stackoverflow.com/questions/12830662/
-- name: workaround to install pygtk 2 inside the virtualenv [making dir]
-  file:
-    path: "{{ aiida_venv }}/lib/python2.7/dist-packages/"
-    state: "directory"
-    mode: 0755
-
-- name: workaround to install pygtk 2 inside the virtualenv [creating symlinks]
-  file:
-    src: "/usr/lib/python2.7/dist-packages/{{ item }}"
-    dest: "{{ aiida_venv }}/lib/python2.7/dist-packages/{{ item }}"
-    state: link
-  with_items:
-    - glib
-    - gobject
-    - gtk-2.0
-    - pygtk.pth
-    - pygtk.py
-    - cairo
 
 - name: "Activate TAB completion in virtualenv"
   lineinfile:
