@@ -14,7 +14,7 @@
   vars:
     - aiida_code:
         label: "cp2k-{{ cp2k_version }}"
-        template: generic.code
+        template: code.yml
         executable: "{{ item.executable }}"
         folder: "{{ item.folder }}"
         plugin: "{{ item.plugin }}"

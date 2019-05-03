@@ -6,7 +6,7 @@
 #     virtualenv: "{{ aiida_venv }}"
 #   register: aiida_qe_installed
 #   notify: reentry scan
- 
+
 - name: Get the aiida-quantumespresso- {{ aiida_quantumespresso_version }} from GIT
   git:
     repo: https://github.com/aiidateam/aiida-quantumespresso
@@ -30,7 +30,7 @@
   vars:
     - aiida_code:
         label: "qe-{{ quantum_espresso_version }}-{{ item.name }}"
-        template: generic.code
+        template: code.yml
         executable: "{{ item.name }}.x"
         folder: "{{ item.folder }}"
         plugin: "{{ item.plugin }}"

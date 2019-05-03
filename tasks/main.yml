@@ -7,19 +7,18 @@
   tags: always
   when: current_user is undefined
 
+- name: add aiida templates folder
+  file:
+    path: "{{ aiida_templates_folder }}"
+    state: "directory"
+    mode: 0755
+
 - import_tasks: aiida-core.yml
   tags: aiida,aiida_core
 - import_tasks: aiida-daemon.yml
   tags: aiida_daemon,aiida_core
 - import_tasks: aiida-rest.yml
   tags: aiida_rest,aiida_core
-
-
-- name: add aiida templates folder
-  file:
-    path: "{{ aiida_templates_folder }}"
-    state: "directory"
-    mode: 0755
 
 - import_tasks: computers-setup.yml
   tags: aiida_computers,aiida_core

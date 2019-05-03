@@ -14,7 +14,7 @@
   vars:
     - aiida_code:
         label: "fleur-{{ fleur_version }}-{{ item.name }}"
-        template: generic.code
+        template: code.yml
         executable: "{{ item.name }}"
         folder: "{{ item.folder }}"
         plugin: "{{ item.plugin }}"

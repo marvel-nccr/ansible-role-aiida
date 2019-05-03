@@ -17,7 +17,7 @@
   - name: "Copy {{ aiida_code.template }} to setup the AiiDA code"
     template:
       src: "{{ aiida_code.template }}"
-      dest: "{{ aiida_templates_folder }}/{{ aiida_code.label }}.code"
+      dest: "{{ aiida_templates_folder }}/{{ aiida_code.label }}.yml"
 
 #  - name: "Set up the {{ aiida_code.label }} code for AiiDA"
 #    shell: "cat {{ aiida_templates_folder }}/{{ aiida_code.label }}.code | {{ aiida_venv }}/bin/verdi code setup"
@@ -28,11 +28,5 @@
 - name: "Setup {{ aiida_code.label }} code for AiiDA"  # noqa 306
   shell: |
     {{ aiida_venv }}/bin/verdi code setup --non-interactive\
-      --label "{{ aiida_code.label }}" \
-      --description "{{ aiida_code.description }}" \
-      --input-plugin "{{ aiida_code.plugin }}"\
-      --on-computer \
-      --remote-abs-path "{{ aiida_code.folder |  regex_replace('\\$\\{HOME}', current_user_home) }}/{{ aiida_code.executable }}" \
-      --computer "{{ aiida_localhost_name }}" \
-      --prepend-text "ulimit -s unlimited"
+      --config "{{ aiida_templates_folder }}/{{ aiida_code.label }}.yml"
   when: aiida_check_code.rc != 0

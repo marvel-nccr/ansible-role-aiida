@@ -14,7 +14,7 @@
   vars:
     - aiida_code:
         label: "siesta-{{ siesta_version }}-{{ item.name }}"
-        template: generic.code
+        template: code.yml
         executable: "{{ item.name }}"
         folder: "{{ item.folder }}"
         plugin: "{{ item.plugin }}"
