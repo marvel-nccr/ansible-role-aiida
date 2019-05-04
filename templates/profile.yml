@@ -1,0 +1,13 @@
+---
+profile: "{{ aiida_profile_name }}"
+first_name: Max
+last_name: Scientist
+institution: Quantum Mobile
+email: aiida@localhost
+db_backend: django
+db_host: localhost
+db_port: 5432
+db_name: "{{ aiida_postgres_db }}"
+db_username: "{{ aiida_postgres_db_user }}"
+db_password: "{{ aiida_postgres_db_pw  }}"
+repository: "${HOME}/.aiida/repository-aiida/"
