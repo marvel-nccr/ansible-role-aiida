@@ -31,7 +31,7 @@ aiida_plugin_versions:
   #  aiida_fleur: "0.6.2"
   #  # aiida_gudhi: "0.1.0a3"
   #  aiida_phtools: "0.1.0a1"
-  aiida_quantumespresso: 2f54943ad16ecd2e5be629c8a3b588e2ea77a03c
+  aiida_quantumespresso: 7e79a7bd80f22d26f1d83a74e65d3eb2f5f99021
   #  aiida_raspa: "0.3.1"
   #  aiida_siesta: "0.9.10"
   #  aiida_yambo: "0.2.5"

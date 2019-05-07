@@ -9,7 +9,7 @@
   become: true
   become_user: "{{ root_user }}"
   template:
-    src: aiida-daemon.service
+    src: aiida-daemon@.service
     dest: /etc/systemd/system
     owner: root
     group: root
@@ -23,7 +23,7 @@
   become: true
   become_user: "{{ root_user }}"
   systemd:
-    name: aiida-daemon
+    name: aiida-daemon@{{ aiida_profile_name }}
     enabled: true
     masked: false
     daemon-reload: true

@@ -1,12 +1,12 @@
 [Unit]
-Description=AiiDA REST API service
+Description=AiiDA REST API service for profile %I
 After=network.target postgresql.service rabbitmq-server.service
 
 [Service]
 # simple: endless loop (does not exit)
 Type=simple
 # note: the default host 127.0.0.1 only allows access from within the VM
-ExecStart={{ daemon_aiida_venv }}/bin/verdi restapi -H 0.0.0.0
+ExecStart={{ daemon_aiida_venv }}/bin/verdi -p %i restapi -H 0.0.0.0
 
 User={{ daemon_user }}
 Group={{ daemon_user }}
