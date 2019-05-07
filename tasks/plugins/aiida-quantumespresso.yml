@@ -12,7 +12,6 @@
     repo: https://github.com/aiidateam/aiida-quantumespresso
     dest: "${HOME}/codes/aiida-quantumespresso"
     version: "{{ aiida_quantumespresso_version }}"
-    force: true
 
 - name: Install aiida-quantumespresso- {{ aiida_quantumespresso_version }}
   pip:

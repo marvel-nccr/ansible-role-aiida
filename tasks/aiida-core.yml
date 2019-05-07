@@ -89,7 +89,6 @@
     repo: 'https://github.com/aiidateam/aiida_core.git'
     dest: "${HOME}/codes/aiida_core"
     version: "{{ aiida_tag }}"
-    force: true
 
 - name: Install AiiDA git code
   pip:
