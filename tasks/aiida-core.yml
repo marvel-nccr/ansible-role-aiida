@@ -1,22 +1,32 @@
 ---
-- name: Install DB and more
+- name: Install DB & more (apt)
   become: true
   become_user: "{{ root_user }}"
   apt:
     name:
+      - virtualenvwrapper
+      # database
       - postgresql
       - postgresql-server-dev-all
       - postgresql-client
-      - python-psycopg2
       - libpq-dev
-      # Needed for the ASE visualizer
-      - python-gtk2
       # For AiiDA
       - libffi-dev
       - libssl-dev
       - graphviz
       - python-pip
       - virtualenvwrapper
+
+- name: Install python2 packages (apt)
+  become: true
+  become_user: "{{ root_user }}"
+  apt:
+    name:
+      - python-pip
+      - python-psycopg2
+      # ASE visualizer
+      # Needed for the ASE visualizer
+      - python-gtk2
 
 # This can be necessary on docker
 - name: Make sure postgres service is started
@@ -48,14 +58,25 @@
   pip:
     name: virtualenv
 
+# Need to install numpy before aiida-core because otherwise the pymatgen
+# install is broken, see https://github.com/materialsproject/pymatgen/issues/1520
+- name: Install numpy & pip
+  pip:
+    name:
+      - pip==19.0.3
+      - numpy==1.16.4
+    virtualenv: "{{ aiida_venv }}"
+    virtualenv_site_packages: true
+
 - name: Install pip packages
   pip:
     name:
-      - pip>=10.0.0
       - aiida=={{ aiida_version }}
       - seekpath
     virtualenv: "{{ aiida_venv }}"
+    virtualenv_site_packages: true
   register: pip_install
+  notify: reentry scan
 
 # get anyway the GIT code, it is often useful; checkout the same version (now actually we are forcing a different branch/tag...)
 - name: Get the AiiDA code from GIT
@@ -98,24 +119,24 @@
 - name: "Configure AiiDA"
   # Need to use the full path because it's in a virtualenv
   shell: |
-       {{ aiida_venv }}/bin/verdi setup default --non-interactive \
+       {{ aiida_venv }}/bin/verdi setup {{ aiida_profile_name }} --non-interactive \
        --email aiida@localhost \
        --backend django \
        --db_host localhost --db_port 5432 \
        --db_name {{ aiida_postgres_db }} \
        --db_user {{ aiida_postgres_db_user }} --db_pass '{{ aiida_postgres_db_pw  }}' \
        --repo ${HOME}/.aiida/repository-aiida/
-  when: aiida_config_file.stat.exists == false
+  when: not aiida_config_file.stat.exists
 
   #     --db_user {{ aiida_postgres_db_user }} --db_pass '{{ aiida_postgres_db_pw | string | password_hash("sha512")  }}' \
 
 - name: "Set the default AiiDA profile"
-  shell: "{{ aiida_venv }}/bin/verdi profile setdefault {{item}} default"
+  shell: "{{ aiida_venv }}/bin/verdi profile setdefault {{ item }} {{ aiida_profile_name }}"
   with_items:
     - verdi
     - daemon
   # not ideal - better to read default profile from config
-  when: aiida_config_file.stat.exists == false
+  when: not aiida_config_file.stat.exists
 
 - include_role:
     name: release_notes

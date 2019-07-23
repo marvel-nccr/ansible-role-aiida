@@ -8,11 +8,11 @@
   tags: aiida_pps
   register: aiida_pp_download
 
-- import_tasks: aiida-pps-sssp.yml
+- include_tasks: aiida-pps-sssp.yml
   tags: aiida_pps
   when: "'sssp' in pp.name and aiida_pp_download.changed"
 
-- import_tasks: aiida-pps-oncv.yml
+- include_tasks: aiida-pps-oncv.yml
   tags: aiida_pps
   when: "'oncv' in pp.name and aiida_pp_download.changed"
 

@@ -10,16 +10,20 @@
     src: "{{ aiida_pp_download.dest }}"
     dest: "{{ aiida_code_folder }}/{{ pp.folder }}"
     remote_src: true
+  register: oncv_extract
 
 - name: Copy script to select pseudos
   copy:
     src: oncv-select-pps.sh
     dest: "{{ aiida_code_folder }}/{{ pp.folder }}"
+  when: oncv_extract.changed
 
 - name: run script to select pseudos
   shell: bash oncv-select-pps.sh
   args:
     chdir: "{{ aiida_code_folder }}/{{ pp.folder }}"
+  when: oncv_extract.changed
 
 - name: Add upf family
-  shell: "{{ aiida_venv }}/bin/verdi data upf uploadfamily {{aiida_code_folder}}/{{ pp.folder }} {{ pp.name }} '{{ pp.description }}'"
+  shell: "{{ aiida_venv }}/bin/verdi data upf uploadfamily {{ aiida_code_folder }}/{{ pp.folder }} {{ pp.name }} '{{ pp.description }}'"
+  when: oncv_extract.changed
