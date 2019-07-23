@@ -5,10 +5,9 @@
     version: "{{ aiida_zeopp_version }}"
     virtualenv: "{{ aiida_venv }}"
   register: pip_install
+  notify: reentry scan
 
-- name: run reentry scan
-  shell: "{{ aiida_venv }}/bin/reentry scan -r aiida"
-  when: pip_install.changed
+- meta: flush_handlers
 
 - name: set up zeopp codes for localhost
   include_tasks: code-setup.yml

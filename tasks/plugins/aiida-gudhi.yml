@@ -4,16 +4,15 @@
     name: git+https://github.com/ltalirz/aiida-gudhi@v{{ aiida_gudhi_version }}
     virtualenv: "{{ aiida_venv }}"
   register: pip_install
+  notify: reentry scan
 
-- name: run reentry scan
-  shell: "{{ aiida_venv }}/bin/reentry scan -r aiida"
-  when: pip_install.changed
+- meta: flush_handlers
 
 - name: set up gudhi codes for localhost
   include_tasks: code-setup.yml
   vars:
     - aiida_code:
-        label: "gudhi-{{ gudhi_version }}-{{item.name}}"
+        label: "gudhi-{{ gudhi_version }}-{{ item.name }}"
         template: generic.code
         executable: "{{ item.name }}"
         folder: "{{ item.folder }}"

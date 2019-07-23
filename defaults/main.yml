@@ -20,6 +20,7 @@ aiida_postgres_user: postgres
 aiida_postgres_db: aiidadb
 aiida_postgres_db_pw: "ne9N_LDK-*JSS"
 aiida_postgres_db_user: aiida
+aiida_profile_name: generic
 
 # plugins
 # Note: If possible, these versions should coincide with the ones in
