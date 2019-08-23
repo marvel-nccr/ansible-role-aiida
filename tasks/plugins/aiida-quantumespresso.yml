@@ -38,6 +38,7 @@
   when:
     - quantum_espresso_executables is defined
     - item.plugin is defined
+    - item.plugin != "quantumespresso.hp"
 
 - include_role:
     name: release_notes

@@ -27,11 +27,11 @@
 - import_tasks: plugins/main.yml
 
 # Broken because of old export file format
-# - include_tasks: aiida-pps.yml
-#   vars:
-#     pp: "{{ item }}"
-#   with_items: "{{ aiida_pseudopotentials }}"
-#   tags: aiida_pps
+- include_tasks: aiida-pps.yml
+  vars:
+    pp: "{{ item }}"
+  with_items: "{{ aiida_pseudopotentials }}"
+  tags: aiida_pps
 
 - import_tasks: aiida-examples.yml
   tags: aiida_examples
