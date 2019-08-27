@@ -10,4 +10,3 @@ db_port: 5432
 db_name: "{{ aiida_postgres_db }}"
 db_username: "{{ aiida_postgres_db_user }}"
 db_password: "{{ aiida_postgres_db_pw  }}"
-repository: "${HOME}/.aiida/repository-aiida/"

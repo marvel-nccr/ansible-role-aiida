@@ -115,14 +115,14 @@
     path: "{{ aiida_venv }}/bin/activate"
     line: 'eval "$(verdi completioncommand)"'
 
-- name: "Check if AiiDA has already been configured"
-  stat: path="${HOME}/.aiida/config.json"
-  register: aiida_config_file
-
 - name: copy profile config
   template:
     src: profile.yml
     dest: "{{ aiida_templates_folder }}/profile.yml"
+
+- name: "Check if AiiDA has already been configured"
+  stat: path="${HOME}/.aiida/config.json"
+  register: aiida_config_file
 
 - name: "Set up AiiDA profile"
   # Need to use the full path because it's in a virtualenv
