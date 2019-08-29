@@ -94,14 +94,14 @@
 # get anyway the GIT code, it is often useful; checkout the same version (now actually we are forcing a different branch/tag...)
 - name: Get the AiiDA code from GIT
   git:
-    repo: 'https://github.com/aiidateam/aiida_core.git'
-    dest: "${HOME}/codes/aiida_core"
+    repo: 'https://github.com/aiidateam/aiida-core.git'
+    dest: "${HOME}/codes/aiida-core"
     version: "{{ aiida_tag }}"
 
 - name: Install AiiDA git code
   pip:
     name:
-      - "${HOME}/codes/aiida_core"
+      - "${HOME}/codes/aiida-core"
     virtualenv: "{{ aiida_venv }}"
     editable: true
     extra_args: --no-use-pep517
