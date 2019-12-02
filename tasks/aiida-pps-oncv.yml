@@ -16,6 +16,7 @@
   copy:
     src: oncv-select-pps.sh
     dest: "{{ aiida_code_folder }}/{{ pp.folder }}"
+  when: oncv_extract.changed
 
 - name: run script to select pseudos
   shell: bash oncv-select-pps.sh
@@ -24,5 +25,5 @@
   when: oncv_extract.changed
 
 - name: Add upf family
-  shell: "{{ aiida_venv }}/bin/verdi data upf uploadfamily {{ aiida_code_folder  }}/{{ pp.folder }} {{ pp.name }} '{{ pp.description }}'"
+  shell: "{{ aiida_venv }}/bin/verdi data upf uploadfamily {{ aiida_code_folder }}/{{ pp.folder }} {{ pp.name }} '{{ pp.description }}'"
   when: oncv_extract.changed

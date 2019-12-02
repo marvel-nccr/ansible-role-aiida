@@ -21,6 +21,7 @@ provisioner:
     options:
       x:
         - 305
+        - 306
         - 503
   playbooks:
     converge: playbook.yml

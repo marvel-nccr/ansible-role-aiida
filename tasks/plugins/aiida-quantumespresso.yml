@@ -1,25 +1,10 @@
 ---
-# - name: "install aiida-quantumespresso-{{ aiida_quantumespresso_version }} from PyPI"
-#   pip:
-#     name: aiida-quantumespresso
-#     version: "{{ aiida_quantumespresso_version }}"
-#     virtualenv: "{{ aiida_venv }}"
-#   register: aiida_qe_installed
-#   notify: reentry scan
-
-- name: Get the aiida-quantumespresso- {{ aiida_quantumespresso_version }} from GIT
-  git:
-    repo: https://github.com/aiidateam/aiida-quantumespresso
-    dest: "${HOME}/codes/aiida-quantumespresso"
-    version: "{{ aiida_quantumespresso_version }}"
-
-- name: Install aiida-quantumespresso- {{ aiida_quantumespresso_version }}
+- name: "install aiida-quantumespresso-{{ aiida_quantumespresso_version }} from PyPI"
   pip:
-    name:
-      - "${HOME}/codes/aiida-quantumespresso"
+    name: aiida-quantumespresso
+    version: "{{ aiida_quantumespresso_version }}"
     virtualenv: "{{ aiida_venv }}"
-    editable: true
-  register: aiida_quantumespresso_install
+  register: aiida_qe_installed
   notify: reentry scan
 
 - meta: flush_handlers

@@ -43,6 +43,17 @@
       - python3-tk
   when: ansible_python_version is version('3', '>=')
 
+- name: Install python2 packages (apt)
+  become: true
+  become_user: "{{ root_user }}"
+  apt:
+    name:
+      - python-pip
+      - python-psycopg2
+      # ASE visualizer
+      # Needed for the ASE visualizer
+      - python-gtk2
+
 # This can be necessary on docker
 - name: Make sure postgres service is started
   become: true
@@ -84,6 +95,7 @@
   pip:
     name:
       - pip==19.0.3
+      - numpy==1.16.4
       # - aiida-core=={{ aiida_version }}
       - seekpath
     virtualenv: "{{ aiida_venv }}"
@@ -130,6 +142,11 @@
       {{ aiida_venv }}/bin/verdi setup \
       --non-interactive \
       --config {{ aiida_templates_folder }}/profile.yml
+  when: not aiida_config_file.stat.exists
+
+- name: "Set the default AiiDA profile"
+  shell: "{{ aiida_venv }}/bin/verdi profile setdefault {{ aiida_profile_name }}"
+  # not ideal - better to read default profile from config
   when: not aiida_config_file.stat.exists
 
 - include_role:
