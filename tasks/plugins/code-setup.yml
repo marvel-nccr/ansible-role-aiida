@@ -17,8 +17,16 @@
   - name: "Copy {{ aiida_code.template }} to setup the AiiDA code"
     template:
       src: "{{ aiida_code.template }}"
-      dest: "${HOME}/.local/share/marvelnccr/{{ aiida_code.label }}.code"
+      dest: "{{ aiida_templates_folder }}/{{ aiida_code.label }}.yml"
 
-  - name: "Set up the {{ aiida_code.label }} code for AiiDA"
-    shell: "cat ${HOME}/.local/share/marvelnccr/{{ aiida_code.label }}.code | {{ aiida_venv }}/bin/verdi code setup"
+#  - name: "Set up the {{ aiida_code.label }} code for AiiDA"
+#    shell: "cat {{ aiida_templates_folder }}/{{ aiida_code.label }}.code | {{ aiida_venv }}/bin/verdi code setup"
+#  when: aiida_check_code.rc != 0
+
+# hardcoded in options for the moment - move to a yml file after merging
+# https://github.com/aiidateam/aiida_core/pull/2723
+- name: "Setup {{ aiida_code.label }} code for AiiDA"  # noqa 306
+  shell: |
+    {{ aiida_venv }}/bin/verdi code setup --non-interactive\
+      --config "{{ aiida_templates_folder }}/{{ aiida_code.label }}.yml"
   when: aiida_check_code.rc != 0

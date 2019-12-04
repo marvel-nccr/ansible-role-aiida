@@ -14,7 +14,7 @@
   vars:
     - aiida_code:
         label: "qe-{{ quantum_espresso_version }}-{{ item.name }}"
-        template: generic.code
+        template: code.yml
         executable: "{{ item.name }}.x"
         folder: "{{ item.folder }}"
         plugin: "{{ item.plugin }}"
@@ -23,6 +23,7 @@
   when:
     - quantum_espresso_executables is defined
     - item.plugin is defined
+    - item.plugin != "quantumespresso.hp"
 
 - include_role:
     name: release_notes

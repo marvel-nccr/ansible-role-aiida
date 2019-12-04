@@ -10,12 +10,38 @@
       - postgresql-server-dev-all
       - postgresql-client
       - libpq-dev
-      # For AiiDA
+      - rabbitmq-server
+      # misc
       - libffi-dev
       - libssl-dev
       - graphviz
+
+- name: Install python2 packages (apt)
+  become: true
+  become_user: "{{ root_user }}"
+  apt:
+    name:
       - python-pip
-      - virtualenvwrapper
+      - python-psycopg2
+      # ASE visualizer
+      # Needed for the ASE visualizer
+      - python-gtk2
+  when: ansible_python_version is version('3', '<')
+
+- name: Install python3 packages (apt)
+  become: true
+  become_user: "{{ root_user }}"
+  apt:
+    name:
+      - python3-pip
+      - python3-psycopg2
+      # ASE visualizer
+      # Needed for the ASE visualizer
+      - python3-gi
+      - python3-gi-cairo
+      - gir1.2-gtk-3.0
+      - python3-tk
+  when: ansible_python_version is version('3', '>=')
 
 - name: Install python2 packages (apt)
   become: true
@@ -58,20 +84,19 @@
   pip:
     name: virtualenv
 
-# Need to install numpy before aiida-core because otherwise the pymatgen
-# install is broken, see https://github.com/materialsproject/pymatgen/issues/1520
-- name: Install numpy & pip
-  pip:
-    name:
-      - pip==19.0.3
-      - numpy==1.16.4
-    virtualenv: "{{ aiida_venv }}"
-    virtualenv_site_packages: true
+- name: "Let virtualenvwrapper use the correct python version"
+  lineinfile:
+    path: "${HOME}/.bashrc"
+    regex: "export VIRTUALENVWRAPPER_PYTHON=.*"
+    line: "export VIRTUALENVWRAPPER_PYTHON={{ ansible_python_interpreter }}"
+  when: ansible_python_interpreter is defined
 
 - name: Install pip packages
   pip:
     name:
-      - aiida=={{ aiida_version }}
+      - pip==19.0.3
+      - numpy==1.16.4
+      # - aiida-core=={{ aiida_version }}
       - seekpath
     virtualenv: "{{ aiida_venv }}"
     virtualenv_site_packages: true
@@ -81,60 +106,46 @@
 # get anyway the GIT code, it is often useful; checkout the same version (now actually we are forcing a different branch/tag...)
 - name: Get the AiiDA code from GIT
   git:
-    repo: 'https://github.com/aiidateam/aiida_core.git'
-    dest: "${HOME}/codes/aiida_core"
+    repo: 'https://github.com/aiidateam/aiida-core.git'
+    dest: "${HOME}/codes/aiida-core"
     version: "{{ aiida_tag }}"
-    force: true
 
-## PyGTK cannot be installed with pip... we need to use
-## a workaround, see https://stackoverflow.com/questions/12830662/
-- name: workaround to install pygtk 2 inside the virtualenv [making dir]
-  file:
-    path: "{{ aiida_venv }}/lib/python2.7/dist-packages/"
-    state: "directory"
-    mode: 0755
+- name: Install AiiDA git code
+  pip:
+    name:
+      - "${HOME}/codes/aiida-core"
+    virtualenv: "{{ aiida_venv }}"
+    editable: true
+    extra_args: --no-use-pep517
+  register: aiida_core_install
+  notify: reentry scan
 
-- name: workaround to install pygtk 2 inside the virtualenv [creating symlinks]
-  file:
-    src: "/usr/lib/python2.7/dist-packages/{{ item }}"
-    dest: "{{ aiida_venv }}/lib/python2.7/dist-packages/{{ item }}"
-    state: link
-  with_items:
-    - glib
-    - gobject
-    - gtk-2.0
-    - pygtk.pth
-    - pygtk.py
-    - cairo
+- meta: flush_handlers
 
 - name: "Activate TAB completion in virtualenv"
   lineinfile:
     path: "{{ aiida_venv }}/bin/activate"
     line: 'eval "$(verdi completioncommand)"'
 
+- name: copy profile config
+  template:
+    src: profile.yml
+    dest: "{{ aiida_templates_folder }}/profile.yml"
+
 - name: "Check if AiiDA has already been configured"
   stat: path="${HOME}/.aiida/config.json"
   register: aiida_config_file
 
-- name: "Configure AiiDA"
+- name: "Set up AiiDA profile"
   # Need to use the full path because it's in a virtualenv
   shell: |
-       {{ aiida_venv }}/bin/verdi setup {{ aiida_profile_name }} --non-interactive \
-       --email aiida@localhost \
-       --backend django \
-       --db_host localhost --db_port 5432 \
-       --db_name {{ aiida_postgres_db }} \
-       --db_user {{ aiida_postgres_db_user }} --db_pass '{{ aiida_postgres_db_pw  }}' \
-       --repo ${HOME}/.aiida/repository-aiida/
+      {{ aiida_venv }}/bin/verdi setup \
+      --non-interactive \
+      --config {{ aiida_templates_folder }}/profile.yml
   when: not aiida_config_file.stat.exists
 
-  #     --db_user {{ aiida_postgres_db_user }} --db_pass '{{ aiida_postgres_db_pw | string | password_hash("sha512")  }}' \
-
 - name: "Set the default AiiDA profile"
-  shell: "{{ aiida_venv }}/bin/verdi profile setdefault {{ item }} {{ aiida_profile_name }}"
-  with_items:
-    - verdi
-    - daemon
+  shell: "{{ aiida_venv }}/bin/verdi profile setdefault {{ aiida_profile_name }}"
   # not ideal - better to read default profile from config
   when: not aiida_config_file.stat.exists
 

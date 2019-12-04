@@ -14,7 +14,7 @@
   vars:
     - aiida_code:
         label: "yambo-{{ yambo_version }}-{{ item.name }}"
-        template: generic.code
+        template: code.yml
         executable: "{{ item.name }}"
         folder: "{{ item.folder }}"
         plugin: "{{ item.plugin }}"

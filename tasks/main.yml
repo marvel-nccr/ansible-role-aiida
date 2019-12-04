@@ -7,6 +7,12 @@
   tags: always
   when: current_user is undefined
 
+- name: add aiida templates folder
+  file:
+    path: "{{ aiida_templates_folder }}"
+    state: "directory"
+    mode: 0755
+
 - import_tasks: aiida-core.yml
   tags: aiida,aiida_core
 - import_tasks: aiida-daemon.yml
@@ -20,6 +26,7 @@
 # codes need to come after computers
 - import_tasks: plugins/main.yml
 
+# Broken because of old export file format
 - include_tasks: aiida-pps.yml
   vars:
     pp: "{{ item }}"

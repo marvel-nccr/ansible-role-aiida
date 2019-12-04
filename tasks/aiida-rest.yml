@@ -7,7 +7,7 @@
   become: true
   become_user: "{{ root_user }}"
   template:
-    src: aiida-rest.service
+    src: aiida-rest@.service
     dest: /etc/systemd/system
     owner: root
     group: root
@@ -21,7 +21,7 @@
   become: true
   become_user: "{{ root_user }}"
   systemd:
-    name: aiida-rest
+    name: aiida-rest@{{ aiida_profile_name }}
     enabled: "{{ aiida_rest_service_enabled }}"
     masked: false
     daemon-reload: true

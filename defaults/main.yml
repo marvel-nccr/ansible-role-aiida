@@ -1,6 +1,6 @@
 ---
-aiida_version: "0.12.4"
-aiida_tag: "v{{ aiida_version }}"
+aiida_version: "1.0.1"
+aiida_tag: v1.0.1
 aiida_extras:
   - rest
   - docs
@@ -10,6 +10,7 @@ aiida_extras:
 aiida_run_folder: "${HOME}/.aiida_run"
 aiida_code_folder: "${HOME}"
 aiida_examples_folder: "${HOME}"
+aiida_templates_folder: "${HOME}/.local/share/aiida"
 aiida_localhost_name: localhost
 aiida_localhost_cpus: 2
 aiida_localhost_scheduler: direct
@@ -26,31 +27,31 @@ aiida_profile_name: generic
 # Note: If possible, these versions should coincide with the ones in
 # https://github.com/aiidalab/aiidalab-metapkg/blob/master/requirements.txt
 aiida_plugin_versions:
-  aiida_cp2k: "0.9.0"
-  aiida_fleur: "0.6.2"
+  aiida_cp2k: "1.0.0b4"
+  # aiida_fleur: "1.0.0a"
   # aiida_gudhi: "0.1.0a3"
-  aiida_phtools: "0.1.0a1"
-  aiida_quantumespresso: "2.1.0"
-  aiida_raspa: "0.3.1"
-  aiida_siesta: "0.9.10"
-  aiida_yambo: "0.2.5"
-  aiida_wannier90: "1.0.0"
-  aiida_zeopp: "0.2.0"
+  # aiida_phtools: "0.1.0a1"
+  aiida_quantumespresso: v3.0.0a5
+  aiida_raspa: "1.0.0a2"
+  # aiida_siesta: "1.0.0"
+  # aiida_yambo: "0.2.5"
+  # aiida_wannier90: "1.0.0"
+  aiida_zeopp: "1.0.3"
 
 aiida_plugins: "{{ aiida_plugin_versions.keys() }}"
 
 # pseudos
 aiida_pseudopotentials:
-  - name: SSSP_efficiency_v1.0
+  - name: sssp-pbe-efficiency-1.1
     file: SSSP_efficiency_pseudos.aiida
-    url: https://archive.materialscloud.org/file/2018.0001/v2
+    url: http://archive.materialscloud.org/file/2018.0001/v3
     home_page: http://materialscloud.org/sssp/
     description: >-
      Standard Solid State Pseudopotentials (efficiency)
      for the PBE functional
-  - name: SSSP_precision_v1.0
+  - name: sssp-pbe-precision-1.1
     file: SSSP_precision_pseudos.aiida
-    url: https://archive.materialscloud.org/file/2018.0001/v2
+    url: http://archive.materialscloud.org/file/2018.0001/v3
     home_page: http://materialscloud.org/sssp/
     description: >-
      Standard Solid State Pseudopotentials (precision)

@@ -13,7 +13,7 @@
   vars:
     - aiida_code:
         label: "raspa-{{ raspa_version }}"
-        template: generic.code
+        template: code.yml
         executable: "{{ item.name }}"
         folder: "{{ item.folder }}"
         plugin: "{{ item.plugin }}"

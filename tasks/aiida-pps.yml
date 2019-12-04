@@ -1,17 +1,17 @@
 ---
 # add pseudopotential family
 - name: Download "{{ pp.file }}"
+  tags: aiida_pps
   get_url:
     url: "{{ pp.url }}/{{ pp.file }}"
     dest: "{{ aiida_code_folder }}/{{ pp.file }}"
     mode: "u+r"
-  tags: aiida_pps
   register: aiida_pp_download
 
 - block:
     - import_tasks: aiida-pps-sssp.yml
       tags: aiida_pps
-      when: "'SSSP' in pp.name"
+      when: "'sssp' in pp.name"
     - import_tasks: aiida-pps-oncv.yml
       tags: aiida_pps
       when: "'oncv' in pp.name"
