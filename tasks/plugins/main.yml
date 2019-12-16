@@ -59,3 +59,9 @@
   vars:
     aiida_phtools_version: "{{ aiida_plugin_versions.aiida_phtools }}"
   when: "'aiida_phtools' in aiida_plugins"
+
+- import_tasks: aiida-bigdft.yml
+  tags: aiida_bigdft
+  vars:
+    aiida_bigdft_version: "{{ aiida_plugin_versions.aiida_bigdft }}"
+  when: "'aiida_bigdft' in aiida_plugins"

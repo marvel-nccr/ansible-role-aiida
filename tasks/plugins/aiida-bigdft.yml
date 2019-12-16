@@ -1,0 +1,34 @@
+---
+- name: "install aiida-bigdft-{{ aiida_bigdft_version }} from PyPI"
+  pip:
+    name: aiida-bigdft
+    version: "{{ aiida_bigdft_version }}"
+    virtualenv: "{{ aiida_venv }}"
+  register: pip_install
+  notify: reentry scan
+
+- meta: flush_handlers
+
+- name: set up bigdft codes for localhost
+  include_tasks: code-setup.yml
+  vars:
+    - aiida_code:
+        label: "bigdft-{{ bigdft_version }}-{{ item.name }}"
+        template: code.yml
+        executable: "{{ item.name }}"
+        folder: "{{ item.folder }}"
+        plugin: "{{ item.plugin }}"
+        description: "bigdft {{ item.name }} v{{ bigdft_version }}"
+  with_items: "{{ bigdft_executables }}"
+  when:
+    - bigdft_executables is defined
+    - item.plugin is defined
+
+- include_role:
+    name: release_notes
+  vars:
+    section: AiiDA
+    option: aiida-bigdft
+    value: >-
+      aiida-bigdft {{ aiida_bigdft_version }} is installed.
+  when: release_notes is defined and release_notes

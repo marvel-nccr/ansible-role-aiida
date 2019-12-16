@@ -24,6 +24,7 @@
     - quantum_espresso_executables is defined
     - item.plugin is defined
     - item.plugin != "quantumespresso.hp"
+    - item.plugin != "wannier90"
 
 - include_role:
     name: release_notes

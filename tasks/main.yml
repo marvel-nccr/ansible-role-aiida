@@ -26,6 +26,13 @@
 # codes need to come after computers
 - import_tasks: plugins/main.yml
 
+- name: "Create aiida data folder"
+  become: true
+  become_user: "{{ root_user }}"
+  file:
+    path: "{{ aiida_data_folder }}"
+    state: directory
+
 # Broken because of old export file format
 - include_tasks: aiida-pps.yml
   vars:

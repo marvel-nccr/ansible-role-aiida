@@ -1,3 +1,3 @@
 ---
 - name: Import {{ pp.file }}  # noqa 301
-  shell: "{{ aiida_venv }}/bin/verdi import -n {{ aiida_code_folder }}/{{ pp.file }}"
+  shell: "{{ aiida_venv }}/bin/verdi import -n {{ aiida_data_folder }}/{{ pp.file }}"
