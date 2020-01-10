@@ -1,0 +1,23 @@
+---
+- name: Install DB & more
+  become: true
+  become_user: "{{ root_user }}"
+  apt:
+    name:
+      - virtualenvwrapper
+      # database
+      - postgresql
+      - postgresql-server-dev-all
+      - postgresql-client
+      - libpq-dev
+      - rabbitmq-server
+      # misc
+      - libffi-dev
+      - libssl-dev
+      - graphviz
+      - python3-pip
+      - python3-psycopg2
+      - python3-gi
+      - python3-gi-cairo
+      - gir1.2-gtk-3.0
+      - python3-tk

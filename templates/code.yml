@@ -3,6 +3,6 @@ label: "{{ aiida_code.label }}"
 description: "{{ aiida_code.description }}"
 input_plugin: "{{ aiida_code.plugin }}"
 on_computer: true
-remote_abs_path: "{{ aiida_code.folder |  regex_replace('\\$\\{HOME}', current_user_home) }}/{{ aiida_code.executable }}"
+remote_abs_path: "{{ aiida_code.folder |  regex_replace('\\$\\{ansible_env.HOME}', current_user_home) }}/{{ aiida_code.executable }}"
 computer: "{{ aiida_localhost_name }}"
 prepend_text: "ulimit -s unlimited"

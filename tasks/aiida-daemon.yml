@@ -17,7 +17,7 @@
   vars:
     daemon_user: "{{ current_user }}"
     daemon_user_home: "{{ current_user_home }}"
-    daemon_aiida_venv: "{{ aiida_venv |  regex_replace('\\$\\{HOME}', current_user_home) }}"
+    daemon_aiida_venv: "{{ aiida_venv |  regex_replace('\\$\\{ansible_env.HOME}', current_user_home) }}"
 
 - name: Start AiiDA Daemon system service
   become: true

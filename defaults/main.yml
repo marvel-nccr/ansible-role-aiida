@@ -7,14 +7,14 @@ aiida_extras:
   - atomic_tools
   - testing
   - notebook
-aiida_run_folder: "${HOME}/.aiida_run"
+aiida_run_folder: "{{ ansible_env.HOME }}/.aiida_run"
 aiida_data_folder: "/usr/local/share"
-aiida_examples_folder: "${HOME}"
-aiida_templates_folder: "${HOME}/.local/share/aiida"
+aiida_examples_folder: "{{ ansible_env.HOME }}"
+aiida_templates_folder: "{{ ansible_env.HOME }}/.local/share/aiida"
 aiida_localhost_name: localhost
 aiida_localhost_cpus: 2
 aiida_localhost_scheduler: direct
-aiida_venv: "${HOME}/.virtualenvs/aiida"
+aiida_venv: "{{ ansible_env.HOME }}/.virtualenvs/aiida"
 
 # postgres
 aiida_postgres_user: postgres
@@ -22,6 +22,9 @@ aiida_postgres_db: aiidadb
 aiida_postgres_db_pw: "ne9N_LDK-*JSS"
 aiida_postgres_db_user: aiida
 aiida_profile_name: generic
+
+# if true only install and configure a clean AiiDA setup, not including plugins or auxiliaries
+aiida_clean: false
 
 # plugins
 # Note: If possible, these versions should coincide with the ones in

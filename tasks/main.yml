@@ -1,4 +1,12 @@
 ---
+# make sure we only accept Python version >=3
+# should use end_host here as this ends it for all hosts, but only available in Ansible >= 2.8
+- debug:
+    msg: "Please ensure that you use Python 3 to execute this Ansible playbook/role. AiiDA requires Python 3. The simplest is to run the ansible command with `-e 'ansible_python_interpreter=/usr/bin/python3'`, depending on where your Python 3 interpreter is."
+  when: ansible_python_version is version('3', '<')
+- meta: end_play
+  when: ansible_python_version is version('3', '<')
+
 # note: current_user is a dependency, but it won't run
 # if you use a tag to select just the daemon tasks
 - name: Get info on current user
@@ -7,12 +15,18 @@
   tags: always
   when: current_user is undefined
 
-- name: add aiida templates folder
-  file:
-    path: "{{ aiida_templates_folder }}"
-    state: "directory"
-    mode: 0755
+- import_tasks: aiida-deps-rhel.yml
+  tags: aiida_deps
+  when: ansible_os_family|lower == 'redhat'
+- import_tasks: aiida-deps-debian.yml
+  tags: aiida_deps
+  when: ansible_os_family|lower == 'debian'
 
+# Start and setup Postgresql and RabbitMQ
+- import_tasks: aiida-prepare.yml
+  tags: aiida, aiida_prepare
+  
+# install and setup AiiDA, including profile etc.
 - import_tasks: aiida-core.yml
   tags: aiida,aiida_core
 - import_tasks: aiida-daemon.yml
@@ -20,18 +34,14 @@
 - import_tasks: aiida-rest.yml
   tags: aiida_rest,aiida_core
 
+# setup computers
 - import_tasks: computers-setup.yml
   tags: aiida_computers,aiida_core
 
-# codes need to come after computers
+# setup plugins and codes
 - import_tasks: plugins/main.yml
-
-- name: "Create aiida data folder"
-  become: true
-  become_user: "{{ root_user }}"
-  file:
-    path: "{{ aiida_data_folder }}"
-    state: directory
+  tags: aiida_plugins
+  when: 'not aiida_clean'
 
 # Broken because of old export file format
 - include_tasks: aiida-pps.yml
@@ -39,6 +49,8 @@
     pp: "{{ item }}"
   with_items: "{{ aiida_pseudopotentials }}"
   tags: aiida_pps
+  when: 'not aiida_clean'
 
 - import_tasks: aiida-examples.yml
   tags: aiida_examples
+  when: 'not aiida_clean'

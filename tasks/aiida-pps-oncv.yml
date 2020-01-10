@@ -1,4 +1,11 @@
 ---
+- name: "Create aiida data folder"
+  become: true
+  become_user: "{{ root_user }}"
+  file:
+    path: "{{ aiida_data_folder }}"
+    state: directory
+
 # extract and prepare oncv
 - name: "Create {{ pp.folder }}/"
   become: true

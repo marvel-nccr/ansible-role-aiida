@@ -1,119 +1,21 @@
 ---
-- name: Install DB & more (apt)
-  become: true
-  become_user: "{{ root_user }}"
-  apt:
-    name:
-      - virtualenvwrapper
-      # database
-      - postgresql
-      - postgresql-server-dev-all
-      - postgresql-client
-      - libpq-dev
-      - rabbitmq-server
-      # misc
-      - libffi-dev
-      - libssl-dev
-      - graphviz
-
-- name: Install python2 packages (apt)
-  become: true
-  become_user: "{{ root_user }}"
-  apt:
-    name:
-      - python-pip
-      - python-psycopg2
-      # ASE visualizer
-      # Needed for the ASE visualizer
-      - python-gtk2
-  when: ansible_python_version is version('3', '<')
-
-- name: Install python3 packages (apt)
-  become: true
-  become_user: "{{ root_user }}"
-  apt:
-    name:
-      - python3-pip
-      - python3-psycopg2
-      # ASE visualizer
-      # Needed for the ASE visualizer
-      - python3-gi
-      - python3-gi-cairo
-      - gir1.2-gtk-3.0
-      - python3-tk
-  when: ansible_python_version is version('3', '>=')
-
-- name: Install python2 packages (apt)
-  become: true
-  become_user: "{{ root_user }}"
-  apt:
-    name:
-      - python-pip
-      - python-psycopg2
-      # ASE visualizer
-      # Needed for the ASE visualizer
-      - python-gtk2
-
-# This can be necessary on docker
-- name: Make sure postgres service is started
-  become: true
-  become_user: "{{ root_user }}"
-  service:
-    name: "postgresql"
-    state: "started"
-
-- name: Setup postgres db
-  become: true
-  become_user: "{{ aiida_postgres_user }}"
-  postgresql_db:
-    name: "{{ aiida_postgres_db }}"
-
-- name: Setup postgres db user
-  become: true
-  become_user: "{{ aiida_postgres_user }}"
-  postgresql_user:
-    db: "{{ aiida_postgres_db }}"
-    name: "{{ aiida_postgres_db_user }}"
-    password: "{{ aiida_postgres_db_pw }}"
-    # password: "{{ aiida_postgres_db_pw | string | password_hash('sha512') }}"
-    encrypted: true
-
-- name: install virtualenv
-  become: true
-  become_user: "{{ root_user }}"
-  pip:
-    name: virtualenv
-
-- name: "Let virtualenvwrapper use the correct python version"
-  lineinfile:
-    path: "${HOME}/.bashrc"
-    regex: "export VIRTUALENVWRAPPER_PYTHON=.*"
-    line: "export VIRTUALENVWRAPPER_PYTHON={{ ansible_python_interpreter }}"
-  when: ansible_python_interpreter is defined
-
-- name: Install pip packages
-  pip:
-    name:
-      - pip==19.0.3
-      - numpy==1.16.4
-      # - aiida-core=={{ aiida_version }}
-      - seekpath
-    virtualenv: "{{ aiida_venv }}"
-    virtualenv_site_packages: true
-  register: pip_install
-  notify: reentry scan
+- name: add aiida templates folder
+  file:
+    path: "{{ aiida_templates_folder }}"
+    state: "directory"
+    mode: 0755
 
 # get anyway the GIT code, it is often useful; checkout the same version (now actually we are forcing a different branch/tag...)
 - name: Get the AiiDA code from GIT
   git:
     repo: 'https://github.com/aiidateam/aiida-core.git'
-    dest: "${HOME}/codes/aiida-core"
+    dest: "{{ ansible_env.HOME }}/src/aiida-core"
     version: "{{ aiida_tag }}"
 
 - name: Install AiiDA git code
   pip:
     name:
-      - "${HOME}/codes/aiida-core"
+      - "{{ ansible_env.HOME }}/src/aiida-core"
     virtualenv: "{{ aiida_venv }}"
     editable: true
     extra_args: --no-use-pep517
@@ -133,7 +35,7 @@
     dest: "{{ aiida_templates_folder }}/profile.yml"
 
 - name: "Check if AiiDA has already been configured"
-  stat: path="${HOME}/.aiida/config.json"
+  stat: path="{{ ansible_env.HOME }}/.aiida/config.json"
   register: aiida_config_file
 
 - name: "Set up AiiDA profile"
