@@ -10,18 +10,15 @@ env:
   global:
     - ANSIBLE_ROLE: aiida
 
-matrix:
-  include:
-    - name: Ubuntu-18.04
-      env:
-        - DOCKER_IMAGE: marvelnccr/ubuntu-docker-base
-        - DOCKER_IMAGE_VERSION: 2.2
-        - ANSIBLE_USER: ubuntu
-    - name: Ubuntu-16.04
-      env:
-        - docker_image: marvelnccr/ubuntu-docker-base
-        - version: 1.1
-        - ansible_user: ubuntu
+  matrix:
+    - MOLECULE_DISTRO: ubuntu1804
+    - MOLECULE_DISTRO: ubuntu1604
+    # - MOLECULE_DISTRO: centos7
+    # - MOLECULE_DISTRO: centos8
+    # - MOLECULE_DISTRO: debian10
+    # - MOLECULE_DISTRO: debian9
+    # - MOLECULE_DISTRO: fedora31
+    # - MOLECULE_DISTRO: fedora30
 
 install:
   - pip install molecule docker

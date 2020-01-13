@@ -4,6 +4,7 @@
     name: aiida-quantumespresso
     version: "{{ aiida_quantumespresso_version }}"
     virtualenv: "{{ aiida_venv }}"
+    extra_args: "--pre"  # remove after release for AiiDA 1.0 is out
   register: aiida_qe_installed
   notify: reentry scan
 

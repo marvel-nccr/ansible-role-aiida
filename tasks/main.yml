@@ -7,6 +7,17 @@
   tags: always
   when: current_user is undefined
 
+# - name: set default locale
+#   command: localectl set-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+#   changed_when: false
+
+- name: set default locale
+  become: true
+  lineinfile:
+    dest: /etc/default/locale
+    regexp: "LC_ALL"
+    line: "LC_ALL=\"en_US.UTF-8\""
+
 - name: add aiida templates folder
   file:
     path: "{{ aiida_templates_folder }}"
