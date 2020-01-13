@@ -32,7 +32,7 @@
 
 - name: "Let virtualenvwrapper use the correct python version"
   lineinfile:
-    path: "{{ ansible_env.HOME }}/.bashrc"
+    path: "${HOME}/.bashrc"
     regexp: "export VIRTUALENVWRAPPER_PYTHON=.*"
     line: "export VIRTUALENVWRAPPER_PYTHON={{ ansible_python_interpreter }}"
   when: ansible_python_interpreter is defined

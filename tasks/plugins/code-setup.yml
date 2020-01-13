@@ -13,7 +13,7 @@
 
   - name: Get absolute path
     set_fact:
-      abspath: "{{ aiida_code.folder |  regex_replace('\\$\\{ansible_env.HOME}', current_user_home) }}/{{ aiida_code.executable }}"
+      abspath: "{{ aiida_code.folder |  regex_replace('\\$\\{HOME}', current_user_home) }}/{{ aiida_code.executable }}"
   - name: "Copy {{ aiida_code.template }} to setup the AiiDA code"
     template:
       src: "{{ aiida_code.template }}"

@@ -9,13 +9,13 @@
 - name: Get the AiiDA code from GIT
   git:
     repo: 'https://github.com/aiidateam/aiida-core.git'
-    dest: "{{ ansible_env.HOME }}/src/aiida-core"
+    dest: "${HOME}/src/aiida-core"
     version: "{{ aiida_tag }}"
 
 - name: Install AiiDA git code
   pip:
     name:
-      - "{{ ansible_env.HOME }}/src/aiida-core"
+      - "${HOME}/src/aiida-core"
     virtualenv: "{{ aiida_venv }}"
     editable: true
     extra_args: --no-use-pep517
@@ -35,7 +35,7 @@
     dest: "{{ aiida_templates_folder }}/profile.yml"
 
 - name: "Check if AiiDA has already been configured"
-  stat: path="{{ ansible_env.HOME }}/.aiida/config.json"
+  stat: path="${HOME}/.aiida/config.json"
   register: aiida_config_file
 
 - name: "Set up AiiDA profile"
