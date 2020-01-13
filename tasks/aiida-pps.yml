@@ -4,7 +4,6 @@
   become: true
   become_user: "{{ root_user }}"
   tags: aiida_pps
-  become: true
   get_url:
     url: "{{ pp.url }}/{{ pp.file }}"
     dest: "{{ aiida_data_folder }}/{{ pp.file }}"

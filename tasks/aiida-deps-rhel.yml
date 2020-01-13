@@ -27,14 +27,14 @@
       - gtk3
 
 - name: Initialize the Postgresql database system
-  become: yes
+  become: true
   become_user: "{{ root_user }}"
   command: postgresql-setup initdb
   args:
     creates: /var/lib/pgsql/data/pg_hba.conf
 
 - name: remove the pg_hba file created by initdb
-  become: yes
+  become: true
   become_user: "{{ root_user }}"
   file:
     path: /var/lib/pgsql/data/pg_hba.conf
@@ -43,7 +43,7 @@
 # Due to the fact that Ubuntu 18.04 LTS does not run Ansible >= 2.8 by default we cannot utilize
 # postgresql_pg_hba. Instead we just use a template for the RHEL configuration instead.
 - name: put a trust configured pg_hba in place of the default
-  become: yes
+  become: true
   become_user: "{{ aiida_postgres_user }}"
   template:
     src: pg_hba.template
@@ -53,18 +53,18 @@
     mode: 0600
 
 # - name: turn of ident and enable username/password login for postgresql local
-#   become: yes
+#   become: true
 #   become_user: "{{ aiida_postgres_user }}"
 #   postgresql_pg_hba:
 #     dest: /var/lib/pgsql/data/pg_hba.conf
-#     create: yes
+#     create: true
 #     contype: local
 #     databases: all
 #     users: all
 #     method: trust
 
 # - name: turn of ident and enable username/password login for postgresql host
-#   become: yes
+#   become: true
 #   become_user: "{{ aiida_postgres_user }}"
 #   postgresql_pg_hba:
 #     dest: /var/lib/pgsql/data/pg_hba.conf
@@ -75,7 +75,7 @@
 #     method: trust
 
 # - name: turn of ident and enable username/password login for postgresql host ipv6
-#   become: yes
+#   become: true
 #   become_user: "{{ aiida_postgres_user }}"
 #   postgresql_pg_hba:
 #     dest: /var/lib/pgsql/data/pg_hba.conf
@@ -88,7 +88,7 @@
 # We have to disable SELinux when running the verdi daemon in systemd. SELinux does not
 # allow user domain files to run in init. Consider redesign or write a custom SELinux rule.
 - name: Disable SELinux
-  become: yes
-  become_user: "{{ root_user }}"  
+  become: true
+  become_user: "{{ root_user }}"
   selinux:
     state: disabled

@@ -5,16 +5,16 @@
   service:
     name: "postgresql"
     state: "started"
-    enabled: yes
-  
+    enabled: true
+
 - name: Make sure RabbitMQ service is started
   become: true
   become_user: "{{ root_user }}"
   service:
     name: "rabbitmq-server"
     state: "started"
-    enabled: yes
-  
+    enabled: true
+
 - name: Setup postgres db
   become: true
   become_user: "{{ aiida_postgres_user }}"
