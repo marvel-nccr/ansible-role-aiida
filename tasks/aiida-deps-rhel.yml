@@ -6,6 +6,7 @@
     name:
       - '@Development tools'
       - gcc-g++
+      - git
       # python virtual environments
       - python3-virtualenvwrapper
       # database

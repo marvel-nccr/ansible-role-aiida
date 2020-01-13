@@ -5,6 +5,7 @@
   apt:
     name:
       - virtualenvwrapper
+      - git
       # database
       - postgresql
       - postgresql-server-dev-all

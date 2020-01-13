@@ -5,12 +5,13 @@
     state: "directory"
     mode: 0755
 
-# get anyway the GIT code, it is often useful; checkout the same version (now actually we are forcing a different branch/tag...)
+# get aiida-core from GIT, it is often useful
 - name: Get the AiiDA code from GIT
   git:
     repo: 'https://github.com/aiidateam/aiida-core.git'
     dest: "{{ aiida_source_folder }}/aiida-core"
     version: "{{ aiida_tag }}"
+  register: git_checkout
 
 - name: Install AiiDA git code
   pip:
@@ -18,9 +19,12 @@
       - "${HOME}/src/aiida-core"
     virtualenv: "{{ aiida_venv }}"
     editable: true
-    extra_args: --no-use-pep517
+    # extra_args: --no-use-pep517
   register: aiida_core_install
   notify: reentry scan
+  # this guard is necessary because, for some reason, installs with 'editable:
+  # true' always show as "changed"
+  when: git_checkout.changed
 
 - meta: flush_handlers
 

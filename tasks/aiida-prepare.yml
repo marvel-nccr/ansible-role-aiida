@@ -40,10 +40,8 @@
 - name: Install pip packages
   pip:
     name:
-      - pip==19.0.3
+      - pip~=19.3
       - numpy==1.16.4
-      - seekpath
     virtualenv: "{{ aiida_venv }}"
-    virtualenv_site_packages: true
   register: pip_install
   notify: reentry scan

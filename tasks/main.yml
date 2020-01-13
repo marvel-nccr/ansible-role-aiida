@@ -19,6 +19,7 @@
 
 - name: set default locale
   become: true
+  become_user: "{{ root_user }}"
   lineinfile:
     dest: /etc/default/locale
     regexp: "LC_ALL"
