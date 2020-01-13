@@ -1,4 +1,14 @@
 ---
+# make sure we only accept Python version >=3
+- name: Check Python version
+  fail:
+    msg: >
+      "Please ensure that you use Python 3 to execute this Ansible playbook/role. "
+      "AiiDA requires Python 3. The simplest is to run the ansible command with "
+      "`-e 'ansible_python_interpreter=/usr/bin/python3'`, depending on where your "
+      "Python 3 interpreter is."
+  when: ansible_python_version is version('3', '<')
+
 # note: current_user is a dependency, but it won't run
 # if you use a tag to select just the daemon tasks
 - name: Get info on current user
@@ -7,10 +17,6 @@
   tags: always
   when: current_user is undefined
 
-# - name: set default locale
-#   command: localectl set-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
-#   changed_when: false
-
 - name: set default locale
   become: true
   lineinfile:
@@ -18,12 +24,18 @@
     regexp: "LC_ALL"
     line: "LC_ALL=\"en_US.UTF-8\""
 
-- name: add aiida templates folder
-  file:
-    path: "{{ aiida_templates_folder }}"
-    state: "directory"
-    mode: 0755
+- include_tasks: aiida-deps-rhel.yml
+  tags: aiida_deps
+  when: ansible_os_family|lower == 'redhat'
+- include_tasks: aiida-deps-debian.yml
+  tags: aiida_deps
+  when: ansible_os_family|lower == 'debian'
 
+# Start and setup Postgresql and RabbitMQ
+- import_tasks: aiida-prepare.yml
+  tags: aiida, aiida_prepare
+
+# install and setup AiiDA, including profile etc.
 - import_tasks: aiida-core.yml
   tags: aiida,aiida_core
 - import_tasks: aiida-daemon.yml
@@ -31,18 +43,15 @@
 - import_tasks: aiida-rest.yml
   tags: aiida_rest,aiida_core
 
-- import_tasks: computers-setup.yml
+# setup computers
+- include_tasks: computers-setup.yml
   tags: aiida_computers,aiida_core
+  when: '"computers" in aiida_components'
 
-# codes need to come after computers
-- import_tasks: plugins/main.yml
-
-- name: "Create aiida data folder"
-  become: true
-  become_user: "{{ root_user }}"
-  file:
-    path: "{{ aiida_data_folder }}"
-    state: directory
+# setup plugins and codes
+- include_tasks: plugins/main.yml
+  tags: aiida_plugins
+  when: '"plugins" in aiida_components'
 
 # Broken because of old export file format
 - include_tasks: aiida-pps.yml
@@ -50,6 +59,8 @@
     pp: "{{ item }}"
   with_items: "{{ aiida_pseudopotentials }}"
   tags: aiida_pps
+  when: '"pseudopotentials" in aiida_components'
 
-- import_tasks: aiida-examples.yml
+- include_tasks: aiida-examples.yml
   tags: aiida_examples
+  when: '"examples" in aiida_components'

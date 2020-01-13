@@ -9,6 +9,7 @@ aiida_extras:
   - notebook
 aiida_run_folder: "${HOME}/.aiida_run"
 aiida_data_folder: "/usr/local/share"
+aiida_source_folder: "${HOME}/src"
 aiida_examples_folder: "${HOME}"
 aiida_templates_folder: "${HOME}/.local/share/aiida"
 aiida_localhost_name: localhost
@@ -22,6 +23,13 @@ aiida_postgres_db: aiidadb
 aiida_postgres_db_pw: "ne9N_LDK-*JSS"
 aiida_postgres_db_user: aiida
 aiida_profile_name: generic
+
+# also install and configure the components specified here
+aiida_components:
+  - computers
+  - plugins
+  - pseudopotentials
+  - examples
 
 # plugins
 # Note: If possible, these versions should coincide with the ones in
