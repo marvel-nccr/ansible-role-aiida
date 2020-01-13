@@ -8,7 +8,14 @@
       when: ansible_os_family == 'Debian'
 
   vars:
-    cloud_platform: docker
+    - cloud_platform: docker
+    - ansible_python_interpreter: /usr/bin/python3
 
   roles:
     - role: marvel-nccr.aiida
+      vars:
+        aiida_components:
+          - computers
+          - plugins
+          - pseudopotentials
+          - examples

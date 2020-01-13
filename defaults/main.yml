@@ -23,8 +23,12 @@ aiida_postgres_db_pw: "ne9N_LDK-*JSS"
 aiida_postgres_db_user: aiida
 aiida_profile_name: generic
 
-# if true only install and configure a clean AiiDA setup, not including plugins or auxiliaries
-aiida_clean: true
+# also install and configure the components specified here
+aiida_components:
+  - computers
+  - plugins
+  - pseudopotentials
+  - examples
 
 # plugins
 # Note: If possible, these versions should coincide with the ones in

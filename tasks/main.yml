@@ -41,11 +41,12 @@
 # setup computers
 - import_tasks: computers-setup.yml
   tags: aiida_computers,aiida_core
+  when: '"computers" in aiida_components'
 
 # setup plugins and codes
 - import_tasks: plugins/main.yml
   tags: aiida_plugins
-  when: 'not aiida_clean'
+  when: '"plugins" in aiida_components'
 
 # Broken because of old export file format
 - include_tasks: aiida-pps.yml
@@ -53,8 +54,8 @@
     pp: "{{ item }}"
   with_items: "{{ aiida_pseudopotentials }}"
   tags: aiida_pps
-  when: 'not aiida_clean'
+  when: '"pseudopotentials" in aiida_components'
 
 - import_tasks: aiida-examples.yml
   tags: aiida_examples
-  when: 'not aiida_clean'
+  when: '"examples" in aiida_components'

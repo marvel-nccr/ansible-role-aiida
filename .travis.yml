@@ -3,6 +3,7 @@
 # - https://github.com/drhelius/travis-ansible-demo/blob/master/.travis.yml
 # - https://github.com/geerlingguy/ansible-role-docker/blob/master/.travis.yml
 language: python
+
 services:
   - docker
 
@@ -33,6 +34,7 @@ before_script:
   - cd marvel-nccr.$ANSIBLE_ROLE
 
 script:
+  - which python
   - molecule test
 
 notifications:
