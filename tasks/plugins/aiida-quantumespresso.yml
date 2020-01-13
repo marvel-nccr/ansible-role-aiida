@@ -4,6 +4,7 @@
     name: aiida-quantumespresso
     version: "{{ aiida_quantumespresso_version }}"
     virtualenv: "{{ aiida_venv }}"
+    extra_args: "--pre"
   register: aiida_qe_installed
   notify: reentry scan
 
