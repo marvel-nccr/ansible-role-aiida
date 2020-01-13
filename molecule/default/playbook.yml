@@ -13,9 +13,9 @@
 
   roles:
     - role: marvel-nccr.aiida
-      vars:
-        aiida_components:
-          - computers
-          - plugins
-          - pseudopotentials
-          - examples
+#      vars:
+#        aiida_components:
+#          - computers
+#          - plugins
+#          - pseudopotentials
+#          - examples

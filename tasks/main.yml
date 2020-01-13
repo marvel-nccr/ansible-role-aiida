@@ -1,14 +1,12 @@
 ---
 # make sure we only accept Python version >=3
-# should use end_host here as this ends it for all hosts, but only available in Ansible >= 2.8
-- debug:
+- name: Check Python version
+  fail:
     msg: >
       "Please ensure that you use Python 3 to execute this Ansible playbook/role. "
       "AiiDA requires Python 3. The simplest is to run the ansible command with "
       "`-e 'ansible_python_interpreter=/usr/bin/python3'`, depending on where your "
       "Python 3 interpreter is."
-  when: ansible_python_version is version('3', '<')
-- meta: end_play
   when: ansible_python_version is version('3', '<')
 
 # note: current_user is a dependency, but it won't run

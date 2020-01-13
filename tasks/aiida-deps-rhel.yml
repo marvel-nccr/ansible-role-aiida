@@ -52,39 +52,6 @@
     group: "{{ aiida_postgres_user }}"
     mode: 0600
 
-# - name: turn of ident and enable username/password login for postgresql local
-#   become: true
-#   become_user: "{{ aiida_postgres_user }}"
-#   postgresql_pg_hba:
-#     dest: /var/lib/pgsql/data/pg_hba.conf
-#     create: true
-#     contype: local
-#     databases: all
-#     users: all
-#     method: trust
-
-# - name: turn of ident and enable username/password login for postgresql host
-#   become: true
-#   become_user: "{{ aiida_postgres_user }}"
-#   postgresql_pg_hba:
-#     dest: /var/lib/pgsql/data/pg_hba.conf
-#     contype: host
-#     databases: all
-#     users: all
-#     source: 127.0.0.1/32
-#     method: trust
-
-# - name: turn of ident and enable username/password login for postgresql host ipv6
-#   become: true
-#   become_user: "{{ aiida_postgres_user }}"
-#   postgresql_pg_hba:
-#     dest: /var/lib/pgsql/data/pg_hba.conf
-#     contype: host
-#     databases: all
-#     users: all
-#     source: ::1/128
-#     method: trust
-
 # We have to disable SELinux when running the verdi daemon in systemd. SELinux does not
 # allow user domain files to run in init. Consider redesign or write a custom SELinux rule.
 - name: Disable SELinux

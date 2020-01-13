@@ -9,7 +9,7 @@
 - name: Get the AiiDA code from GIT
   git:
     repo: 'https://github.com/aiidateam/aiida-core.git'
-    dest: "${HOME}/src/aiida-core"
+    dest: "{{ aiida_source_folder }}/aiida-core"
     version: "{{ aiida_tag }}"
 
 - name: Install AiiDA git code
