@@ -17,14 +17,6 @@
   tags: always
   when: current_user is undefined
 
-- name: set default locale
-  become: true
-  become_user: "{{ root_user }}"
-  lineinfile:
-    dest: /etc/default/locale
-    regexp: "LC_ALL"
-    line: "LC_ALL=\"en_US.UTF-8\""
-
 - include_tasks: aiida-deps-rhel.yml
   tags: aiida_deps
   when: ansible_os_family|lower == 'redhat'

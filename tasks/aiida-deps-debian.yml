@@ -1,4 +1,12 @@
 ---
+- name: Set default locale
+  become: true
+  become_user: "{{ root_user }}"
+  lineinfile:
+    dest: /etc/default/locale
+    regexp: "LC_ALL"
+    line: "LC_ALL=\"en_US.UTF-8\""
+
 - name: Install DB & more
   become: true
   become_user: "{{ root_user }}"
