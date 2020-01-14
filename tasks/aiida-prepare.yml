@@ -1,0 +1,47 @@
+---
+- name: Make sure Postgresql service is started
+  become: true
+  become_user: "{{ root_user }}"
+  service:
+    name: "postgresql"
+    state: "started"
+    enabled: true
+
+- name: Make sure RabbitMQ service is started
+  become: true
+  become_user: "{{ root_user }}"
+  service:
+    name: "rabbitmq-server"
+    state: "started"
+    enabled: true
+
+- name: Setup postgres db
+  become: true
+  become_user: "{{ aiida_postgres_user }}"
+  postgresql_db:
+    name: "{{ aiida_postgres_db }}"
+
+- name: Setup postgres db user
+  become: true
+  become_user: "{{ aiida_postgres_user }}"
+  postgresql_user:
+    db: "{{ aiida_postgres_db }}"
+    name: "{{ aiida_postgres_db_user }}"
+    password: "{{ aiida_postgres_db_pw }}"
+    encrypted: true
+
+- name: "Let virtualenvwrapper use the correct python version"
+  lineinfile:
+    path: "${HOME}/.bashrc"
+    regexp: "export VIRTUALENVWRAPPER_PYTHON=.*"
+    line: "export VIRTUALENVWRAPPER_PYTHON={{ ansible_python_interpreter }}"
+  when: ansible_python_interpreter is defined
+
+- name: Install pip packages
+  pip:
+    name:
+      - pip~=19.3
+      - numpy==1.16.4
+    virtualenv: "{{ aiida_venv }}"
+  register: pip_install
+  notify: reentry scan

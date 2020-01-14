@@ -1,0 +1,62 @@
+---
+- name: Install Postgresql, RabbitMQ and necessary python packages
+  become: true
+  become_user: "{{ root_user }}"
+  yum:
+    name:
+      - '@Development tools'
+      - gcc-g++
+      - git
+      # python virtual environments
+      - python3-virtualenvwrapper
+      # database
+      - postgresql
+      - postgresql-server
+      - libpq-devel
+      # rabbitmq
+      - rabbitmq-server
+      # misc
+      - libffi-devel
+      - openssl-devel
+      - graphviz
+      - python3-pip
+      - python3-devel
+      - python3-psycopg2
+      # Needed for ASE
+      - python3-gobject
+      - python3-tkinter
+      - gtk3
+
+- name: Initialize the Postgresql database system
+  become: true
+  become_user: "{{ root_user }}"
+  command: postgresql-setup initdb
+  args:
+    creates: /var/lib/pgsql/data/pg_hba.conf
+
+- name: remove the pg_hba file created by initdb
+  become: true
+  become_user: "{{ root_user }}"
+  file:
+    path: /var/lib/pgsql/data/pg_hba.conf
+    state: absent
+
+# Due to the fact that Ubuntu 18.04 LTS does not run Ansible >= 2.8 by default we cannot utilize
+# postgresql_pg_hba. Instead we just use a template for the RHEL configuration instead.
+- name: put a trust configured pg_hba in place of the default
+  become: true
+  become_user: "{{ aiida_postgres_user }}"
+  template:
+    src: pg_hba.template
+    dest: /var/lib/pgsql/data/pg_hba.conf
+    owner: "{{ aiida_postgres_user }}"
+    group: "{{ aiida_postgres_user }}"
+    mode: 0600
+
+# We have to disable SELinux when running the verdi daemon in systemd. SELinux does not
+# allow user domain files to run in init. Consider redesign or write a custom SELinux rule.
+- name: Disable SELinux
+  become: true
+  become_user: "{{ root_user }}"
+  selinux:
+    state: disabled
