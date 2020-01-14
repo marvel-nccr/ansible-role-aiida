@@ -1,5 +1,14 @@
 ---
 - hosts: all
+  gather_facts: false
+  tasks:
+    # Install Python 3 on CentOS 7 and 8, thus is just temporary
+    - name: Install Python 3 when it is not present
+      raw: test -e /usr/bin/python3 || (yum -y install python3)
+      become: true
+      changed_when: false
+
+- hosts: all
   become: true
 
   pre_tasks:
