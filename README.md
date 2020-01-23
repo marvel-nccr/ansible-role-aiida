@@ -18,6 +18,19 @@ See `defaults/main.yml`
     roles:
     - role: marvel-nccr.aiida
 
+## Development and testing
+
+This role uses [Molecule](https://molecule.readthedocs.io/en/latest/#) and [Docker](https://www.docker.com/) for tests. 
+
+After installing [Docker](https://www.docker.com/):
+```
+git clone https://github.com/marvel-nccr/ansible-role-aiida marvel-nccr.aiida
+# Note: folder name marvel-nccr.aiida is required for running tests
+cd marvel-nccr.aiida
+pip install -r requirements.txt  # Installs molecule
+molecule test  # runs tests
+```
+
 ## License
 
 MIT
