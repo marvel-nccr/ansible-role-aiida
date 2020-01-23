@@ -14,9 +14,11 @@ See `defaults/main.yml`
 
 ## Example Playbook
 
-  - hosts: servers
-    roles:
-    - role: marvel-nccr.aiida
+```yaml
+- hosts: servers
+  roles:
+  - role: marvel-nccr.aiida
+```
 
 ## Development and testing
 
