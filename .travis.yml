@@ -22,7 +22,7 @@ env:
     # - MOLECULE_DISTRO: fedora30
 
 install:
-  - pip install molecule docker
+  - pip install -r requirements.txt
 
 before_script:
   # Use actual Ansible Galaxy role name for the project directory.
