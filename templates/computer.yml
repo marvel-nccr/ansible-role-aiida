@@ -1,8 +1,8 @@
 ---
 label: "{{ aiida_computer_name }}"
 hostname: "{{ aiida_computer_name }}"
-transport: local
-scheduler: "{{ aiida_localhost_scheduler }}"
-work_dir: "{{ aiida_run_folder_abs }}"
+transport: "{{ aiida_computer_transport }}"
+scheduler: "{{ aiida_computer_scheduler }}"
+work_dir: "{{ aiida_computer_run_folder_abs }}"
 mpirun_command: "mpirun -np {tot_num_mpiprocs}"
-mpiprocs_per_machine: "{{ aiida_localhost_cpus }}"
+mpiprocs_per_machine: "{{ aiida_computer_cpus }}"

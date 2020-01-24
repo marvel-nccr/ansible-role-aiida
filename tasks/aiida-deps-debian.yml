@@ -1,10 +1,15 @@
 ---
+- name: Update apt cache
+  become: true
+  become_user: "{{ root_user }}"
+  apt:
+    update_cache: true
+
 - name: Install DB & more
   become: true
   become_user: "{{ root_user }}"
   apt:
     name:
-      - virtualenvwrapper
       - git
       # database
       - postgresql
@@ -20,5 +25,30 @@
       - python3-psycopg2
       - python3-gi
       - python3-gi-cairo
+      - python3-venv
       - gir1.2-gtk-3.0
       - python3-tk
+
+- name: Fetch location of the Postgresql binaries
+  command: find /usr/lib/postgresql/ -name bin
+  changed_when: false
+  register: aiida_postgres_bin_raw
+  when: ansible_service_mgr != "systemd"
+
+- name: Set location of the Postgresql binaries
+  set_fact:
+    aiida_postgres_bin_location: "{{ aiida_postgres_bin_raw.stdout }}"
+  when: ansible_service_mgr != "systemd"
+
+- name: Set data location for Postgresql
+  set_fact:
+    aiida_postgres_data_location: /var/lib/postgresql/data
+  when: ansible_service_mgr != "systemd"
+
+- name: Initialize database
+  become: true
+  become_user: "{{ aiida_postgres_user }}"
+  command: "{{ aiida_postgres_bin_location }}/initdb {{ aiida_postgres_data_location }}"
+  args:
+    creates: "{{ aiida_postgres_data_location }}/pg_hba.conf"
+  when: ansible_service_mgr != "systemd"

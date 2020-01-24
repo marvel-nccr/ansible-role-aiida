@@ -11,7 +11,7 @@
     dest: "{{ aiida_templates_folder }}/{{ aiida_computer_name }}.yml"
     mode: 0755
   vars:
-    aiida_run_folder_abs: "{{ aiida_run_folder |  regex_replace('\\$\\{HOME}', current_user_home) }}"
+    aiida_computer_run_folder_abs: "{{ aiida_computer_run_folder |  regex_replace('\\$\\{HOME}', current_user_home) }}"
   when: aiida_check_computer.rc != 0
 
 - name: "Setup {{ aiida_computer_name }} computer for AiiDA"
@@ -21,5 +21,5 @@
   when: aiida_check_computer.rc != 0
 
 - name: "Configure {{ aiida_computer_name }}"
-  shell: "{{ aiida_venv }}/bin/verdi computer configure local {{ aiida_computer_name }} --safe-interval 0 --non-interactive"
-  when: (aiida_check_computer.rc != 0) and (aiida_computer_name == aiida_localhost_name)
+  shell: "{{ aiida_venv }}/bin/verdi computer configure {{ aiida_computer_transport }} {{ aiida_computer_name }} --safe-interval 0 --non-interactive"
+  when: aiida_check_computer.rc != 0

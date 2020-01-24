@@ -2,5 +2,3 @@
 - hosts: localhost
   roles:
   - role: aiida
-    vars:
-      cloud_platform: docker

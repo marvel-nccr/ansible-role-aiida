@@ -7,27 +7,53 @@ aiida_extras:
   - atomic_tools
   - testing
   - notebook
-aiida_run_folder: "${HOME}/.aiida_run"
 aiida_data_folder: "/usr/local/share"
 aiida_source_folder: "${HOME}/src"
 aiida_examples_folder: "${HOME}"
 aiida_templates_folder: "${HOME}/.local/share/aiida"
-aiida_localhost_name: localhost
-aiida_localhost_cpus: 2
-aiida_localhost_scheduler: direct
 aiida_venv: "${HOME}/.virtualenvs/aiida"
 
+# profile
+aiida_profile_name: generic
+aiida_profile_first_name: Max
+aiida_profile_last_name: Scientist
+aiida_profile_institution: Quantum Mobile
+aiida_profile_email: aiida@localhost
+
+# database backend
+aiida_database_backend: django
+
 # postgres
+aiida_postgres_host: localhost
+aiida_postgres_port: 5432
 aiida_postgres_user: postgres
 aiida_postgres_db: aiidadb
 aiida_postgres_db_pw: "ne9N_LDK-*JSS"
 aiida_postgres_db_user: aiida
-aiida_profile_name: generic
+
+# computer
+aiida_computer_name: localhost
+aiida_computer_cpus: 2
+aiida_computer_scheduler: direct
+aiida_computer_transport: local
+aiida_computer_run_folder: "${HOME}/.aiida_run"
+
+# erlang
+aiida_erlang_repository_url: "https://packagecloud.io/install/repositories/rabbitmq/erlang/config_file.repo?\
+os={{ ansible_distribution | lower}}&dist={{ ansible_distribution_major_version }}&source=script"
+aiida_erlang_repository_path: "/etc/yum.repos.d/rabbitmq_erlang.repo"
+
+# rabbitmq
+aiida_rabbitmq_version: "3.8.0"
+aiida_rabbitmq_basename: "rabbitmq-server"
+aiida_rabbitmq_repository_url: "https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/config_file.repo?\
+os={{ ansible_distribution | lower}}&dist={{ ansible_distribution_major_version | lower}}&source=script"
+aiida_rabbitmq_repository_path: "/etc/yum.repos.d/rabbitmq_rabbitmq-server.repo"
 
 # also install and configure the components specified here
 aiida_components:
   - computers
-  - plugins
+  # - plugins
   - pseudopotentials
   - examples
 

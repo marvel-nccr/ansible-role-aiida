@@ -2,13 +2,7 @@
 - hosts: all
   become: true
 
-  pre_tasks:
-    - name: Update apt cache.
-      apt: update_cache=yes cache_valid_time=600
-      when: ansible_os_family == 'Debian'
-
   vars:
-    cloud_platform: docker
     ansible_python_interpreter: /usr/bin/python3
 
   roles:
