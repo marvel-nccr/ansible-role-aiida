@@ -16,16 +16,15 @@
 - name: Install AiiDA git code
   pip:
     name:
-      - "{{ aiida_source_folder }}/aiida-core"
+      - "{{ aiida_source_folder }}/aiida-core[rest]"
     virtualenv: "{{ aiida_venv }}"
     # According to https://github.com/ansible/ansible/issues/52275
     virtualenv_command: /usr/bin/python3 -m venv
     editable: true
-    # extra_args: --no-use-pep517
   register: aiida_core_install
   notify: reentry scan
-  # this guard is necessary because, for some reason, installs with 'editable:
-  # true' always show as "changed"
+  # this guard is necessary because, for some reason, installs with
+  # 'editable: true' always show as "changed"
   when: git_checkout.changed
 
 - meta: flush_handlers
