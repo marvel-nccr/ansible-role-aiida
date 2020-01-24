@@ -78,10 +78,6 @@
     name:
       - pip~=19.3
       - numpy==1.16.4
-      # Flask is required for the AiiDA REST API
-      - flask
-      - flask_restful
-      - flask_cors
     virtualenv: "{{ aiida_venv }}"
     # According to: https://github.com/ansible/ansible/issues/52275
     virtualenv_command: /usr/bin/python3 -m venv
