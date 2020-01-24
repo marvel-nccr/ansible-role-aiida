@@ -32,16 +32,13 @@
   when: ansible_service_mgr == "systemd"
 
 - block:
+    # Replace with verdi daemon status once 1.1.0 is released. Check PR https://github.com/aiidateam/aiida-core/pull/3729
     - name: Check if the AiiDA daemon is running
       shell: pgrep -a verdi | grep run_daemon | awk '{print $1}'
       changed_when: false
       register: aiida_daemon_status
       failed_when: aiida_daemon_status.rc not in [0,1]
     - name: Start AiiDA Daemon
-      become: true
-      become_user: "{{ root_user }}"
-      command: "{{ daemon_aiida_venv }}/bin/verdi -p {{ aiida_profile_name }} daemon start"
-      vars:
-        daemon_aiida_venv: "{{ aiida_venv |  regex_replace('\\$\\{HOME}', current_user_home) }}"
+      command: "{{ aiida_venv }}/bin/verdi -p {{ aiida_profile_name }} daemon start"
       when: aiida_daemon_status["stdout"] | length > 0
   when: ansible_service_mgr != "systemd"

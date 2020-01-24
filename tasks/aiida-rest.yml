@@ -36,10 +36,6 @@
       failed_when: aiida_rest_status.rc not in [0,1]
 
     - name: Start AiiDA REST API
-      become: true
-      become_user: "{{ root_user }}"
-      shell: "{{ daemon_aiida_venv }}/bin/verdi -p {{ aiida_profile_name }} restapi -H 0.0.0.0 &"
-      vars:
-        daemon_aiida_venv: "{{ aiida_venv |  regex_replace('\\$\\{HOME}', current_user_home) }}"
+      shell: "{{ aiida_venv }}/bin/verdi -p {{ aiida_profile_name }} restapi -H 0.0.0.0 &"
       when: aiida_rest_status["stdout"] | length > 0
   when: ansible_service_mgr != "systemd"
