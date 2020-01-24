@@ -1,6 +1,6 @@
 ---
 - name: "Check if {{ aiida_code.label }} is already present"
-  shell: "{{ aiida_venv }}/bin/verdi code show {{ aiida_code.label }}@{{ aiida_localhost_name }}"
+  shell: "{{ aiida_venv }}/bin/verdi code show {{ aiida_code.label }}@{{ aiida_computer_name }}"
   ignore_errors: true
   register: aiida_check_code
   changed_when: false

@@ -5,8 +5,8 @@
     state: "directory"
     mode: 0755
 
-# get aiida-core from GIT, it is often useful
-- name: Get the AiiDA code from GIT
+# get aiida-core from the Git repository, it is often useful
+- name: Get the AiiDA code from the Git repository
   git:
     repo: 'https://github.com/aiidateam/aiida-core.git'
     dest: "{{ aiida_source_folder }}/aiida-core"
@@ -16,8 +16,10 @@
 - name: Install AiiDA git code
   pip:
     name:
-      - "${HOME}/src/aiida-core"
+      - "{{ aiida_source_folder }}/aiida-core"
     virtualenv: "{{ aiida_venv }}"
+    # According to https://github.com/ansible/ansible/issues/52275
+    virtualenv_command: /usr/bin/python3 -m venv
     editable: true
     # extra_args: --no-use-pep517
   register: aiida_core_install

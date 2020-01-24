@@ -11,7 +11,15 @@ galaxy_info:
       versions:
         - xenial
         - bionic
+    - name: Fedora
+      versions:
+        - 31
+    - name: EL
+      versions:
+        - 8
   galaxy_tags:
+    - fedora
+    - centos
     - ubuntu
     - application
     - science
