@@ -1,6 +1,6 @@
 ---
-aiida_version: "1.0.1"
-aiida_tag: v1.0.1
+aiida_version: "1.1.0"
+aiida_tag: v1.1.0
 aiida_extras:
   - rest
   - docs
@@ -61,17 +61,16 @@ aiida_components:
 # Note: If possible, these versions should coincide with the ones in
 # https://github.com/aiidalab/aiidalab-metapkg/blob/master/requirements.txt
 aiida_plugin_versions:
-  aiida_cp2k: "1.0.0b4"
-  aiida_fleur: "1.0.0a0"
+  aiida_cp2k: "1.0.0b6"
+  aiida_fleur: "1.1.0"
   aiida_bigdft: "0.1.0a0"
   # aiida_gudhi: "0.1.0a3"
   # aiida_phtools: "0.1.0a1"
   aiida_quantumespresso: v3.0.0a5
   # aiida_raspa: "1.0.0a2"
-  aiida_siesta: "1.0.0"
+  aiida_siesta: "1.0.1"
   # aiida_yambo: "0.2.5"
   # aiida_wannier90: "1.0.0"
-  # aiida_zeopp: "1.0.3"
 
 aiida_plugins: "{{ aiida_plugin_versions.keys() }}"
 
