@@ -1,10 +1,4 @@
 ---
-- name: add aiida templates folder
-  file:
-    path: "{{ aiida_templates_folder }}"
-    state: "directory"
-    mode: 0755
-
 # get aiida-core from the Git repository, it is often useful
 - name: Get the AiiDA code from the Git repository
   git:
@@ -35,6 +29,8 @@
     line: 'eval "$(verdi completioncommand)"'
 
 - name: copy profile config
+  become: true
+  become_user: "{{ root_user }}"
   template:
     src: profile.yml
     dest: "{{ aiida_templates_folder }}/profile.yml"

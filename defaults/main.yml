@@ -7,10 +7,10 @@ aiida_extras:
   - atomic_tools
   - testing
   - notebook
-aiida_data_folder: "/usr/local/share"
+aiida_data_folder: "${HOME}/.local/share/aiida"
+aiida_templates_folder: "${HOME}/.local/share/aiida"
 aiida_source_folder: "${HOME}/src"
 aiida_examples_folder: "${HOME}"
-aiida_templates_folder: "${HOME}/.local/share/aiida"
 aiida_venv: "${HOME}/.virtualenvs/aiida"
 
 # profile

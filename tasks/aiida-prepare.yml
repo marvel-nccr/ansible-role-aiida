@@ -83,3 +83,19 @@
     virtualenv_command: /usr/bin/python3 -m venv
   register: pip_install
   notify: reentry scan
+
+- name: add aiida templates folder
+  become: true
+  become_user: "{{ root_user }}"
+  file:
+    path: "{{ aiida_templates_folder }}"
+    state: "directory"
+    mode: 0755
+
+- name: add aiida data folder
+  become: true
+  become_user: "{{ root_user }}"
+  file:
+    path: "{{ aiida_data_folder }}"
+    state: "directory"
+    mode: 0755
