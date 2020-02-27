@@ -4,10 +4,10 @@ dependency:
   requirements_file: molecule/default/requirements.yml
 driver:
   name: docker
-lint:
-  name: yamllint
-  options:
-    config-file: molecule/default/yamllint.yml
+lint: |
+  set -e
+  yamllint .
+  ansible-lint -x 305 -x 306 -x 503
 platforms:
   - name: instance
     image: "marvelnccr/docker-${MOLECULE_DISTRO:-ubuntu1804}-ansible:latest"
@@ -21,20 +21,7 @@ platforms:
       LANG: "en_US.UTF-8"
 provisioner:
   name: ansible
-  lint:
-    name: ansible-lint
-    options:
-      x:
-        - 305
-        - 306
-        - 503
   playbooks:
-    converge: playbook.yml
+    converge: converge.yml
 # Remove Ansible no_log settings for debugging
 # log: true
-scenario:
-  name: default
-verifier:
-  name: testinfra
-  lint:
-    name: flake8
