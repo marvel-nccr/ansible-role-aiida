@@ -14,3 +14,5 @@
           # - plugins
           - pseudopotentials
           - examples
+        # just to test whether this also works
+        aiida_data_folder: "/usr/local/share"

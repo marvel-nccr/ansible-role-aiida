@@ -88,7 +88,7 @@
   become: true
   become_user: "{{ root_user }}"
   file:
-    path: "{{ aiida_templates_folder }}"
+    path: "{{ aiida_templates_folder |  regex_replace('\\$\\{HOME}', current_user_home) }}"
     state: "directory"
     mode: 0755
 
@@ -96,6 +96,6 @@
   become: true
   become_user: "{{ root_user }}"
   file:
-    path: "{{ aiida_data_folder }}"
+    path: "{{ aiida_data_folder |  regex_replace('\\$\\{HOME}', current_user_home) }}"
     state: "directory"
     mode: 0755
