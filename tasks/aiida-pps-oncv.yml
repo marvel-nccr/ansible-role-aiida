@@ -4,7 +4,7 @@
   become: true
   become_user: "{{ root_user }}"
   file:
-    path: "{{ aiida_data_folder }}/{{ pp.folder }}"
+    path: "{{ aiida_data_folder | regex_replace('\\$\\{HOME}', current_user_home) }}/{{ pp.folder }}"
     state: directory
 
 - name: "Unpack {{ pp.file }}"
