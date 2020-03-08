@@ -76,7 +76,8 @@
 - name: Install pip packages in the AiiDA virtual environment
   pip:
     name:
-      - pip~=19.3
+      - pip~=20.0
+      - setuptools~=36.2
       - numpy==1.17.4
     virtualenv: "{{ aiida_venv }}"
     # According to: https://github.com/ansible/ansible/issues/52275
@@ -91,6 +92,7 @@
     path: "{{ aiida_templates_folder |  regex_replace('\\$\\{HOME}', current_user_home) }}"
     state: "directory"
     mode: 0755
+    owner: "{{ current_user }}"
 
 - name: add aiida data folder
   become: true
@@ -99,3 +101,4 @@
     path: "{{ aiida_data_folder |  regex_replace('\\$\\{HOME}', current_user_home) }}"
     state: "directory"
     mode: 0755
+    owner: "{{ current_user }}"

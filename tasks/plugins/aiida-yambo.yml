@@ -1,11 +1,18 @@
 ---
-- name: "install aiida-yambo-{{ aiida_yambo_version }} from PyPI"
+- name: "install aiida-yambo-{{ aiida_yambo_version }} from github"
   pip:
-    name: aiida-yambo
-    version: "{{ aiida_yambo_version }}"
+    name: git+https://github.com/yambo-code/yambo-aiida@v{{ aiida_yambo_version }}
     virtualenv: "{{ aiida_venv }}"
   register: pip_install
   notify: reentry scan
+
+# - name: "install aiida-yambo-{{ aiida_yambo_version }} from PyPI"
+#   pip:
+#     name: aiida-yambo
+#     version: "{{ aiida_yambo_version }}"
+#     virtualenv: "{{ aiida_venv }}"
+#   register: pip_install
+#   notify: reentry scan
 
 - meta: flush_handlers
 

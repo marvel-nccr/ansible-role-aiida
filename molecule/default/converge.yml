@@ -11,7 +11,7 @@
       vars:
         aiida_components:
           - computers
-          # - plugins
+          - plugins
           - pseudopotentials
           - examples
         # just to test whether this also works

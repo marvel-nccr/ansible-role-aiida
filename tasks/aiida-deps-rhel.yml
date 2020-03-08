@@ -5,6 +5,7 @@
   dnf:
     name:
       - gcc
+      - gcc-c++  # for building pymatgen C extensions
       # To get rid of the locale errors on the Centos 8 containers
       - glibc-langpack-en
       - git
