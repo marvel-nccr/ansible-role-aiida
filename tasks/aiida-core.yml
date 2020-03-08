@@ -10,7 +10,7 @@
 - name: Install AiiDA git code
   pip:
     name:
-      - "{{ aiida_source_folder }}/aiida-core[rest]"
+      - "{{ aiida_source_folder }}/aiida-core[{{ aiida_extras | join(',') }}]"
     virtualenv: "{{ aiida_venv }}"
     # According to https://github.com/ansible/ansible/issues/52275
     virtualenv_command: /usr/bin/python3 -m venv
