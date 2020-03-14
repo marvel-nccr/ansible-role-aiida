@@ -15,7 +15,7 @@
     - aiida_code:
         label: "wannier90-{{ wannier90_version }}-{{ item.name }}"
         template: code.yml
-        executable: "{{ item.name }}"
+        executable: "{{ item.executable }}"
         folder: "{{ item.folder }}"
         plugin: "{{ item.plugin }}"
         description: "wannier90 v{{ wannier90_version }}"
