@@ -33,11 +33,13 @@
   become_user: "{{ root_user }}"
   template:
     src: profile.yml
-    dest: "{{ aiida_templates_folder }}/profile.yml"
+    dest: "{{ aiida_templates_folder |  regex_replace('\\$\\{HOME}', current_user_home) }}/profile.yml"
 
-- name: "Check if AiiDA has already been configured"
-  stat: path="${HOME}/.aiida/config.json"
-  register: aiida_config_file
+- name: "Check if AiiDA profile 'generic' has already been configured"
+  shell: "{{ aiida_venv }}/bin/verdi profile show generic"
+  failed_when: false
+  changed_when: false
+  register: aiida_generic_profile
 
 - name: "Set up AiiDA profile"
   # Need to use the full path because it's in a virtualenv
@@ -45,12 +47,12 @@
       {{ aiida_venv }}/bin/verdi setup \
       --non-interactive \
       --config {{ aiida_templates_folder }}/profile.yml
-  when: not aiida_config_file.stat.exists
+  when: aiida_generic_profile.rc != 0
 
 - name: "Set the default AiiDA profile"
   shell: "{{ aiida_venv }}/bin/verdi profile setdefault {{ aiida_profile_name }}"
   # not ideal - better to read default profile from config
-  when: not aiida_config_file.stat.exists
+  when: aiida_generic_profile.rc != 0
 
 - include_role:
     name: release_notes
