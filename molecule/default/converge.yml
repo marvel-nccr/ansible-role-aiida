@@ -20,6 +20,7 @@
   post_tasks:
     - name: list PP families
       shell: "{{ aiida_venv }}/bin/verdi data upf listfamilies"
+      changed_when: false
       register: aiida_pps
 
     - name: check that PP families are set up properly
@@ -32,6 +33,7 @@
       block:
         - name: print plugin version
           shell: "{{ aiida_venv }}/bin/pip show {{ item.key }}"
+          changed_when: false
           register: aiida_pip_show
 
         - name: check that aiida plugin versions are as expected

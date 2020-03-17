@@ -25,3 +25,6 @@ provisioner:
     converge: converge.yml
 # Remove Ansible no_log settings for debugging
 # log: true
+verifier:
+  name: testinfra
+  enabled: True

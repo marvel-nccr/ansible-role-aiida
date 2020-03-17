@@ -10,6 +10,12 @@
     mode: "u+r"
   register: aiida_pp_download
 
+# check whether pp family is already installed
+- name: list PP families
+  shell: "{{ aiida_venv }}/bin/verdi data upf listfamilies"
+  changed_when: false
+  register: aiida_pps
+
 - block:
     - import_tasks: aiida-pps-sssp.yml
       tags: aiida_pps
@@ -17,7 +23,7 @@
     - import_tasks: aiida-pps-oncv.yml
       tags: aiida_pps
       when: "'oncv' in pp.name"
-  when: aiida_pp_download.changed
+  when: pp.name not in aiida_pps.stdout
 
 - include_role:
     name: release_notes
