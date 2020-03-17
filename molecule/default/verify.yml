@@ -7,6 +7,8 @@
     ansible_python_interpreter: /usr/bin/python3
 
   tasks:
+    - name: Bare include (free-form)
+      include_vars: marvel-nccr.aiida/defaults/main.yml
 
     - name: list PP families
       shell: "{{ aiida_venv }}/bin/verdi data upf listfamilies"
