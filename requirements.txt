@@ -5,3 +5,4 @@ docker
 molecule~=3.0
 yamllint~=1.17
 ansible-lint~=4.1
+testinfra~=1.19
