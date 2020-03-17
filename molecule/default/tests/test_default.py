@@ -2,8 +2,7 @@ import os
 import re
 import testinfra.utils.ansible_runner
 
-testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
-os.environ[‘MOLECULE_INVENTORY_FILE’]).get_hosts(‘all’)
+testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
 
 all_vars = host.ansible.get_variables()
 venv = all_vars['aiida_venv']
@@ -14,6 +13,6 @@ def test_upf_families(host):
 
   installed_pps = host.run(venv + "/bin/verdi data upf listfamilies")
   for pp in pps:
-      assert pp.name in instaled_pps.stdout
+      assert pp.name in installed_pps.stdout
 
 
