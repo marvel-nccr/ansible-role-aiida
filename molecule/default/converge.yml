@@ -16,3 +16,26 @@
           - examples
         # just to test whether this also works
         aiida_data_folder: "/usr/local/share"
+
+  post_tasks:
+    - name: list PP families
+      shell: "{{ aiida_venv }}/bin/verdi data upf listfamilies"
+      register: aiida_pps
+
+    - name: check that PP families are set up properly
+      assert:
+        that:
+          - item.name in aiida_pps.stdout
+      with_items: "{{ aiida_pseudopotentials }}"
+
+    - name: check plugin versions
+      block:
+        - name: print plugin version
+          shell: "{{ aiida_venv }}/bin/pip show {{ item.key }}"
+          register: aiida_pip_show
+
+        - name: check that aiida plugin versions are as expected
+          assert:
+            that:
+              - item.value in aiida_pip_show.stdout
+      with_dict: "{{ aiida_plugin_versions }}"

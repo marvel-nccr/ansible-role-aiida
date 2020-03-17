@@ -66,7 +66,7 @@ aiida_plugin_versions:
   aiida_bigdft: "0.1.0a0"
   # aiida_gudhi: "0.1.0a3"
   # aiida_phtools: "0.1.0a1"
-  aiida_quantumespresso: v3.0.0a6
+  aiida_quantumespresso: "3.0.0a6"
   # aiida_raspa: "1.0.0a2"
   aiida_siesta: "1.0.1"
   aiida_yambo: "1.0.0"
