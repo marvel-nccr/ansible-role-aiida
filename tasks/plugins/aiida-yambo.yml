@@ -4,6 +4,7 @@
     name: git+https://github.com/yambo-code/yambo-aiida@v{{ aiida_yambo_version }}
     virtualenv: "{{ aiida_venv }}"
   register: pip_install
+  changed_when: false  # remove when aiida-yambo no longer locks version
   notify: reentry scan
 
 # - name: "install aiida-yambo-{{ aiida_yambo_version }} from PyPI"

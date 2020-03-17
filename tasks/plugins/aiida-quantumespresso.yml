@@ -6,6 +6,7 @@
     virtualenv: "{{ aiida_venv }}"
     extra_args: "--pre"  # remove after release for AiiDA 1.0 is out
   register: aiida_qe_installed
+  changed_when: false  # remove when aiida-yambo no longer locks version
   notify: reentry scan
 
 - meta: flush_handlers
