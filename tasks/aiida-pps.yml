@@ -19,7 +19,7 @@
 - block:
     - import_tasks: aiida-pps-sssp.yml
       tags: aiida_pps
-      when: "'sssp' in pp.name"
+      when: "'SSSP' in pp.name"
     - import_tasks: aiida-pps-oncv.yml
       tags: aiida_pps
       when: "'oncv' in pp.name"
