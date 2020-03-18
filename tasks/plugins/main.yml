@@ -1,15 +1,16 @@
 ---
+- import_tasks: aiida-yambo.yml
+  tags: aiida_yambo
+  vars:
+    aiida_yambo_version: "{{ aiida_plugin_versions.aiida_yambo }}"
+  when: "'aiida_yambo' in aiida_plugins"
+
 - import_tasks: aiida-quantumespresso.yml
   tags: aiida_quantumespresso
   vars:
     aiida_quantumespresso_version: "{{ aiida_plugin_versions.aiida_quantumespresso }}"
   when: "'aiida_quantumespresso' in aiida_plugins"
 
-- import_tasks: aiida-yambo.yml
-  tags: aiida_yambo
-  vars:
-    aiida_yambo_version: "{{ aiida_plugin_versions.aiida_yambo }}"
-  when: "'aiida_yambo' in aiida_plugins"
 
 - import_tasks: aiida-fleur.yml
   tags: aiida_fleur

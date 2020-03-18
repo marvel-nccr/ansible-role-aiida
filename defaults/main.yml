@@ -66,7 +66,7 @@ aiida_plugin_versions:
   aiida_bigdft: "0.1.0a0"
   # aiida_gudhi: "0.1.0a3"
   # aiida_phtools: "0.1.0a1"
-  aiida_quantumespresso: v3.0.0a6
+  aiida_quantumespresso: "3.0.0a6"
   # aiida_raspa: "1.0.0a2"
   aiida_siesta: "1.0.1"
   aiida_yambo: "1.0.0"
@@ -76,14 +76,14 @@ aiida_plugins: "{{ aiida_plugin_versions.keys() }}"
 
 # pseudos
 aiida_pseudopotentials:
-  - name: sssp-pbe-efficiency-1.1
+  - name: SSSP_1.1_efficiency
     file: SSSP_efficiency_pseudos.aiida
     url: https://archive.materialscloud.org/file/2018.0001/v3
     home_page: https://materialscloud.org/sssp/
     description: >-
      Standard Solid State Pseudopotentials (efficiency)
      for the PBE functional
-  - name: sssp-pbe-precision-1.1
+  - name: SSSP_1.1_precision
     file: SSSP_precision_pseudos.aiida
     url: https://archive.materialscloud.org/file/2018.0001/v3
     home_page: https://materialscloud.org/sssp/
