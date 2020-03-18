@@ -1,0 +1,19 @@
+---
+- name: "install aiida_wannier90_workflows-{{ aiida_wannier90_workflows_version }} from PyPI"
+  pip:
+    name: aiida-wannier90-workflows
+    version: "{{ aiida_wannier90_workflows_version }}"
+    virtualenv: "{{ aiida_venv }}"
+  register: pip_install
+  notify: reentry scan
+
+- meta: flush_handlers
+
+- include_role:
+    name: release_notes
+  vars:
+    section: AiiDA
+    option: aiida_wannier90_workflows
+    value: >-
+      aiida_wannier90_workflows {{ aiida_wannier90_workflows_version }} is installed.
+  when: release_notes is defined and release_notes

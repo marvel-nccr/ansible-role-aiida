@@ -23,7 +23,6 @@
   vars:
     aiida_siesta_version: "{{ aiida_plugin_versions.aiida_siesta }}"
   when: "'aiida_siesta' in aiida_plugins"
-# AiiDA-cp2k reinstalls an older version of AiiDA
 
 - import_tasks: aiida-cp2k.yml
   tags: aiida_cp2k
@@ -36,6 +35,12 @@
   vars:
     aiida_wannier90_version: "{{ aiida_plugin_versions.aiida_wannier90 }}"
   when: "'aiida_wannier90' in aiida_plugins"
+
+- import_tasks: aiida-wannier90-workflows.yml
+  tags: aiida_wannier90_workflows
+  vars:
+    aiida_wannier90_workflows_version: "{{ aiida_plugin_versions.aiida_wannier90_workflows }}"
+  when: "'aiida_wannier90_workflows' in aiida_plugins"
 
 - import_tasks: aiida-zeopp.yml
   tags: aiida_zeopp
