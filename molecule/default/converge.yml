@@ -6,8 +6,15 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3
 
-  roles:
-    - role: marvel-nccr.aiida
+  tasks:
+    - name: Create dummy pw executable
+      copy:
+        content: ""
+        dest: /usr/bin/pw.x
+        force: no
+        mode: 0666
+    - include_role:
+        name: marvel-nccr.aiida
       vars:
         aiida_components:
           - computers
