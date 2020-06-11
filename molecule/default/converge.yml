@@ -16,3 +16,9 @@
           - examples
         # just to test whether this also works
         aiida_data_folder: "/usr/local/share"
+        quantum_espresso_version: "6.5"
+        quantum_espresso_executables:
+          - name: pw
+            folder: "/usr/bin"
+            executable: "pw.x"
+            plugin: quantumespresso.pw
