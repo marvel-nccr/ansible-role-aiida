@@ -4,9 +4,10 @@
     name: git+https://github.com/ltalirz/aiida-phtools@v{{ aiida_phtools_version }}
     virtualenv: "{{ aiida_venv }}"
   register: pip_install
-  notify: reentry scan
 
-- meta: flush_handlers
+- name: reentry scan
+  shell: "{{ aiida_venv }}/bin/reentry scan"
+  when: pip_install.changed
 
 - name: set up phtools codes for localhost
   include_tasks: code-setup.yml

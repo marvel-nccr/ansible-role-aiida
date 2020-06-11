@@ -1,21 +1,14 @@
 ---
-- name: "install aiida-yambo-{{ aiida_yambo_version }} from github"
+- name: "install aiida-yambo-{{ aiida_yambo_version }} from PyPI"
   pip:
-    name: git+https://github.com/yambo-code/yambo-aiida@v{{ aiida_yambo_version }}
+    name: aiida-yambo
+    version: "{{ aiida_yambo_version }}"
     virtualenv: "{{ aiida_venv }}"
   register: pip_install
-  changed_when: false  # remove when aiida-yambo no longer locks version
-  notify: reentry scan
 
-# - name: "install aiida-yambo-{{ aiida_yambo_version }} from PyPI"
-#   pip:
-#     name: aiida-yambo
-#     version: "{{ aiida_yambo_version }}"
-#     virtualenv: "{{ aiida_venv }}"
-#   register: pip_install
-#   notify: reentry scan
-
-- meta: flush_handlers
+- name: reentry scan
+  shell: "{{ aiida_venv }}/bin/reentry scan"
+  when: pip_install.changed
 
 - name: set up yambo codes for localhost
   include_tasks: code-setup.yml
