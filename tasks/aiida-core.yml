@@ -4,7 +4,7 @@
   git:
     repo: 'https://github.com/aiidateam/aiida-core.git'
     dest: "{{ aiida_source_folder }}/aiida-core"
-    version: "release/{{ aiida_version }}"
+    version: "{{ aiida_tag }}"
   register: git_checkout
 
 - name: Install AiiDA git code
