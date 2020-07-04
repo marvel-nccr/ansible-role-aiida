@@ -23,6 +23,24 @@
 
 - meta: flush_handlers
 
+# TODO this can be removed when aiida-core supports notebook>=6.0.1
+# (which encorporates https://github.com/jupyter/notebook/pull/4772)
+- name: Determine python lib path
+  when: '"notebook" in aiida_extras'
+  find:
+    path: "{{ aiida_venv }}/lib"
+    file_type: directory
+    patterns: "python*"
+    recurse: no
+  register: python_lib
+
+- name: Fix missing react-dom js
+  when: '"notebook" in aiida_extras'
+  get_url:
+    url: https://unpkg.com/react-dom@16/umd/react-dom.production.min.js
+    dest: "{{ item }}/site-packages/notebook/static/components/react/"
+  with_items: "{{ python_lib.files | map(attribute='path') | list }}"
+
 - name: "Activate TAB completion in virtualenv"
   lineinfile:
     path: "{{ aiida_venv }}/bin/activate"
