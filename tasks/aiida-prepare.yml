@@ -1,47 +1,45 @@
----
-
 - block:
-    - name: Start Postgresql service
-      become: true
-      become_user: "{{ root_user }}"
-      service:
-        name: "postgresql"
-        state: "started"
-        enabled: true
+  - name: Start Postgresql service
+    become: true
+    become_user: "{{ root_user }}"
+    service:
+      name: "postgresql"
+      state: "started"
+      enabled: true
 
-    - name: Start RabbitMQ service
-      become: true
-      become_user: "{{ root_user }}"
-      service:
-        name: "rabbitmq-server"
-        state: "started"
-        enabled: true
+  - name: Start RabbitMQ service
+    become: true
+    become_user: "{{ root_user }}"
+    service:
+      name: "rabbitmq-server"
+      state: "started"
+      enabled: true
   when: ansible_service_mgr == "systemd"
 
 - block:
-    - name: Check if Postgresql is running
-      shell: pgrep postgres
-      changed_when: false
-      register: postgres_status
-      failed_when: postgres_status.rc not in [0,1]
+  - name: Check if Postgresql is running
+    shell: pgrep postgres
+    changed_when: false
+    register: postgres_status
+    failed_when: postgres_status.rc not in [0,1]
 
-    - name: Start Postgresql
-      become: true
-      become_user: "{{ aiida_postgres_user }}"
-      command: "{{ aiida_postgres_bin_location }}/pg_ctl start -D {{ aiida_postgres_data_location }} -s -o '-p 5432' -w -t 300"
-      when: postgres_status.rc !=0
+  - name: Start Postgresql
+    become: true
+    become_user: "{{ aiida_postgres_user }}"
+    command: "{{ aiida_postgres_bin_location }}/pg_ctl start -D {{ aiida_postgres_data_location }} -s -o '-p 5432' -w -t 300"
+    when: postgres_status.rc !=0
 
-    - name: Check if RabbitMQ is running
-      shell: pgrep rabbitmq
-      changed_when: false
-      register: rabbitmq_status
-      failed_when: rabbitmq_status.rc not in [0,1]
+  - name: Check if RabbitMQ is running
+    shell: pgrep rabbitmq
+    changed_when: false
+    register: rabbitmq_status
+    failed_when: rabbitmq_status.rc not in [0,1]
 
-    - name: Start RabbitMQ
-      become: true
-      become_user: "{{ root_user }}"
-      shell: rabbitmq-server > /dev/null 2>&1 &
-      when: rabbitmq_status.rc !=0
+  - name: Start RabbitMQ
+    become: true
+    become_user: "{{ root_user }}"
+    shell: rabbitmq-server > /dev/null 2>&1 &
+    when: rabbitmq_status.rc !=0
   when: ansible_service_mgr != "systemd"
 
 - name: Setup postgres db
@@ -71,14 +69,14 @@
   become_user: "{{ root_user }}"
   pip:
     name:
-      - virtualenvwrapper
+    - virtualenvwrapper
 
 - name: Install pip packages in the AiiDA virtual environment
   pip:
     name:
-      - pip~=20.0
-      - setuptools~=36.2
-      - numpy==1.17.4
+    - pip~=20.0
+    - setuptools~=36.2
+    - numpy==1.17.4
     virtualenv: "{{ aiida_venv }}"
     # According to: https://github.com/ansible/ansible/issues/52275
     virtualenv_command: /usr/bin/python3 -m venv

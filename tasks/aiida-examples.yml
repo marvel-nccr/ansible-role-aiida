@@ -1,4 +1,3 @@
----
 - name: get AiiDA MaX examples
   git:
     repo: https://github.com/aiidateam/aiida-max-examples.git

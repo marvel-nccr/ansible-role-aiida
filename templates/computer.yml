@@ -1,4 +1,3 @@
----
 label: "{{ aiida_computer_name }}"
 hostname: "{{ aiida_computer_name }}"
 transport: "{{ aiida_computer_transport }}"

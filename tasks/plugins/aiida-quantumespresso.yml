@@ -1,4 +1,3 @@
----
 - name: "install aiida-quantumespresso-{{ aiida_quantumespresso_version }} from PyPI"
   pip:
     name: aiida-quantumespresso
@@ -13,19 +12,19 @@
 - name: set up quantum_espresso codes for localhost
   include_tasks: code-setup.yml
   vars:
-    - aiida_code:
-        label: "qe-{{ quantum_espresso_version }}-{{ item.name }}"
-        template: code.yml
-        executable: "{{ item.name }}.x"
-        folder: "{{ item.folder }}"
-        plugin: "{{ item.plugin }}"
-        description: "quantum_espresso v{{ quantum_espresso_version }}"
+  - aiida_code:
+      label: "qe-{{ quantum_espresso_version }}-{{ item.name }}"
+      template: code.yml
+      executable: "{{ item.name }}.x"
+      folder: "{{ item.folder }}"
+      plugin: "{{ item.plugin }}"
+      description: "quantum_espresso v{{ quantum_espresso_version }}"
   with_items: "{{ quantum_espresso_executables }}"
   when:
-    - quantum_espresso_executables is defined
-    - item.plugin is defined
-    - item.plugin != "quantumespresso.hp"
-    - item.plugin != "wannier90"
+  - quantum_espresso_executables is defined
+  - item.plugin is defined
+  - item.plugin != "quantumespresso.hp"
+  - item.plugin != "wannier90"
 
 - include_role:
     name: release_notes

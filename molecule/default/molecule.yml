@@ -1,24 +1,19 @@
----
 dependency:
   name: galaxy
   requirements_file: molecule/default/requirements.yml
 driver:
   name: docker
-lint: |
-  set -e
-  yamllint .
-  ansible-lint -x 305 -x 306 -x 503
 platforms:
-  - name: instance
-    image: "marvelnccr/docker-${MOLECULE_DISTRO:-ubuntu1804}-ansible:latest"
-    command: "${MOLECULE_DOCKER_COMMAND:-sleep infinity}"
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
-    pre_build_image: true
-    env:
-      LC_ALL: "en_US.UTF-8"
-      LANG: "en_US.UTF-8"
+- name: instance
+  image: "marvelnccr/docker-${MOLECULE_DISTRO:-ubuntu1804}-ansible:latest"
+  command: "${MOLECULE_DOCKER_COMMAND:-sleep infinity}"
+  volumes:
+  - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  privileged: true
+  pre_build_image: true
+  env:
+    LC_ALL: "en_US.UTF-8"
+    LANG: "en_US.UTF-8"
 provisioner:
   name: ansible
   playbooks:

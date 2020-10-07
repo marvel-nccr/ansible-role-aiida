@@ -1,4 +1,3 @@
----
 # add pseudopotential family
 - name: Download "{{ pp.file }}"
   become: true
@@ -17,12 +16,12 @@
   register: aiida_pps
 
 - block:
-    - import_tasks: aiida-pps-sssp.yml
-      tags: aiida_pps
-      when: "'SSSP' in pp.name"
-    - import_tasks: aiida-pps-oncv.yml
-      tags: aiida_pps
-      when: "'oncv' in pp.name"
+  - import_tasks: aiida-pps-sssp.yml
+    tags: aiida_pps
+    when: "'SSSP' in pp.name"
+  - import_tasks: aiida-pps-oncv.yml
+    tags: aiida_pps
+    when: "'oncv' in pp.name"
   when: pp.name not in aiida_pps.stdout
 
 - include_role:
@@ -31,7 +30,7 @@
     section: "AiiDA"
     option: "{{ pp.name }}"
     value: >-
-        pseudopotential family {{ pp.name }}: {{ pp.description }}
-        homepage: {{ pp.home_page }}
+      pseudopotential family {{ pp.name }}: {{ pp.description }}
+      homepage: {{ pp.home_page }}
   tags: aiida_pps
   when: release_notes is defined and release_notes

@@ -1,4 +1,3 @@
----
 # extract and prepare oncv
 - name: "Create {{ pp.folder }}/"
   become: true
