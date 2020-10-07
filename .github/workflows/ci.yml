@@ -27,7 +27,7 @@ jobs:
 
     strategy:
       matrix:
-        distro: [ubuntu1804, ubuntu1604, centos8, fedora31]
+        distro: [ubuntu1804, ubuntu2004, centos8, fedora31]
       fail-fast: false
 
     runs-on: ubuntu-latest
