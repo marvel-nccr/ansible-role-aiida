@@ -68,7 +68,7 @@ aiida_plugin_versions:
   # aiida_phtools: "0.1.0a1"
   aiida_quantumespresso: "3.1.0"
   # aiida_raspa: "1.0.0a2"
-  aiida_siesta: "1.0.1"
+  aiida_siesta: "1.1.0"
   aiida_yambo: "1.1.1"
   aiida_wannier90: "2.0.1"
   aiida_wannier90_workflows: "1.0.1"
