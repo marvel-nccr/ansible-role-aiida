@@ -77,7 +77,6 @@
     - pip~=20.0
     - setuptools~=36.2
     - wheel
-    - numpy==1.17.4
     virtualenv: "{{ aiida_venv }}"
     # According to: https://github.com/ansible/ansible/issues/52275
     virtualenv_command: /usr/bin/python3 -m venv
