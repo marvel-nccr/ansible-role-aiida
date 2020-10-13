@@ -42,7 +42,12 @@ pip install -r requirements.txt  # Installs molecule
 molecule test  # runs tests
 ```
 
-or use tox (see `tox.ini`).
+or use tox (see `tox.ini`):
+
+```bash
+pip install tox
+tox
+```
 
 ## Code style
 
