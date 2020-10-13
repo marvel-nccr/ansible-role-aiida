@@ -1,4 +1,3 @@
----
 allow_duplicates: false
 
 galaxy_info:
@@ -7,23 +6,23 @@ galaxy_info:
   license: MIT
   min_ansible_version: 2.5
   platforms:
-    - name: Ubuntu
-      versions:
-        - xenial
-        - bionic
-    - name: Fedora
-      versions:
-        - 31
-    - name: EL
-      versions:
-        - 8
+  - name: Ubuntu
+    versions:
+    - xenial
+    - bionic
+  - name: Fedora
+    versions:
+    - 31
+  - name: EL
+    versions:
+    - 8
   galaxy_tags:
-    - fedora
-    - centos
-    - ubuntu
-    - application
-    - science
+  - fedora
+  - centos
+  - ubuntu
+  - application
+  - science
 
 dependencies:
-  - role: marvel-nccr.current_user
-    version: v0.1.0
+- role: marvel-nccr.current_user
+  version: v0.1.0

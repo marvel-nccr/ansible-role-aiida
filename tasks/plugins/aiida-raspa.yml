@@ -1,4 +1,3 @@
----
 - name: "install aiida-raspa-{{ aiida_raspa_version }}"
   pip:
     name: git+https://github.com/yakutovicha/aiida-raspa@v{{ aiida_raspa_version }}
@@ -12,17 +11,17 @@
 - name: set up raspa codes for localhost
   include_tasks: code-setup.yml
   vars:
-    - aiida_code:
-        label: "raspa-{{ raspa_version }}"
-        template: code.yml
-        executable: "{{ item.name }}"
-        folder: "{{ item.folder }}"
-        plugin: "{{ item.plugin }}"
-        description: "raspa2-lsmo v{{ raspa_version }}"
+  - aiida_code:
+      label: "raspa-{{ raspa_version }}"
+      template: code.yml
+      executable: "{{ item.name }}"
+      folder: "{{ item.folder }}"
+      plugin: "{{ item.plugin }}"
+      description: "raspa2-lsmo v{{ raspa_version }}"
   with_items: "{{ raspa_executables }}"
   when:
-    - raspa_executables is defined
-    - item.plugin is defined
+  - raspa_executables is defined
+  - item.plugin is defined
 
 - include_role:
     name: release_notes

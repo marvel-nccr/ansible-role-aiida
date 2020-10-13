@@ -1,4 +1,3 @@
----
 - name: "install aiida-gudhi-{{ aiida_gudhi_version }}"
   pip:
     name: git+https://github.com/ltalirz/aiida-gudhi@v{{ aiida_gudhi_version }}
@@ -12,17 +11,17 @@
 - name: set up gudhi codes for localhost
   include_tasks: code-setup.yml
   vars:
-    - aiida_code:
-        label: "gudhi-{{ gudhi_version }}-{{ item.name }}"
-        template: code.yml
-        executable: "{{ item.name }}"
-        folder: "{{ item.folder }}"
-        plugin: "{{ item.plugin }}"
-        description: "gudhi v{{ gudhi_version }}"
+  - aiida_code:
+      label: "gudhi-{{ gudhi_version }}-{{ item.name }}"
+      template: code.yml
+      executable: "{{ item.name }}"
+      folder: "{{ item.folder }}"
+      plugin: "{{ item.plugin }}"
+      description: "gudhi v{{ gudhi_version }}"
   with_items: "{{ gudhi_executables }}"
   when:
-    - gudhi_executables is defined
-    - item.plugin is defined
+  - gudhi_executables is defined
+  - item.plugin is defined
 
 - include_role:
     name: release_notes

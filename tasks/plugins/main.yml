@@ -1,4 +1,3 @@
----
 - import_tasks: aiida-yambo.yml
   tags: aiida_yambo
   vars:

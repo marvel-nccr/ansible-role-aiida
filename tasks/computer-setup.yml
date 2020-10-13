@@ -1,4 +1,3 @@
----
 - name: check if the AiiDA computer is already present
   shell: "{{ aiida_venv }}/bin/verdi computer show {{ aiida_computer_name }}"
   ignore_errors: true

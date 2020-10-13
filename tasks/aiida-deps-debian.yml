@@ -1,4 +1,3 @@
----
 - name: Update apt cache
   become: true
   become_user: "{{ root_user }}"
@@ -6,48 +5,59 @@
     update_cache: true
     cache_valid_time: 3600
 
-- name: Install DB & more
+- name: Install apt dependencies
   become: true
   become_user: "{{ root_user }}"
   apt:
     name:
-      - git
+    - git
       # database
-      - postgresql
-      - postgresql-server-dev-all
-      - postgresql-client
-      - libpq-dev
-      - rabbitmq-server
+    - postgresql
+    - postgresql-server-dev-all
+    - postgresql-client
+    - libpq-dev
+    - rabbitmq-server
       # misc
-      - libffi-dev
-      - libssl-dev
-      - graphviz
-      - python3-pip
-      - python3-psycopg2
-      - python3-gi
-      - python3-gi-cairo
-      - python3-venv
-      - gir1.2-gtk-3.0
-      - python3-tk
+    - libffi-dev
+    - libssl-dev
+    - graphviz
+    - python3-pip
+    - python3-psycopg2
+    - python3-gi
+    - python3-gi-cairo
+    - python3-venv
+    - gir1.2-gtk-3.0
+    - python3-tk
+
+- name: Install Ubuntu 20.04 specific dependencies
+  # psutil does not currently have a wheel build for this system,
+  # so must be built
+  when: ansible_distribution|lower == "ubuntu" and ansible_distribution_version == "20.04"
+  become: true
+  become_user: "{{ root_user }}"
+  apt:
+    name:
+    - gcc
+    - python3-dev
 
 - block:
-    - name: Fetch location of the Postgresql binaries
-      command: find /usr/lib/postgresql/ -name bin
-      changed_when: false
-      register: aiida_postgres_bin_raw
+  - name: Fetch location of the Postgresql binaries
+    command: find /usr/lib/postgresql/ -name bin
+    changed_when: false
+    register: aiida_postgres_bin_raw
 
-    - name: Set location of the Postgresql binaries
-      set_fact:
-        aiida_postgres_bin_location: "{{ aiida_postgres_bin_raw.stdout_lines[0] }}"
+  - name: Set location of the Postgresql binaries
+    set_fact:
+      aiida_postgres_bin_location: "{{ aiida_postgres_bin_raw.stdout_lines[0] }}"
 
-    - name: Set data location for Postgresql
-      set_fact:
-        aiida_postgres_data_location: /var/lib/postgresql/data
+  - name: Set data location for Postgresql
+    set_fact:
+      aiida_postgres_data_location: /var/lib/postgresql/data
 
-    - name: Initialize database
-      become: true
-      become_user: "{{ aiida_postgres_user }}"
-      command: "{{ aiida_postgres_bin_location }}/initdb {{ aiida_postgres_data_location }}"
-      args:
-        creates: "{{ aiida_postgres_data_location }}/pg_hba.conf"
+  - name: Initialize database
+    become: true
+    become_user: "{{ aiida_postgres_user }}"
+    command: "{{ aiida_postgres_bin_location }}/initdb {{ aiida_postgres_data_location }}"
+    args:
+      creates: "{{ aiida_postgres_data_location }}/pg_hba.conf"
   when: ansible_service_mgr != "systemd"

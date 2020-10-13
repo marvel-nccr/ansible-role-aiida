@@ -1,4 +1,3 @@
----
 - name: print plugin version
   shell: "{{ aiida_venv }}/bin/pip show {{ item.key }}"
   changed_when: false
@@ -7,4 +6,4 @@
 - name: check that aiida plugin versions are as expected
   assert:
     that:
-      - item.value in aiida_pip_show.stdout
+    - item.value in aiida_pip_show.stdout

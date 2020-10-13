@@ -1,4 +1,3 @@
----
 label: "{{ aiida_code.label }}"
 description: "{{ aiida_code.description }}"
 input_plugin: "{{ aiida_code.plugin }}"

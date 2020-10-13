@@ -1,4 +1,3 @@
----
 - include_role:
     name: marvel-nccr.current_user
   when: current_user is undefined
@@ -29,13 +28,13 @@
   when: ansible_service_mgr == "systemd"
 
 - block:
-    - name: Check if the AiiDA REST API is running
-      shell: pgrep -a verdi | grep restapi | awk '{print $1}'
-      changed_when: false
-      register: aiida_rest_status
-      failed_when: aiida_rest_status.rc not in [0,1]
+  - name: Check if the AiiDA REST API is running
+    shell: pgrep -a verdi | grep restapi | awk '{print $1}'
+    changed_when: false
+    register: aiida_rest_status
+    failed_when: aiida_rest_status.rc not in [0,1]
 
-    - name: Start AiiDA REST API
-      shell: "{{ aiida_venv }}/bin/verdi -p {{ aiida_profile_name }} restapi -H 0.0.0.0 &"
-      when: aiida_rest_status["stdout"] | length > 0
+  - name: Start AiiDA REST API
+    shell: "{{ aiida_venv }}/bin/verdi -p {{ aiida_profile_name }} restapi -H 0.0.0.0 &"
+    when: aiida_rest_status["stdout"] | length > 0
   when: ansible_service_mgr != "systemd"

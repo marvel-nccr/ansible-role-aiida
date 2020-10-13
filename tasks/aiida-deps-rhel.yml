@@ -1,36 +1,35 @@
----
 - name: Install Postgresql, RabbitMQ and necessary python packages
   become: true
   become_user: "{{ root_user }}"
   dnf:
     name:
-      - gcc
-      - gcc-c++  # for building pymatgen C extensions
+    - gcc
+    - gcc-c++    # for building pymatgen C extensions
       # To get rid of the locale errors on the Centos 8 containers
-      - glibc-langpack-en
-      - git
+    - glibc-langpack-en
+    - git
       # python virtual environments
       # database
-      - postgresql
-      - postgresql-server
-      - libpq-devel
+    - postgresql
+    - postgresql-server
+    - libpq-devel
       # misc
-      - libffi-devel
-      - openssl-devel
-      - graphviz
-      - python3-pip
-      - python3-devel
-      - python3-psycopg2
+    - libffi-devel
+    - openssl-devel
+    - graphviz
+    - python3-pip
+    - python3-devel
+    - python3-psycopg2
       # Needed for setenforce to disable SELinux
-      - libselinux-utils
+    - libselinux-utils
       # Needed to control SELinux from Ansible
       # We instead need to do this manually as installing the selinux-policy package brings in a dependency that
       # breaks the package manager (Failed to synchronize cache for repo 'AppStream').
       # - selinux-policy
       # Needed for ASE
-      - python3-gobject
-      - python3-tkinter
-      - gtk3
+    - python3-gobject
+    - python3-tkinter
+    - gtk3
 
 - name: Get PackageCloud Erlang repo on CentOS.
   become: true
@@ -66,8 +65,8 @@
     state: "present"
     disablerepo: "epel"
     enablerepo:
-      - rabbitmq_erlang
-      - rabbitmq_rabbitmq-server
+    - rabbitmq_erlang
+    - rabbitmq_rabbitmq-server
   when: ansible_distribution == "CentOS"
 
 - name: Install gcc-g++ and RabbitMQ using dnf on Fedora
@@ -75,12 +74,12 @@
   become_user: "{{ root_user }}"
   dnf:
     name:
-      - gcc-g++
-      - rabbitmq-server
+    - gcc-g++
+    - rabbitmq-server
       # To enable find
-      - findutils
+    - findutils
       # To enable pgrep
-      - procps
+    - procps
   when: ansible_distribution == "Fedora"
 
 # We have to disable SELinux when running the verdi daemon in systemd. SELinux does not

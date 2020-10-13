@@ -1,4 +1,3 @@
----
 - name: Verify
   hosts: all
   become: true
@@ -7,20 +6,20 @@
     ansible_python_interpreter: /usr/bin/python3
 
   tasks:
-    - name: Bare include (free-form)
-      include_vars: ../../defaults/main.yml
+  - name: Bare include (free-form)
+    include_vars: ../../defaults/main.yml
 
-    - name: list PP families
-      shell: "{{ aiida_venv }}/bin/verdi data upf listfamilies"
-      changed_when: false
-      register: aiida_pps
+  - name: list PP families
+    shell: "{{ aiida_venv }}/bin/verdi data upf listfamilies"
+    changed_when: false
+    register: aiida_pps
 
-    - name: check that PP families are set up properly
-      assert:
-        that:
-          - item.name in aiida_pps.stdout
-      with_items: "{{ aiida_pseudopotentials }}"
+  - name: check that PP families are set up properly
+    assert:
+      that:
+      - item.name in aiida_pps.stdout
+    with_items: "{{ aiida_pseudopotentials }}"
 
-    - name: check plugin versions
-      include_tasks: tests/test_plugins.yml
-      with_dict: "{{ aiida_plugin_versions }}"
+  - name: check plugin versions
+    include_tasks: tests/test_plugins.yml
+    with_dict: "{{ aiida_plugin_versions }}"

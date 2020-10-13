@@ -1,4 +1,3 @@
----
 - name: "install aiida-bigdft-{{ aiida_bigdft_version }} from PyPI"
   pip:
     name: aiida-bigdft
@@ -13,17 +12,17 @@
 - name: set up bigdft codes for localhost
   include_tasks: code-setup.yml
   vars:
-    - aiida_code:
-        label: "bigdft-{{ bigdft_version }}-{{ item.name }}"
-        template: code.yml
-        executable: "{{ item.name }}"
-        folder: "{{ item.folder }}"
-        plugin: "{{ item.plugin }}"
-        description: "bigdft {{ item.name }} v{{ bigdft_version }}"
+  - aiida_code:
+      label: "bigdft-{{ bigdft_version }}-{{ item.name }}"
+      template: code.yml
+      executable: "{{ item.name }}"
+      folder: "{{ item.folder }}"
+      plugin: "{{ item.plugin }}"
+      description: "bigdft {{ item.name }} v{{ bigdft_version }}"
   with_items: "{{ bigdft_executables }}"
   when:
-    - bigdft_executables is defined
-    - item.plugin is defined
+  - bigdft_executables is defined
+  - item.plugin is defined
 
 - include_role:
     name: release_notes
