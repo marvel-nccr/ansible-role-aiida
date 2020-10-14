@@ -27,8 +27,7 @@
 - include_role:
     name: release_notes
   vars:
-    section: AiiDA
+    section: "AiiDA Plugins"
     option: aiida-cp2k
-    value: >-
-      aiida-cp2k {{ aiida_cp2k_version }} is installed.
+    value: "{{ aiida_cp2k_version }}"
   when: release_notes is defined and release_notes

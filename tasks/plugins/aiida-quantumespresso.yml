@@ -29,8 +29,7 @@
 - include_role:
     name: release_notes
   vars:
-    section: "AiiDA"
+    section: "AiiDA Plugins"
     option: "aiida-quantumespresso"
-    value: >-
-      aiida-quantumespresso {{ aiida_quantumespresso_version }} is installed.
+    value: "{{ aiida_quantumespresso_version }}"
   when: release_notes is defined and release_notes

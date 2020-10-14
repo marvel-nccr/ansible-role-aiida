@@ -27,8 +27,7 @@
 - include_role:
     name: release_notes
   vars:
-    section: AiiDA
+    section: "AiiDA Plugins"
     option: aiida-bigdft
-    value: >-
-      aiida-bigdft {{ aiida_bigdft_version }} is installed.
+    value: "{{ aiida_bigdft_version }}"
   when: release_notes is defined and release_notes
