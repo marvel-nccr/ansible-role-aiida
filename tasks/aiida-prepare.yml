@@ -75,7 +75,7 @@
   pip:
     name:
     - pip~=20.0
-    - setuptools~=36.2
+    - setuptools
     - wheel
     - cython  # required by pymatgen
     virtualenv: "{{ aiida_venv }}"

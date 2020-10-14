@@ -29,7 +29,6 @@
         executable: "pw.x"
         plugin: quantumespresso.pw
 
-  post_tasks:
   - name: run pip check
     command: "{{ aiida_venv }}/bin/pip check --no-color"
     changed_when: false
