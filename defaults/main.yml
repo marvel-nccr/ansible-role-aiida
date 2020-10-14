@@ -59,7 +59,7 @@ aiida_components:
 # https://github.com/aiidalab/aiidalab-metapkg/blob/master/requirements.txt
 aiida_plugin_versions:
   aiida_cp2k: "1.2.0"
-  aiida_fleur: "1.1.1"
+  aiida_fleur: "1.1.0"
   aiida_bigdft: "0.2.1a2"
   # aiida_gudhi: "0.1.0a3"
   # aiida_phtools: "0.1.0a1"
