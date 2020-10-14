@@ -4,6 +4,7 @@
 
   vars:
     ansible_python_interpreter: /usr/bin/python3
+    aiida_venv: "${HOME}/.virtualenvs/aiida"
 
   tasks:
   - name: Create dummy pw executable
@@ -29,6 +30,7 @@
         executable: "pw.x"
         plugin: quantumespresso.pw
 
+  post_tasks:
   - name: run pip check
     command: "{{ aiida_venv }}/bin/pip check --no-color"
     changed_when: false
