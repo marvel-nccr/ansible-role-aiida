@@ -14,7 +14,7 @@ def main(path, *extras):
     data = json.loads(path.read_text("utf8"))
 
     output = ["# aiida-core requirements"]
-    output.append("aiida-core==" + data["version"])
+    # output.append("aiida-core==" + data["version"])
     # extras are not allowed in constraints files, e.g. dep[extra] -> dep
     output.extend([req.split("[")[0] for req in data["install_requires"]])
 
