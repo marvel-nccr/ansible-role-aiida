@@ -75,9 +75,9 @@
   pip:
     name:
     - pip~=20.0
-    - setuptools~=36.2
+    - setuptools
     - wheel
-    - numpy==1.17.4
+    - numpy  # required by pymatgen
     virtualenv: "{{ aiida_venv }}"
     # According to: https://github.com/ansible/ansible/issues/52275
     virtualenv_command: /usr/bin/python3 -m venv

@@ -3,6 +3,7 @@
     name: aiida-zeopp
     version: "{{ aiida_zeopp_version }}"
     virtualenv: "{{ aiida_venv }}"
+    extra_args: "-c {{ aiida_constraints_file }}"
   register: pip_install
 
 - name: reentry scan
@@ -27,9 +28,7 @@
 - include_role:
     name: release_notes
   vars:
-    section: AiiDA
+    section: "AiiDA Plugins"
     option: aiida-zeopp
-    value: >-
-      aiida-zeopp v{{ aiida_zeopp_version }} is installed.
-      See 'verdi code list' for available codes.
+    value: "{{ aiida_zeopp_version }}"
   when: release_notes is defined and release_notes

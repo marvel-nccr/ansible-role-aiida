@@ -3,6 +3,7 @@
     name: aiida-siesta
     version: "{{ aiida_siesta_version }}"
     virtualenv: "{{ aiida_venv }}"
+    extra_args: "-c {{ aiida_constraints_file }}"
   register: pip_install
 
 - name: reentry scan
@@ -27,8 +28,7 @@
 - include_role:
     name: release_notes
   vars:
-    section: AiiDA
+    section: "AiiDA Plugins"
     option: aiida-siesta
-    value: >-
-      aiida-siesta {{ aiida_siesta_version }} is installed.
+    value: "{{ aiida_siesta_version }}"
   when: release_notes is defined and release_notes

@@ -20,6 +20,16 @@
       - item.name in aiida_pps.stdout
     with_items: "{{ aiida_pseudopotentials }}"
 
+  - name: print aiida-core version
+    shell: "{{ aiida_venv }}/bin/pip show aiida-core"
+    changed_when: false
+    register: aiida_pip_show
+
+  - name: check aiida-core version
+    assert:
+      that:
+      - aiida_version in aiida_pip_show.stdout
+
   - name: check plugin versions
     include_tasks: tests/test_plugins.yml
     with_dict: "{{ aiida_plugin_versions }}"

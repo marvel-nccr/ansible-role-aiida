@@ -1,16 +1,19 @@
-aiida_version: "1.3.0"
+aiida_version: "1.4.2"
 aiida_tag: v{{ aiida_version }}
 aiida_extras:
 - rest
 - docs
 - atomic_tools
-- testing
 - notebook
 aiida_data_folder: "${HOME}/.local/share/aiida"
 aiida_templates_folder: "${HOME}/.local/share/aiida"
 aiida_source_folder: "${HOME}/src"
 aiida_examples_folder: "${HOME}"
 aiida_venv: "${HOME}/.virtualenvs/aiida"
+aiida_constraints_file: "{{ aiida_data_folder }}/constraints.txt"
+# these are additional to those extracted from aiida-core and its extras
+aiida_constraints:
+- "nbconvert<6.0"   # required by notebook 5.7.10
 
 # profile
 aiida_profile_name: generic
@@ -58,15 +61,15 @@ aiida_components:
 # Note: If possible, these versions should coincide with the ones in
 # https://github.com/aiidalab/aiidalab-metapkg/blob/master/requirements.txt
 aiida_plugin_versions:
-  aiida_cp2k: "1.1.0"
+  aiida_cp2k: "1.2.0"
   aiida_fleur: "1.1.0"
   aiida_bigdft: "0.2.1a2"
   # aiida_gudhi: "0.1.0a3"
   # aiida_phtools: "0.1.0a1"
-  aiida_quantumespresso: "3.1.0"
+  aiida_quantumespresso: "3.2.0"
   # aiida_raspa: "1.0.0a2"
   aiida_siesta: "1.1.0"
-  aiida_yambo: "1.1.1"
+  aiida_yambo: "1.1.3"
   aiida_wannier90: "2.0.1"
   aiida_wannier90_workflows: "1.0.1"
 

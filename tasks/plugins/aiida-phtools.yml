@@ -2,6 +2,7 @@
   pip:
     name: git+https://github.com/ltalirz/aiida-phtools@v{{ aiida_phtools_version }}
     virtualenv: "{{ aiida_venv }}"
+    extra_args: "-c {{ aiida_constraints_file }}"
   register: pip_install
 
 - name: reentry scan
@@ -26,9 +27,7 @@
 - include_role:
     name: release_notes
   vars:
-    section: AiiDA
+    section: "AiiDA Plugins"
     option: aiida-phtools
-    value: >-
-      aiida-phtools v{{ aiida_phtools_version }} is installed.
-      See 'verdi code list' for available codes.
+    value: "{{ aiida_phtools_version }}"
   when: release_notes is defined and release_notes

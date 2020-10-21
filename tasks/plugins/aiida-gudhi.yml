@@ -2,6 +2,7 @@
   pip:
     name: git+https://github.com/ltalirz/aiida-gudhi@v{{ aiida_gudhi_version }}
     virtualenv: "{{ aiida_venv }}"
+    extra_args: "-c {{ aiida_constraints_file }}"
   register: pip_install
 
 - name: reentry scan
@@ -26,9 +27,7 @@
 - include_role:
     name: release_notes
   vars:
-    section: AiiDA
+    section: "AiiDA Plugins"
     option: aiida-gudhi
-    value: >-
-      aiida-gudhi v{{ aiida_gudhi_version }} is installed.
-      See 'verdi code list' for available codes.
+    value: "{{ aiida_gudhi_version }}"
   when: release_notes is defined and release_notes
