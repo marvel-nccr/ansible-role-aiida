@@ -6,6 +6,24 @@
     version: "{{ aiida_tag }}"
   register: git_checkout
 
+- name: Copy pip constrain generation script to folder
+  copy:
+    src: aiida-core-constraints.py
+    dest: "{{ aiida_source_folder }}/aiida-core"
+
+- name: Create pip constraints file contents
+  command: >
+    /usr/bin/python3 '{{ aiida_source_folder }}/aiida-core/aiida-core-constraints.py'
+    {{ aiida_source_folder }}/aiida-core/setup.json
+    {{ aiida_extras | join(' ') }}
+  changed_when: false
+  register: constraints
+
+- name: Write pip constraints file
+  copy:
+    dest: "{{ aiida_constraints_file }}"
+    content: "{{ constraints.stdout }}"
+
 - name: Install AiiDA git code
   pip:
     name:

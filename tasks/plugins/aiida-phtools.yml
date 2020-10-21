@@ -2,6 +2,7 @@
   pip:
     name: git+https://github.com/ltalirz/aiida-phtools@v{{ aiida_phtools_version }}
     virtualenv: "{{ aiida_venv }}"
+    extra_args: "-c {{ aiida_constraints_file }}"
   register: pip_install
 
 - name: reentry scan

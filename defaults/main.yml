@@ -4,13 +4,13 @@ aiida_extras:
 - rest
 - docs
 - atomic_tools
-- testing
 - notebook
 aiida_data_folder: "${HOME}/.local/share/aiida"
 aiida_templates_folder: "${HOME}/.local/share/aiida"
 aiida_source_folder: "${HOME}/src"
 aiida_examples_folder: "${HOME}"
 aiida_venv: "${HOME}/.virtualenvs/aiida"
+aiida_constraints_file: "{{ aiida_data_folder }}/constraints.txt"
 
 # profile
 aiida_profile_name: generic

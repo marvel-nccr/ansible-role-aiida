@@ -2,6 +2,7 @@
   pip:
     name: git+https://github.com/yakutovicha/aiida-raspa@v{{ aiida_raspa_version }}
     virtualenv: "{{ aiida_venv }}"
+    extra_args: "-c {{ aiida_constraints_file }}"
   register: pip_install
 
 - name: reentry scan

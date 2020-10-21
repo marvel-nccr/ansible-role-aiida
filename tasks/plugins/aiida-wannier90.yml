@@ -3,6 +3,7 @@
     name: aiida-wannier90
     version: "{{ aiida_wannier90_version }}"
     virtualenv: "{{ aiida_venv }}"
+    extra_args: "-c {{ aiida_constraints_file }}"
   register: pip_install
 
 - name: reentry scan

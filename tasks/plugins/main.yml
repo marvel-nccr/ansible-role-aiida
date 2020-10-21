@@ -1,3 +1,10 @@
+- name: Ensure pip constraints file present
+  file:
+    path: "{{ aiida_constraints_file }}"
+    state: touch
+    access_time: preserve
+    modification_time: preserve
+
 - import_tasks: aiida-yambo.yml
   tags: aiida_yambo
   vars:
@@ -9,7 +16,6 @@
   vars:
     aiida_quantumespresso_version: "{{ aiida_plugin_versions.aiida_quantumespresso }}"
   when: "'aiida_quantumespresso' in aiida_plugins"
-
 
 - import_tasks: aiida-fleur.yml
   tags: aiida_fleur

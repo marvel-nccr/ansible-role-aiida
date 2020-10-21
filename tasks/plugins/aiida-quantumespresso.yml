@@ -3,6 +3,7 @@
     name: aiida-quantumespresso
     version: "{{ aiida_quantumespresso_version }}"
     virtualenv: "{{ aiida_venv }}"
+    extra_args: "-c {{ aiida_constraints_file }}"
   register: aiida_qe_installed
 
 - name: reentry scan

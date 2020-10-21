@@ -13,37 +13,37 @@
 - name: Get info on current user
   include_role:
     name: marvel-nccr.current_user
-  tags: always
+  tags: [always]
   when: current_user is undefined
 
 # apt and python packages
 - include_tasks: aiida-deps-rhel.yml
-  tags: aiida_deps
+  tags: [aiida_deps]
   when: ansible_os_family|lower == 'redhat'
 - include_tasks: aiida-deps-debian.yml
-  tags: aiida_deps
+  tags: [aiida_deps]
   when: ansible_os_family|lower == 'debian'
 
 # Start and setup Postgresql and RabbitMQ, create folders
 - import_tasks: aiida-prepare.yml
-  tags: aiida, aiida_prepare
+  tags: [aiida, aiida_prepare]
 
 # install and setup AiiDA, including profile etc.
 - import_tasks: aiida-core.yml
-  tags: aiida,aiida_core
+  tags: [aiida, aiida_core]
 - import_tasks: aiida-daemon.yml
   tags: aiida_daemon,aiida_core
 - import_tasks: aiida-rest.yml
-  tags: aiida_rest,aiida_core
+  tags: [aiida_rest, aiida_core]
 
 # setup computers
 - include_tasks: computers-setup.yml
-  tags: aiida_computers,aiida_core
+  tags: [aiida_computers, aiida_core]
   when: '"computers" in aiida_components'
 
 # setup plugins and codes
 - include_tasks: plugins/main.yml
-  tags: aiida_plugins
+  tags: [aiida_plugins]
   when: '"plugins" in aiida_components'
 
 # Set up pseudopotentials
@@ -51,9 +51,9 @@
   vars:
     pp: "{{ item }}"
   with_items: "{{ aiida_pseudopotentials }}"
-  tags: aiida_pps
+  tags: [aiida_pps]
   when: '"pseudopotentials" in aiida_components'
 
 - include_tasks: aiida-examples.yml
-  tags: aiida_examples
+  tags: [aiida_examples]
   when: '"examples" in aiida_components'
