@@ -15,11 +15,12 @@ def main(path, *extras):
 
     output = ["# aiida-core requirements"]
     output.append("aiida-core==" + data["version"])
-    output.extend(data["install_requires"])
+    # extras are not allowed in constraints files, e.g. dep[extra] -> dep
+    output.extend([req.split("[")[0] for req in data["install_requires"]])
 
     for extra in extras:
         output.append("# " + extra)
-        output.extend(data["extras_require"][extra])
+        output.extend([req.split("[")[0] for req in data["extras_require"][extra]])
 
     print("\n".join(output))
 

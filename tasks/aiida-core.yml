@@ -32,6 +32,7 @@
     # According to https://github.com/ansible/ansible/issues/52275
     virtualenv_command: /usr/bin/python3 -m venv
     editable: true
+    extra_args: "-c {{ aiida_constraints_file }}"
   register: aiida_core_install
   notify: reentry scan
   # this guard is necessary because, for some reason, installs with
