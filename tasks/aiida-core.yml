@@ -22,7 +22,7 @@
 - name: Write pip constraints file
   copy:
     dest: "{{ aiida_constraints_file }}"
-    content: "{{ constraints.stdout }}"
+    content: "{{ constraints.stdout }}\n# additional\n{{ aiida_constraints | join('\n') }}"
 
 - name: Install AiiDA git code
   pip:

@@ -11,6 +11,9 @@ aiida_source_folder: "${HOME}/src"
 aiida_examples_folder: "${HOME}"
 aiida_venv: "${HOME}/.virtualenvs/aiida"
 aiida_constraints_file: "{{ aiida_data_folder }}/constraints.txt"
+# these are additional to those extracted from aiida-core and its extras
+aiida_constraints:
+- "nbconvert<6.0"   # required by notebook 5.7.10
 
 # profile
 aiida_profile_name: generic
