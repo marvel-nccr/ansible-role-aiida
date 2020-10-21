@@ -9,18 +9,25 @@ import json
 from pathlib import Path
 import sys
 
+def remove_extra(req):
+    """Extras are not allowed in constraints files, e.g. dep[extra]>0.1 -> dep>0.1 """
+    if "[" not in req or "]" not in req):
+        return req
+    return req.split("[")[0] + req.split("]")[-1]
+
+
 def main(path, *extras):
     path = Path(path)
     data = json.loads(path.read_text("utf8"))
 
-    output = ["# aiida-core requirements"]
+    output = ["# aiida-core requirements: v" + data["version"]]
+    # we can't add this when using the file as a constraint file for actually installing aiida-core
     # output.append("aiida-core==" + data["version"])
-    # extras are not allowed in constraints files, e.g. dep[extra] -> dep
-    output.extend([req.split("[")[0] for req in data["install_requires"]])
+    output.extend([remove_extra(req) for req in data["install_requires"]])
 
     for extra in extras:
         output.append("# " + extra)
-        output.extend([req.split("[")[0] for req in data["extras_require"][extra]])
+        output.extend([remove_extra(req) for req in data["extras_require"][extra]])
 
     print("\n".join(output))
 
