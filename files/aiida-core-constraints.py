@@ -11,9 +11,10 @@ import sys
 
 def remove_extra(req):
     """Extras are not allowed in constraints files, e.g. dep[extra]>0.1 -> dep>0.1 """
-    if "[" not in req or "]" not in req):
+    if "[" not in req or "]" not in req:
         return req
-    return req.split("[")[0] + req.split("]")[-1]
+    start, end = req.split("[", 1)
+    return start + end.split("]", 1)[1]
 
 
 def main(path, *extras):
