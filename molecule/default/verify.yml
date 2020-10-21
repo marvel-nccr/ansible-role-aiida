@@ -28,7 +28,7 @@
   - name: check aiida-core version
     assert:
       that:
-      - "{{ aiida_version }} in aiida_pip_show.stdout"
+      - aiida_version in aiida_pip_show.stdout
 
   - name: check plugin versions
     include_tasks: tests/test_plugins.yml
