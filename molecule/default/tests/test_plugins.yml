@@ -1,5 +1,5 @@
 - name: print plugin version
-  shell: "{{ aiida_venv }}/bin/pip show {{ item.key }}"
+  command: "{{ aiida_venv }}/bin/pip show {{ item.key }}"
   changed_when: false
   register: aiida_pip_show
 

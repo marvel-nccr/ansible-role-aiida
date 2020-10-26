@@ -10,7 +10,7 @@
     include_vars: ../../defaults/main.yml
 
   - name: list PP families
-    shell: "{{ aiida_venv }}/bin/verdi data upf listfamilies"
+    command: "{{ aiida_venv }}/bin/verdi data upf listfamilies"
     changed_when: false
     register: aiida_pps
 
@@ -21,7 +21,7 @@
     with_items: "{{ aiida_pseudopotentials }}"
 
   - name: print aiida-core version
-    shell: "{{ aiida_venv }}/bin/pip show aiida-core"
+    command: "{{ aiida_venv }}/bin/pip show aiida-core"
     changed_when: false
     register: aiida_pip_show
 
@@ -33,3 +33,7 @@
   - name: check plugin versions
     include_tasks: tests/test_plugins.yml
     with_dict: "{{ aiida_plugin_versions }}"
+
+  - name: is daemon running?
+    command: "{{ aiida_venv }}/bin/verdi daemon status"
+    changed_when: false
