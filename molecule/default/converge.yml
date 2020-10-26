@@ -29,6 +29,8 @@
         folder: "/usr/bin"
         executable: "pw.x"
         plugin: quantumespresso.pw
+      # dashes used to break systemd templates for daemon/rest api
+      aiida_profile_name: name-with-dashes
 
   post_tasks:
   - name: run pip check
