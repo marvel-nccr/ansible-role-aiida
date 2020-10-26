@@ -4,13 +4,13 @@ After=network.target postgresql.service rabbitmq-server.service
 
 [Service]
 Type=forking
-ExecStart={{ daemon_aiida_venv }}/bin/verdi -p %i daemon start
-PIDFile={{ daemon_user_home }}/.aiida/daemon/circus-%i.pid
+ExecStart={{ daemon_aiida_venv }}/bin/verdi -p "%I" daemon start
+PIDFile={{ daemon_user_home }}/.aiida/daemon/circus-%I.pid
 # 2s delay to prevent read error on PID file
 ExecStartPost=/bin/sleep 2
 
-ExecStop={{ daemon_aiida_venv }}/bin/verdi -p %i daemon stop
-ExecReload={{ daemon_aiida_venv }}/bin/verdi -p %i daemon restart
+ExecStop={{ daemon_aiida_venv }}/bin/verdi -p "%I" daemon stop
+ExecReload={{ daemon_aiida_venv }}/bin/verdi -p "%I" daemon restart
 
 User={{ daemon_user }}
 Group={{ daemon_user }}
@@ -19,7 +19,7 @@ Restart=on-failure
 RestartSec=60
 StandardOutput=syslog
 StandardError=syslog
-SyslogIdentifier=aiida-daemon-%i
+SyslogIdentifier=aiida-daemon-%I
 
 [Install]
 WantedBy=multi-user.target
