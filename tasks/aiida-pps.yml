@@ -8,6 +8,9 @@
     dest: "{{ aiida_data_folder }}/{{ pp.file }}"
     mode: "u+r"
   register: aiida_pp_download
+  until: not aiida_pp_download.failed
+  retries: 3
+  delay: 10
 
 # check whether pp family is already installed
 - name: list PP families
