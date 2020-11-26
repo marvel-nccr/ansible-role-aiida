@@ -1,3 +1,4 @@
+aiida_python_version: "3.7"
 aiida_version: "1.4.2"
 aiida_tag: v{{ aiida_version }}
 aiida_extras:

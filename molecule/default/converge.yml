@@ -3,7 +3,6 @@
   become: true
 
   vars:
-    ansible_python_interpreter: /usr/bin/python3
     aiida_venv: "${HOME}/.virtualenvs/aiida"
 
   tasks:

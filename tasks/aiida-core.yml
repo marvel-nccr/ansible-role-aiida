@@ -29,8 +29,6 @@
     name:
     - "{{ aiida_source_folder }}/aiida-core[{{ aiida_extras | join(',') }}]"
     virtualenv: "{{ aiida_venv }}"
-    # According to https://github.com/ansible/ansible/issues/52275
-    virtualenv_command: /usr/bin/python3 -m venv
     editable: true
     extra_args: "-c {{ aiida_constraints_file }}"
   register: aiida_core_install
@@ -104,6 +102,6 @@
     section: "AiiDA"
     option: "usage"
     value: >-
-      AiiDA is installed in a virtual environment.
+      AiiDA is installed in a Python {{ aiida_python_version }} virtual environment.
       Type 'workon aiida' to get access to the 'verdi' commands.
   when: release_notes is defined and release_notes

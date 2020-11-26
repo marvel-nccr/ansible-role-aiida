@@ -10,6 +10,7 @@
   become_user: "{{ root_user }}"
   apt:
     name:
+    - gcc  # required for building pymatgen (in particular psutil)
     - git
       # database
     - postgresql
@@ -20,25 +21,8 @@
       # misc
     - libffi-dev
     - libssl-dev
-    - graphviz
-    - python3-pip
-    - python3-psycopg2
-    - python3-gi
-    - python3-gi-cairo
-    - python3-venv
-    - gir1.2-gtk-3.0
-    - python3-tk
-
-- name: Install Ubuntu 20.04 specific dependencies
-  # psutil does not currently have a wheel build for this system,
-  # so must be built
-  when: ansible_distribution|lower == "ubuntu" and ansible_distribution_version == "20.04"
-  become: true
-  become_user: "{{ root_user }}"
-  apt:
-    name:
-    - gcc
-    - python3-dev
+    - graphviz  # for provenance graph visualisation
+    - python3-psycopg2  # required for postgresql_db role
 
 - block:
   - name: Fetch location of the Postgresql binaries
