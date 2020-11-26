@@ -1,2 +1,4 @@
 - src: marvel-nccr.current_user
   version: v0.1.0
+- src: marvel-nccr.python
+  version: v0.2.2

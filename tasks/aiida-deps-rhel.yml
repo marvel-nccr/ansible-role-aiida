@@ -16,20 +16,14 @@
       # misc
     - libffi-devel
     - openssl-devel
-    - graphviz
-    - python3-pip
-    - python3-devel
-    - python3-psycopg2
+    - graphviz  # for provenance graph visualisation
+    - python3-psycopg2  # required for postgresql_db role
       # Needed for setenforce to disable SELinux
     - libselinux-utils
       # Needed to control SELinux from Ansible
       # We instead need to do this manually as installing the selinux-policy package brings in a dependency that
       # breaks the package manager (Failed to synchronize cache for repo 'AppStream').
       # - selinux-policy
-      # Needed for ASE
-    - python3-gobject
-    - python3-tkinter
-    - gtk3
 
 - name: Get PackageCloud Erlang repo on CentOS.
   become: true

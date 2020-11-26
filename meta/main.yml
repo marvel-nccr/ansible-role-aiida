@@ -24,5 +24,8 @@ galaxy_info:
   - science
 
 dependencies:
-- role: marvel-nccr.current_user
+- name: marvel-nccr.current_user
   version: v0.1.0
+- name: marvel-nccr.python
+  version: v0.2.2
+  tags: [never]

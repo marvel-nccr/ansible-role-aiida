@@ -53,32 +53,36 @@
     password: "{{ aiida_postgres_db_pw }}"
     encrypted: true
 
-- name: "Let virtualenvwrapper use the correct python version"
-  lineinfile:
-    path: "${HOME}/.bashrc"
-    regexp: "export VIRTUALENVWRAPPER_PYTHON=.*"
-    line: "export VIRTUALENVWRAPPER_PYTHON={{ ansible_python_interpreter }}"
-  when: ansible_python_interpreter is defined
-
-- name: Install pip packages globally
-  become: true
-  become_user: "{{ root_user }}"
-  pip:
-    name:
-    - virtualenvwrapper
-
-- name: Install pip packages in the AiiDA virtual environment
-  pip:
-    name:
+- name: "create python{{ aiida_python_version }} virtual env: {{ aiida_venv }}"
+  import_role:
+    name: marvel-nccr.python
+  vars:
+    python_base_version: "{{ aiida_python_version }}"
+    python_install_dev: true  # required to install pymatgen
+    python_install_tk: true  # required by ase.gui
+    # TODO add https://github.com/marvel-nccr/ansible-role-python/issues/6 when implemented
+    python_venv_path: "{{ aiida_venv }}"
+    python_venv_packages:
     - pip~=20.0
     - setuptools
     - wheel
     - numpy  # required by pymatgen
-    virtualenv: "{{ aiida_venv }}"
-    # According to: https://github.com/ansible/ansible/issues/52275
-    virtualenv_command: /usr/bin/python3 -m venv
   register: pip_install
   notify: reentry scan
+
+- name: Install virtualenvwrapper globally
+  become: true
+  become_user: "{{ root_user }}"
+  pip:
+    executable: "/usr/local/bin/pip{{ aiida_python_version }}"
+    name:
+    - virtualenvwrapper
+
+- name: "Let virtualenvwrapper use the correct python version"
+  lineinfile:
+    path: "${HOME}/.bashrc"
+    regexp: "export VIRTUALENVWRAPPER_PYTHON=.*"
+    line: "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python{{ aiida_python_version }}"
 
 - name: add aiida templates folder
   become: true

@@ -16,7 +16,19 @@ platforms:
     LANG: "en_US.UTF-8"
 provisioner:
   name: ansible
+  # log: true  # for debugging
   playbooks:
     converge: converge.yml
-# Remove Ansible no_log settings for debugging
-# log: true
+  config_options:
+    defaults:
+      # nicer stdout printing
+      stdout_callback: yaml
+      bin_ansible_callbacks: true
+      # add timing to tasks
+      callback_whitelist: profile_tasks
+  inventory:
+    hosts:
+      all:
+        vars:
+          ansible_python_interpreter: /usr/bin/python3
+          aiida_python_version: "${MOLECULE_PYTHON_VERSION:-3.7}"
