@@ -70,20 +70,6 @@
   register: pip_install
   notify: reentry scan
 
-- name: Install virtualenvwrapper globally
-  become: true
-  become_user: "{{ root_user }}"
-  pip:
-    executable: "/usr/local/bin/pip{{ aiida_python_version }}"
-    name:
-    - virtualenvwrapper
-
-- name: "Let virtualenvwrapper use the correct python version"
-  lineinfile:
-    path: "${HOME}/.bashrc"
-    regexp: "export VIRTUALENVWRAPPER_PYTHON=.*"
-    line: "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python{{ aiida_python_version }}"
-
 - name: add aiida templates folder
   become: true
   become_user: "{{ root_user }}"
