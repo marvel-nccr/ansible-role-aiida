@@ -1,0 +1,26 @@
+aiida-core=={{ aiida_version }}
+
+# install_requires
+{% for dep in aiida_setup.install_requires %}
+{{ dep }}
+{% endfor %}
+
+{% for extra in aiida_setup.extras_require %}
+{% if extra in aiida_extras %}
+
+# extra = {{ extra }}
+{% for dep in aiida_setup.extras_require[extra] %}
+{{ dep }}
+{% endfor %}
+{% endif %}
+{% endfor %}
+
+# additional requirements
+{% for dep in aiida_extra_packages %}
+{{ dep }}
+{% endfor %}
+
+# plugins
+{% for plugin in aiida_plugins %}
+{{ plugin }}=={{ aiida_plugins[plugin].version }}
+{% endfor %}

@@ -29,12 +29,16 @@
 # setup computers
 - include_tasks: computers-setup.yml
   tags: [aiida_computers, aiida_core]
-  when: '"computers" in aiida_components'
 
-# setup plugins and codes
-- include_tasks: plugins/main.yml
-  tags: [aiida_plugins]
-  when: '"plugins" in aiida_components'
+# setup plugin codes
+- include_tasks: aiida-code.yml
+  loop: "{{ aiida_plugins|dict2items }}"
+  loop_control:
+    loop_var: plugin
+  when:
+  - plugin.value.codes_var is defined
+  - lookup('vars', plugin.value.codes_var, default='') is truthy
+  tags: [aiida_codes]
 
 # Set up pseudopotentials
 - include_tasks: aiida-pps.yml
@@ -42,8 +46,6 @@
     pp: "{{ item }}"
   with_items: "{{ aiida_pseudopotentials }}"
   tags: [aiida_pps]
-  when: '"pseudopotentials" in aiida_components'
 
 - include_tasks: aiida-examples.yml
   tags: [aiida_examples]
-  when: '"examples" in aiida_components'
