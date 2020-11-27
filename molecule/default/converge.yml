@@ -15,11 +15,6 @@
   - include_role:
       name: marvel-nccr.aiida
     vars:
-      aiida_components:
-      - computers
-      - plugins
-      - pseudopotentials
-      - examples
         # just to test whether this also works
       aiida_data_folder: "/usr/local/share"
       quantum_espresso_version: "6.5"

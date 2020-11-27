@@ -1,41 +1,42 @@
-# get aiida-core from the Git repository, it is often useful
-- name: Get the AiiDA code from the Git repository
+- name: Checkout aiida-core from GitHub
   git:
     repo: 'https://github.com/aiidateam/aiida-core.git'
     dest: "{{ aiida_source_folder }}/aiida-core"
     version: "{{ aiida_tag }}"
   register: git_checkout
 
-- name: Copy pip constrain generation script to folder
-  copy:
-    src: aiida-core-constraints.py
-    dest: "{{ aiida_source_folder }}/aiida-core"
+- name: Read aiida-core setup.json
+  slurp:
+    src: "{{ aiida_source_folder }}/aiida-core/setup.json"
+  register: aiida_setup_slurp
 
-- name: Create pip constraints file contents
-  command: >
-    /usr/bin/python3 '{{ aiida_source_folder }}/aiida-core/aiida-core-constraints.py'
-    {{ aiida_source_folder }}/aiida-core/setup.json
-    {{ aiida_extras | join(' ') }}
-  changed_when: false
-  register: constraints
+- name: Write pip requirements file
+  template:
+    src: pip-requirements.j2
+    dest: "{{ aiida_data_folder }}/requirements.txt"
+  vars:
+    aiida_setup: "{{ aiida_setup_slurp.content | b64decode | from_json }}"
+  register: aiida_pip_requirements
 
-- name: Write pip constraints file
-  copy:
-    dest: "{{ aiida_constraints_file }}"
-    content: "{{ constraints.stdout }}\n# additional\n{{ aiida_constraints | join('\n') }}"
+- name: Install aiida-core + plugins
+  pip:
+    requirements: "{{ aiida_data_folder }}/requirements.txt"
+    virtualenv: "{{ aiida_venv }}"
+    extra_args: "--use-feature=2020-resolver"
+  register: requirements_install
 
-- name: Install AiiDA git code
+- name: Install aiida-core from GitHub (editable)
   pip:
     name:
-    - "{{ aiida_source_folder }}/aiida-core[{{ aiida_extras | join(',') }}]"
+    - "{{ aiida_source_folder }}/aiida-core"
     virtualenv: "{{ aiida_venv }}"
     editable: true
-    extra_args: "-c {{ aiida_constraints_file }}"
+    extra_args: "--no-deps"
   register: aiida_core_install
   notify: reentry scan
-  # this guard is necessary because, for some reason, installs with
+  # this is necessary because, for some reason, installs with
   # 'editable: true' always show as "changed"
-  when: git_checkout.changed
+  when: git_checkout.changed or requirements_install.changed
 
 - meta: flush_handlers
 
@@ -88,20 +89,34 @@
   # not ideal - better to read default profile from config
   when: aiida_profile_show.rc != 0
 
-- include_role:
+- name: Document aiida-core (version)
+  when: release_notes is defined and release_notes
+  include_role:
     name: release_notes
   vars:
     section: "AiiDA"
     option: "version"
     value: "{{ aiida_version }}"
-  when: release_notes is defined and release_notes
 
-- include_role:
+- name: Document aiida-core (usage)
+  when: release_notes is defined and release_notes
+  include_role:
     name: release_notes
   vars:
     section: "AiiDA"
     option: "usage"
     value: >-
-      AiiDA is installed in a Python {{ aiida_python_version }} virtual environment.
+      AiiDA is installed in a Python {{ aiida_python_version }} venv: {{ aiida_venv }}.
       Type 'workon aiida' to get access to the 'verdi' commands.
+
+- name: Document plugins
   when: release_notes is defined and release_notes
+  include_role:
+    name: release_notes
+  vars:
+    section: "AiiDA Plugins"
+    option: "{{ plugin.key }}"
+    value: "{{ plugin.value.version }}"
+  loop: "{{ aiida_plugins|dict2items }}"
+  loop_control:
+    loop_var: plugin

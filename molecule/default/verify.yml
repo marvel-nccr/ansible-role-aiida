@@ -29,7 +29,7 @@
 
   - name: check plugin versions
     include_tasks: tests/test_plugins.yml
-    with_dict: "{{ aiida_plugin_versions }}"
+    loop: "{{ aiida_plugins|dict2items }}"
 
   - name: is daemon running?
     command: "{{ aiida_venv }}/bin/verdi daemon status"

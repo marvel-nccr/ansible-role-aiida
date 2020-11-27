@@ -6,4 +6,4 @@
 - name: check that aiida plugin versions are as expected
   assert:
     that:
-    - item.value in aiida_pip_show.stdout
+    - item.value.version in aiida_pip_show.stdout

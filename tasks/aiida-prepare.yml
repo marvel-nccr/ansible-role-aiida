@@ -62,11 +62,8 @@
     python_install_tk: true  # required by ase.gui
     # TODO add https://github.com/marvel-nccr/ansible-role-python/issues/6 when implemented
     python_venv_path: "{{ aiida_venv }}"
-    python_venv_packages:
-    - pip~=20.0
-    - setuptools
-    - wheel
-    - numpy  # required by pymatgen
+    python_venv_state: present
+    python_venv_packages: "{{ aiida_install_packages }}"
   register: pip_install
   notify: reentry scan
 
