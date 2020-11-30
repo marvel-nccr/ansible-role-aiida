@@ -23,6 +23,7 @@
     path: "${HOME}/.profile"
     regexp: "export VIRTUALENVWRAPPER_PYTHON=.*"
     line: "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python{{ python_base_version }}"
+    create: true
 
 # Note: this provides the 'workon' command and thus needs to go in the .bashrc
 - name: "Activate the virtualenvwrapper for the user"
