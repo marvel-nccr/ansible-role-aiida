@@ -24,9 +24,9 @@
 - import_tasks: virtualenv.yml
   tags: [aiida, aiida_core]
 - import_tasks: jupyter.yml
-  tags: [aiida, aiida_core]
+  tags: [aiida, aiida_core, aiida_jupyter]
 - import_tasks: aiida-daemon.yml
-  tags: aiida_daemon,aiida_core
+  tags: [aiida_daemon, aiida_core]
 - import_tasks: aiida-rest.yml
   tags: [aiida_rest, aiida_core]
 
