@@ -6,6 +6,18 @@
 
 An ansible role that installs and configures [AiiDA](http://www.aiida.net/) on Ubuntu, RHEL, CentOS and Fedora.
 
+The role:
+
+- Installs and starts the PostgreSQL and RabbitMQ services
+- Installs a designated Python version
+- Creates an 'aiida' Python virtual environment and installs aiida-core and plugins into it
+- Creates a 'jupyter' Python virtual environment and installs Jupyter and Jupyter Lab into it, then links the 'aiida' virtual environment as a kernel.
+- Adds [virtualenwrapper](https://virtualenvwrapper.readthedocs.io) for managing the virtual environments.
+- Creates an AiiDA profile and starts the daemon
+- Starts the AiiDA REST API
+- Sets up localhost codes for the AiiDA plugins (where code paths are defined)
+- Sets up pseudopotential families in the AiiDA profile
+
 ## Installation
 
 `ansible-galaxy install marvel-nccr.aiida`
@@ -20,6 +32,42 @@ See `defaults/main.yml`
 - hosts: servers
   roles:
   - role: marvel-nccr.aiida
+```
+
+For full use of JupyterLab, install nodejs, e.g. using [geerlingguy.nodejs](https://galaxy.ansible.com/geerlingguy/nodejs):
+
+```yaml
+- hosts: servers
+  tasks:
+  - include_role:
+      name: geerlingguy.nodejs
+    vars:
+      nodejs_version: 12.x
+      nodejs_install_npm_user: root
+  - include_role:
+      name: marvel-nccr.aiida
+```
+
+## Usage
+
+Once run, the user can "activate" the aiida environment in the terminal using:
+
+```console
+$ workon aiida
+(aiida) $ verdi status
+verdi status
+ ✔ config dir:  /root/.aiida
+ ✔ profile:     On profile name-with-dashes
+ ✔ repository:  /root/.aiida/repository/name-with-dashes
+ ✔ postgres:    Connected as aiida@localhost:5432
+ ✔ rabbitmq:    Connected as amqp://guest:guest@127.0.0.1:5672?heartbeat=600
+ ✔ daemon:      Daemon is running as PID 9484 since 2020-11-30 21:51:30
+```
+
+To start a jupyter lab server:
+
+```console
+$ aiida-jupyterlab
 ```
 
 ## Development and testing

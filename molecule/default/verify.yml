@@ -2,6 +2,9 @@
   hosts: all
   become: true
 
+  vars:
+    aiida_venv: "${HOME}/.virtualenvs/aiida"
+
   tasks:
   - name: Bare include (free-form)
     include_vars: ../../defaults/main.yml
@@ -30,6 +33,10 @@
   - name: check plugin versions
     include_tasks: tests/test_plugins.yml
     loop: "{{ aiida_plugins|dict2items }}"
+
+  - name: run pip check
+    command: "{{ aiida_venv }}/bin/pip check --no-color"
+    changed_when: false
 
   - name: is daemon running?
     command: "{{ aiida_venv }}/bin/verdi daemon status"

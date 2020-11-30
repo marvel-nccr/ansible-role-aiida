@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=JupyterLab
+Comment=Launch Jupyter Lab Server
+Exec=/usr/bin/aiida-jupyterlab
+Icon=jupyter-logo.png
+Type=Application
