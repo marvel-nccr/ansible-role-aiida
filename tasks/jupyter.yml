@@ -32,13 +32,15 @@
     creates: "${HOME}/.local/share/jupyter/kernels/aiida/kernel.json"
 
 - name: Write jupyter-lab launch script
+  become: true
+  become_user: "{{ root_user }}"
   template:
     src: jupyterlab.sh
-    dest: "/usr/bin/aiida-jupyterlab"
-    mode: "0753"
+    dest: "/usr/local/bin/aiida-jupyterlab"
+    mode: "0755"
 
 - name: Jupyter lab desktop shortcut
-  when: vm_headless is defined and vm_headless
+  when: vm_headless is defined and not vm_headless
   block:
   - name: create ${HOME}/Desktop
     file:
@@ -46,6 +48,8 @@
       state: directory
 
   - name: Copy Jupyter logo
+    become: true
+    become_user: "{{ root_user }}"
     copy:
       src: jupyter-logo.png
       dest: /usr/share/icons/
@@ -54,4 +58,4 @@
     template:
       src: jupyterlab.desktop
       dest: "${HOME}/Desktop"
-      mode: "0753"
+      mode: "0755"

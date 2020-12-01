@@ -140,4 +140,4 @@ aiida_pseudopotentials:
 aiida_rest_service_enabled: false
 
 root_user: root
-# add vm_headless=true to add a destop shortcut to start jupyter lab
+# add vm_headless=false to add a destop shortcut to start jupyter lab
