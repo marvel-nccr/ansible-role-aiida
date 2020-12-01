@@ -29,4 +29,4 @@
         plugin: quantumespresso.pw
       # dashes used to break systemd templates for daemon/rest api
       aiida_profile_name: name-with-dashes
-      vm_headless: true  # test creation of desktop shortcut
+      vm_headless: false  # test creation of desktop shortcut
