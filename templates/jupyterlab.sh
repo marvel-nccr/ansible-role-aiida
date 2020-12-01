@@ -1,4 +1,10 @@
 #!/bin/bash
 source "{{ aiida_jupyter_venv }}/bin/activate"
 
-jupyter lab --MultiKernelManager.default_kernel_name='aiida'
+if jupyter notebook list | grep localhost:${1:-{{ aiida_jupyter_port }}}; then
+    url=`jupyter notebook list | grep -m1 localhost:${1:-{{ aiida_jupyter_port }}} | awk '{print $1}'`
+    echo "already open at: $url"
+    xdg-open $url
+else
+    jupyter lab --MultiKernelManager.default_kernel_name='aiida' --port=${1:-{{ aiida_jupyter_port }}}
+fi
