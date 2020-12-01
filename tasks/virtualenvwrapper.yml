@@ -1,4 +1,4 @@
-- name: add packages (pip)
+- name: Add virtualenvwrapper package (pip{{ aiida_python_version }})
   become: true
   become_user: "{{ root_user }}"
   pip:
