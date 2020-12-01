@@ -59,3 +59,14 @@
       src: jupyterlab.desktop
       dest: "${HOME}/Desktop"
       mode: "0755"
+
+- name: Document Jupyter
+  when: release_notes is defined and release_notes
+  include_role:
+    name: release_notes
+  vars:
+    section: "Jupyter Lab"
+    option: "usage"
+    value: >-
+      Jupyter is installed in a Python {{ aiida_python_version }} venv: {{ aiida_jupyter_venv }}.
+      Type 'aiida-jupyterlab' to launch Jupyter Lab, and select the 'aiida' kernel.
