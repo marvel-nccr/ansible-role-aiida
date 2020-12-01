@@ -1,0 +1,33 @@
+- name: Add virtualenvwrapper package (pip{{ aiida_python_version }})
+  become: true
+  become_user: "{{ root_user }}"
+  pip:
+    executable: "/usr/local/bin/pip{{ aiida_python_version }}"
+    name:
+    - virtualenv
+    - virtualenvwrapper
+
+- name: "Run virtualenvwrapper once to create folders"
+  shell: "VIRTUALENVWRAPPER_PYTHON=/usr/bin/python{{ python_base_version }} bash /usr/local/bin/virtualenvwrapper.sh"
+  args:
+    creates: "{{ aiida_venv_base }}/initialize"
+
+- name: "Fix virtualenvwrapper python executable"
+  lineinfile:
+    path: "${HOME}/.bashrc"
+    regexp: "export VIRTUALENVWRAPPER_PYTHON=.*"
+    line: "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python{{ python_base_version }}"
+
+# For safety, also put this into .profile (in case this is needed by non-interactive shells)
+- name: "Fix virtualenvwrapper python executable"
+  lineinfile:
+    path: "${HOME}/.profile"
+    regexp: "export VIRTUALENVWRAPPER_PYTHON=.*"
+    line: "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python{{ python_base_version }}"
+    create: true
+
+# Note: this provides the 'workon' command and thus needs to go in the .bashrc
+- name: "Activate the virtualenvwrapper for the user"
+  lineinfile:
+    path: "${HOME}/.bashrc"
+    line: "source /usr/local/bin/virtualenvwrapper.sh"

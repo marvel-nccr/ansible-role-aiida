@@ -18,7 +18,21 @@
     aiida_setup: "{{ aiida_setup_slurp.content | b64decode | from_json }}"
   register: aiida_pip_requirements
 
-- name: Install aiida-core + plugins
+- name: "create python{{ aiida_python_version }} virtual env: {{ aiida_venv }}"
+  import_role:
+    name: marvel-nccr.python
+  vars:
+    python_base_version: "{{ aiida_python_version }}"
+    python_install_dev: true  # required to install pymatgen
+    python_install_tk: true  # required by ase.gui
+    # TODO add https://github.com/marvel-nccr/ansible-role-python/issues/6 when implemented
+    python_venv_path: "{{ aiida_venv }}"
+    python_venv_state: present
+    python_venv_packages: "{{ aiida_install_packages }}"
+  register: pip_install
+  notify: reentry scan
+
+- name: Install aiida-core + plugins into venv
   pip:
     requirements: "{{ aiida_data_folder }}/requirements.txt"
     virtualenv: "{{ aiida_venv }}"
@@ -40,25 +54,7 @@
 
 - meta: flush_handlers
 
-# TODO this can be removed when aiida-core supports notebook>=6.0.1
-# (which encorporates https://github.com/jupyter/notebook/pull/4772)
-- name: Determine python lib path
-  when: '"notebook" in aiida_extras'
-  find:
-    path: "{{ aiida_venv }}/lib"
-    file_type: directory
-    patterns: "python*"
-    recurse: no
-  register: python_lib
-
-- name: Fix missing react-dom js
-  when: '"notebook" in aiida_extras'
-  get_url:
-    url: https://unpkg.com/react-dom@16/umd/react-dom.production.min.js
-    dest: "{{ item }}/site-packages/notebook/static/components/react/"
-  with_items: "{{ python_lib.files | map(attribute='path') | list }}"
-
-- name: "Activate TAB completion in virtualenv"
+- name: "Activate verdi TAB completion in aiida virtualenv"
   lineinfile:
     path: "{{ aiida_venv }}/bin/activate"
     line: 'eval "$(verdi completioncommand)"'

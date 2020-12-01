@@ -1,0 +1,57 @@
+- name: "create python{{ aiida_python_version }} virtual env: {{ aiida_jupyter_venv }}"
+  import_role:
+    name: marvel-nccr.python
+  vars:
+    python_base_version: "{{ aiida_python_version }}"
+    # TODO add https://github.com/marvel-nccr/ansible-role-python/issues/6 when implemented
+    python_venv_path: "{{ aiida_jupyter_venv }}"
+    python_venv_state: present
+    python_venv_packages: "{{ aiida_jupyter_packages }}"
+  register: pip_install
+
+- name: Symlink verdi to {{ aiida_jupyter_venv }}/bin
+  file:
+    src: "{{ aiida_venv }}/bin/verdi"
+    dest: "{{ aiida_jupyter_venv }}/bin/verdi"
+    state: link
+
+- name: "Activate verdi TAB completion in jupyter virtualenv"
+  lineinfile:
+    path: "{{ aiida_jupyter_venv }}/bin/activate"
+    line: 'eval "$(verdi completioncommand)"'
+
+- name: Symlink reentry to {{ aiida_jupyter_venv }}/bin
+  file:
+    src: "{{ aiida_venv }}/bin/reentry"
+    dest: "{{ aiida_jupyter_venv }}/bin/reentry"
+    state: link
+
+- name: Add {{ aiida_venv }} to jupyter kernels
+  shell: "{{ aiida_venv }}/bin/python -m ipykernel install --name aiida --user"
+  args:
+    creates: "${HOME}/.local/share/jupyter/kernels/aiida/kernel.json"
+
+- name: Write jupyter-lab launch script
+  template:
+    src: jupyterlab.sh
+    dest: "/usr/bin/aiida-jupyterlab"
+    mode: "0753"
+
+- name: Jupyter lab desktop shortcut
+  when: vm_headless is defined and vm_headless
+  block:
+  - name: create ${HOME}/Desktop
+    file:
+      path: "${HOME}/Desktop"
+      state: directory
+
+  - name: Copy Jupyter logo
+    copy:
+      src: jupyter-logo.png
+      dest: /usr/share/icons/
+
+  - name: Create desktop shortcut to Jupyter Lab launcher
+    template:
+      src: jupyterlab.desktop
+      dest: "${HOME}/Desktop"
+      mode: "0753"

@@ -2,10 +2,14 @@
   hosts: all
   become: true
 
-  vars:
-    aiida_venv: "${HOME}/.virtualenvs/aiida"
-
   tasks:
+  - name: Install nodejs 12.x
+    when: (install_node is defined) and install_node|bool
+    include_role:
+      name: geerlingguy.nodejs
+    vars:
+      nodejs_version: 12.x
+      nodejs_install_npm_user: root
   - name: Create dummy pw executable
     copy:
       content: ""
@@ -25,8 +29,4 @@
         plugin: quantumespresso.pw
       # dashes used to break systemd templates for daemon/rest api
       aiida_profile_name: name-with-dashes
-
-  post_tasks:
-  - name: run pip check
-    command: "{{ aiida_venv }}/bin/pip check --no-color"
-    changed_when: false
+      vm_headless: true  # test creation of desktop shortcut

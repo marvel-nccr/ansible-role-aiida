@@ -2,3 +2,5 @@
   version: v0.1.0
 - src: marvel-nccr.python
   version: v0.2.2
+- src: geerlingguy.nodejs
+  version: 5.1.1

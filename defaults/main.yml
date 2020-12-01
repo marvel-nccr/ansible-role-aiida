@@ -5,12 +5,13 @@ aiida_extras:
 - rest
 - docs
 - atomic_tools
-- notebook
 aiida_data_folder: "${HOME}/.local/share/aiida"
 aiida_templates_folder: "${HOME}/.local/share/aiida"
 aiida_source_folder: "${HOME}/src"
 aiida_examples_folder: "${HOME}"
-aiida_venv: "${HOME}/.virtualenvs/aiida"
+aiida_venv_base: "${HOME}/.virtualenvs"
+aiida_venv: "{{ aiida_venv_base }}/aiida"
+aiida_jupyter_venv: "{{ aiida_venv_base }}/jupyter"
 # these are packages required to run the install
 aiida_install_packages:
 - pip~=20.2
@@ -18,9 +19,13 @@ aiida_install_packages:
 - wheel
 - reentry~=1.3
 - fastentrypoints~=0.12
+- ipykernel  # required to add the venv as a kernel
 - numpy~=1.17  # required for pymatgen install (to build c-extesions)
 # these are additional to those extracted from aiida-core and its extras
 aiida_extra_packages: []
+aiida_jupyter_packages:
+- jupyter~=1.0.0
+- jupyterlab~=2.2.9
 
 # profile
 aiida_profile_name: generic
@@ -135,3 +140,4 @@ aiida_pseudopotentials:
 aiida_rest_service_enabled: false
 
 root_user: root
+# add vm_headless=true to add a destop shortcut to start jupyter lab

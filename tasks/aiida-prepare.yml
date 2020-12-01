@@ -53,20 +53,6 @@
     password: "{{ aiida_postgres_db_pw }}"
     encrypted: true
 
-- name: "create python{{ aiida_python_version }} virtual env: {{ aiida_venv }}"
-  import_role:
-    name: marvel-nccr.python
-  vars:
-    python_base_version: "{{ aiida_python_version }}"
-    python_install_dev: true  # required to install pymatgen
-    python_install_tk: true  # required by ase.gui
-    # TODO add https://github.com/marvel-nccr/ansible-role-python/issues/6 when implemented
-    python_venv_path: "{{ aiida_venv }}"
-    python_venv_state: present
-    python_venv_packages: "{{ aiida_install_packages }}"
-  register: pip_install
-  notify: reentry scan
-
 - name: add aiida templates folder
   become: true
   become_user: "{{ root_user }}"
