@@ -1,7 +1,8 @@
 - name: add packages (pip)
   become: true
+  become_user: "{{ root_user }}"
   pip:
-    executable: "pip{{ aiida_python_version }}"
+    executable: "/usr/local/bin/pip{{ aiida_python_version }}"
     name:
     - virtualenv
     - virtualenvwrapper

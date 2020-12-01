@@ -21,8 +21,8 @@
 # install and setup AiiDA, including profile etc.
 - import_tasks: aiida-core.yml
   tags: [aiida, aiida_core]
-- import_tasks: virtualenv.yml
-  tags: [aiida, aiida_core]
+- import_tasks: virtualenvwrapper.yml
+  tags: [aiida, aiida_core, aiida_venv]
 - import_tasks: jupyter.yml
   tags: [aiida, aiida_core, aiida_jupyter]
 - import_tasks: aiida-daemon.yml
