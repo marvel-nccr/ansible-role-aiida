@@ -139,5 +139,8 @@ aiida_pseudopotentials:
 # start AiiDA REST API system service on boot?
 aiida_rest_service_enabled: false
 
+# default port on which to start jupyter lab with aiida-jupyterlab exec
+aiida_jupyter_port: 8890
+
 root_user: root
 # add vm_headless=false to add a destop shortcut to start jupyter lab
