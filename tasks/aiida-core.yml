@@ -18,6 +18,12 @@
     aiida_setup: "{{ aiida_setup_slurp.content | b64decode | from_json }}"
   register: aiida_pip_requirements
 
+- name: Write pip constraints file
+  # this is required for subsequent pip installs, e.g. by aiidalab
+  constraints:
+    src: "{{ aiida_data_folder }}/requirements.txt"
+    dest: "{{ aiida_data_folder }}/constraints.txt"
+
 - name: "create python{{ aiida_python_version }} virtual env: {{ aiida_venv }}"
   import_role:
     name: marvel-nccr.python
