@@ -31,6 +31,16 @@
   args:
     creates: "${HOME}/.local/share/jupyter/kernels/aiida/kernel.json"
 
+- name: Create ipython config folder
+  file:
+    path: "${HOME}/.ipython/profile_default"
+    state: directory
+
+- name: Setup AiiDA jupyter extension
+  copy:
+    src: ipython_config.py
+    dest: "${HOME}/.ipython/profile_default"
+
 - name: Write jupyter-lab launch script
   become: true
   become_user: "{{ root_user }}"
