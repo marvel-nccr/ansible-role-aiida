@@ -51,5 +51,5 @@
   with_items: "{{ aiida_pseudopotentials }}"
   tags: [aiida_pps]
 
-- include_tasks: aiida-examples.yml
-  tags: [aiida_examples]
+# - include_tasks: aiida-examples.yml
+#   tags: [aiida_examples]
