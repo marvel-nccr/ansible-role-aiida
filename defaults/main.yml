@@ -12,6 +12,9 @@ aiida_examples_folder: "${HOME}"
 aiida_venv_base: "${HOME}/.virtualenvs"
 aiida_venv: "{{ aiida_venv_base }}/aiida"
 aiida_jupyter_venv: "{{ aiida_venv_base }}/jupyter"
+# this file can be used for subsequent installs into the environment,
+# pip install -c {{ aiida_venv_constraints }} new_pacakage
+aiida_venv_constraints: "{{ aiida_data_folder }}/constraints.txt"
 # these are packages required to run the install
 aiida_install_packages:
 - pip~=20.2

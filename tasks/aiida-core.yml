@@ -22,7 +22,7 @@
   # this is required for subsequent pip installs, e.g. by aiidalab
   constraints:
     src: "{{ aiida_data_folder }}/requirements.txt"
-    dest: "{{ aiida_data_folder }}/constraints.txt"
+    dest: "{{ aiida_venv_constraints }}"
 
 - name: "create python{{ aiida_python_version }} virtual env: {{ aiida_venv }}"
   import_role:
