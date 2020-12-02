@@ -27,9 +27,9 @@
     state: link
 
 - name: Add {{ aiida_venv }} to jupyter kernels
-  shell: "{{ aiida_venv }}/bin/python -m ipykernel install --name aiida --user"
+  shell: "{{ aiida_venv }}/bin/python -m ipykernel install --name {{ aiida_kernel_name }} --user"
   args:
-    creates: "${HOME}/.local/share/jupyter/kernels/aiida/kernel.json"
+    creates: "${HOME}/.local/share/jupyter/kernels/{{ aiida_kernel_name }}/kernel.json"
 
 - name: Create ipython config folder
   file:
@@ -79,4 +79,4 @@
     option: "usage"
     value: >-
       Jupyter is installed in a Python {{ aiida_python_version }} venv: {{ aiida_jupyter_venv }}.
-      Type 'aiida-jupyterlab' to launch Jupyter Lab, and select the 'aiida' kernel.
+      Type 'aiida-jupyterlab' to launch Jupyter Lab, and select the '{{ aiida_kernel_name }}' kernel.

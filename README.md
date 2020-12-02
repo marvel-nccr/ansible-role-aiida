@@ -11,7 +11,7 @@ The role:
 - Installs and starts the PostgreSQL and RabbitMQ services
 - Installs a designated Python version
 - Creates an 'aiida' Python virtual environment and installs aiida-core and plugins into it
-- Creates a 'jupyter' Python virtual environment and installs Jupyter and Jupyter Lab into it, then links the 'aiida' virtual environment as a kernel.
+- Creates a 'jupyter' Python virtual environment and installs Jupyter and Jupyter Lab into it, then links the virtual environment as a kernel.
 - Adds [virtualenwrapper](https://virtualenvwrapper.readthedocs.io) for managing the virtual environments.
 - Creates an AiiDA profile and starts the daemon
 - Starts the AiiDA REST API

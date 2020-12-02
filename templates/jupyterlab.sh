@@ -6,5 +6,5 @@ if jupyter notebook list | grep localhost:${1:-{{ aiida_jupyter_port }}}; then
     echo "already open at: $url"
     xdg-open $url
 else
-    jupyter lab --MultiKernelManager.default_kernel_name='aiida' --port=${1:-{{ aiida_jupyter_port }}}
+    jupyter lab --MultiKernelManager.default_kernel_name='{{ aiida_kernel_name }}' --port=${1:-{{ aiida_jupyter_port }}}
 fi
