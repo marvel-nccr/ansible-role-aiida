@@ -27,12 +27,8 @@ jobs:
 
     strategy:
       matrix:
-        distro: [ubuntu1604, ubuntu1804, ubuntu2004, fedora31]
+        distro: [ubuntu1604, ubuntu1804, ubuntu2004]
         python_version: ["3.7"]
-        include:
-        - distro: "centos8"
-          # required due to https://github.com/marvel-nccr/ansible-role-python/issues/2
-          python_version: "3.8"
       fail-fast: false
 
     runs-on: ubuntu-latest
