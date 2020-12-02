@@ -142,6 +142,7 @@ aiida_pseudopotentials:
 # start AiiDA REST API system service on boot?
 aiida_rest_service_enabled: false
 
+aiida_kernel_name: python3
 # default port on which to start jupyter lab with aiida-jupyterlab exec
 aiida_jupyter_port: 8890
 
