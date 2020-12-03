@@ -1,4 +1,6 @@
-- block:
+- name: Start services for systemd
+  when: ansible_service_mgr == "systemd"
+  block:
   - name: Start Postgresql service
     become: true
     become_user: "{{ root_user }}"
@@ -6,7 +8,14 @@
       name: "postgresql"
       state: "started"
       enabled: true
-
+  # see https://github.com/marvel-nccr/quantum-mobile/issues/111
+  - name: Ensure correct RabbitMQ shutdown
+    become: true
+    become_user: "{{ root_user }}"
+    lineinfile:
+      path: /lib/systemd/system/rabbitmq-server.service
+      regexp: ExecStop=/usr/sbin/rabbitmqctl stop
+      line: ExecStop=/usr/sbin/rabbitmqctl shutdown
   - name: Start RabbitMQ service
     become: true
     become_user: "{{ root_user }}"
@@ -14,9 +23,10 @@
       name: "rabbitmq-server"
       state: "started"
       enabled: true
-  when: ansible_service_mgr == "systemd"
 
-- block:
+- name: Check Postgresql
+  when: ansible_service_mgr != "systemd"
+  block:
   - name: Check if Postgresql is running
     shell: pgrep postgres
     changed_when: false
@@ -25,9 +35,10 @@
     become: true
     become_user: "{{ aiida_postgres_user }}"
     command: "{{ aiida_postgres_bin_location }}/pg_ctl start -D {{ aiida_postgres_data_location }} -s -o '-p 5432' -w -t 300"
-  when: ansible_service_mgr != "systemd"
 
-- block:
+- name: Check RabbitMQ
+  when: ansible_service_mgr != "systemd"
+  block:
   - name: Check if RabbitMQ is running
     shell: pgrep rabbitmq
     changed_when: false
@@ -36,7 +47,6 @@
     become: true
     become_user: "{{ root_user }}"
     shell: rabbitmq-server > /dev/null 2>&1 &
-  when: ansible_service_mgr != "systemd"
 
 - name: Setup postgres db
   become: true
