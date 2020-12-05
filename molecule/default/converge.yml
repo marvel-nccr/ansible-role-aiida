@@ -29,6 +29,5 @@
         folder: "/usr/bin"
         executable: "pw.x"
         plugin: quantumespresso.pw
-      # TODO add dashes to name when https://github.com/marvel-nccr/ansible-role-aiida/issues/51 fixed
-      aiida_profile_name: general
+      aiida_profile_name: name-with-dashes  # use dashes to check systemd compatibility
       vm_headless: false  # test creation of desktop shortcut
