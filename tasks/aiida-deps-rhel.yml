@@ -102,7 +102,6 @@
   command: "{{ aiida_postgres_bin_location }}/initdb {{ aiida_postgres_data_location }}"
   args:
     creates: "{{ aiida_postgres_data_location }}/pg_hba.conf"
-  when: ansible_service_mgr != "systemd"
 
 # Avoid password on postgres, fix in future so that we can use md5
 - name: put a trust configured pg_hba in place of the default
