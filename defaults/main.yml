@@ -23,7 +23,7 @@ aiida_install_packages:
 - reentry~=1.3
 - fastentrypoints~=0.12
 - ipykernel  # required to add the venv as a kernel
-- numpy~=1.17  # required for pymatgen install (to build c-extesions)
+- numpy~=1.17  # required for pymatgen install (see https://github.com/aiidateam/aiida-core/issues/4614)
 # these are additional to those extracted from aiida-core and its extras
 aiida_extra_packages: []
 aiida_jupyter_packages:
