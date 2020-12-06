@@ -6,7 +6,8 @@ driver:
 platforms:
 - name: instance
   image: "marvelnccr/docker-${MOLECULE_DISTRO:-ubuntu1804}-ansible:latest"
-  command: "${MOLECULE_DOCKER_COMMAND:-sleep infinity}"
+  # by default the container will initialise with systemd as PID1
+  command: ${MOLECULE_DOCKER_COMMAND:-""}
   volumes:
   - /sys/fs/cgroup:/sys/fs/cgroup:ro
   privileged: true

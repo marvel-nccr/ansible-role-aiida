@@ -110,6 +110,7 @@
     value: >-
       AiiDA is installed in a Python {{ aiida_python_version }} venv: {{ aiida_venv }}.
       Type 'workon aiida' to get access to the 'verdi' commands.
+      See https://aiidateam.github.io/aiida-registry for plugin information.
 
 - name: Document plugins
   when: release_notes is defined and release_notes

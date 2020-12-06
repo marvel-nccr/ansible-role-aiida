@@ -10,12 +10,14 @@
     vars:
       nodejs_version: 12.x
       nodejs_install_npm_user: root
+
   - name: Create dummy pw executable
     copy:
       content: ""
       dest: /usr/bin/pw.x
       force: no
       mode: 0666
+
   - include_role:
       name: marvel-nccr.aiida
     vars:
@@ -27,6 +29,5 @@
         folder: "/usr/bin"
         executable: "pw.x"
         plugin: quantumespresso.pw
-      # dashes used to break systemd templates for daemon/rest api
-      aiida_profile_name: name-with-dashes
+      aiida_profile_name: name-with-dashes  # use dashes to check systemd compatibility
       vm_headless: false  # test creation of desktop shortcut

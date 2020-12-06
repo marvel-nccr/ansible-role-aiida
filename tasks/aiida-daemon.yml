@@ -19,7 +19,7 @@
     daemon_aiida_venv: "{{ aiida_venv |  regex_replace('\\$\\{HOME}', current_user_home) }}"
   when: ansible_service_mgr == "systemd"
 
-- name: Start AiiDA Daemon system service
+- name: Start AiiDA Daemon system service (systemd)
   become: true
   become_user: "{{ root_user }}"
   systemd:
@@ -27,7 +27,7 @@
     enabled: true
     masked: false
     daemon-reload: true
-    state: restarted
+    state: started
   when: ansible_service_mgr == "systemd"
 
 - block:
@@ -35,6 +35,6 @@
     command: "{{ aiida_venv }}/bin/verdi -p {{ aiida_profile_name }} daemon status"
     changed_when: false
   rescue:
-  - name: Start AiiDA Daemon
+  - name: Start AiiDA Daemon (non-systemd)
     command: "{{ aiida_venv }}/bin/verdi -p {{ aiida_profile_name }} daemon start"
   when: ansible_service_mgr != "systemd"
