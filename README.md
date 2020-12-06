@@ -1,4 +1,5 @@
-[![CI](https://github.com/marvel-nccr/ansible-role-aiida/workflows/CI/badge.svg)](https://github.com/marvel-nccr/ansible-role-aiida/actions)
+[![CI (debian)](https://github.com/marvel-nccr/ansible-role-aiida/workflows/CI%20(debian)/badge.svg)](https://github.com/marvel-nccr/ansible-role-aiida/actions)
+[![CI (redhat)](https://github.com/marvel-nccr/ansible-role-aiida/workflows/CI%20(redhat)/badge.svg)](https://github.com/marvel-nccr/ansible-role-aiida/actions)
 [![Ansible Role](https://img.shields.io/ansible/role/25553.svg)](https://galaxy.ansible.com/marvel-nccr/aiida)
 [![Release](https://img.shields.io/github/tag/marvel-nccr/ansible-role-aiida.svg)](https://github.com/marvel-nccr/ansible-role-aiida/releases)
 
