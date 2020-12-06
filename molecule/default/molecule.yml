@@ -34,3 +34,5 @@ provisioner:
           ansible_python_interpreter: /usr/bin/python3
           aiida_python_version: "${MOLECULE_PYTHON_VERSION:-3.7}"
           install_node: "${MOLECULE_INSTALL_NODE:-no}"
+          # for testing in docker container
+          aiida_jupyter_extra_args: "--allow-root"

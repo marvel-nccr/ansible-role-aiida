@@ -69,6 +69,12 @@ To start a jupyter lab server:
 
 ```console
 $ aiida-jupyterlab
+...
+    To access the notebook, open this file in a browser:
+        file:///root/.local/share/jupyter/runtime/nbserver-14617-open.html
+    Or copy and paste one of these URLs:
+        http://localhost:8890/?token=a7086764cda7aba8488a767386d57121429958771a8bccb2
+     or http://127.0.0.1:8890/?token=a7086764cda7aba8488a767386d57121429958771a8bccb2
 ```
 
 ## Development and testing
@@ -96,6 +102,26 @@ or use tox (see `tox.ini`):
 ```bash
 pip install tox
 tox
+```
+
+To manually test the created docker container, first run:
+
+```bash
+tox converge
+```
+
+This will run the ansible role, leaving the container running.
+The recommended way to interact with the container is then to use the [VS Code Docker extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker).
+Using this you can then attach a visual studio code instance:
+
+![VS Code Docker extension](./vscode.png)
+
+Inside the container run `aiida-jupyterlab`, and you will be able to access the supplied URL from your local browser.
+
+When you are finished with the container, destroy the container with:
+
+```bash
+tox destroy
 ```
 
 ## Code style
