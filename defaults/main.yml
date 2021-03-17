@@ -92,6 +92,10 @@ aiida_plugins:
     version: "1.1.2"
     code_prefix: fleur
     codes_var: "fleur_executables"
+  aiida-nwchem:
+    version: "2.0.0"
+    code_prefix: nwchem
+    codes_var: "nwchem_executables"
   aiida-quantumespresso:
     version: "3.4.0"
     code_prefix: qe
