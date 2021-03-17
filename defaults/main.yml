@@ -149,5 +149,10 @@ aiida_kernel_name: python3
 # default port on which to start jupyter lab with aiida-jupyterlab exec
 aiida_jupyter_port: 8890
 
+# symlink executubles from the aiida environment into the jupyter one
+aiida_jupyter_symlink:
+- verdi
+- reentry
+
 root_user: root
 # add vm_headless=false to add a destop shortcut to start jupyter lab
