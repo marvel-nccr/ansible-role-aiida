@@ -49,6 +49,8 @@ For full use of JupyterLab, install nodejs, e.g. using [geerlingguy.nodejs](http
       name: marvel-nccr.aiida
 ```
 
+Note: When building a Docker container, the variable `jupyter_ip: "0.0.0.0"` should be set, for `aiida-jupyterlab` to correctly expose the port.
+
 ## Usage
 
 Once run, the user can "activate" the aiida environment in the terminal using:
