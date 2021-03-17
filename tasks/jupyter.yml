@@ -9,22 +9,17 @@
     python_venv_packages: "{{ aiida_jupyter_packages }}"
   register: pip_install
 
-- name: Symlink verdi to {{ aiida_jupyter_venv }}/bin
+- name: "Symlink {{ item }} to {{ aiida_jupyter_venv }}/bin"
   file:
-    src: "{{ aiida_venv }}/bin/verdi"
-    dest: "{{ aiida_jupyter_venv }}/bin/verdi"
+    src: "{{ aiida_venv }}/bin/{{ item }}"
+    dest: "{{ aiida_jupyter_venv }}/bin/{{ item }}"
     state: link
+  loop: "{{ aiida_jupyter_symlink }}"
 
 - name: "Activate verdi TAB completion in jupyter virtualenv"
   lineinfile:
     path: "{{ aiida_jupyter_venv }}/bin/activate"
     line: 'eval "$(verdi completioncommand)"'
-
-- name: Symlink reentry to {{ aiida_jupyter_venv }}/bin
-  file:
-    src: "{{ aiida_venv }}/bin/reentry"
-    dest: "{{ aiida_jupyter_venv }}/bin/reentry"
-    state: link
 
 - name: Add {{ aiida_venv }} to jupyter kernels
   shell: "{{ aiida_venv }}/bin/python -m ipykernel install --name {{ aiida_kernel_name }} --user"
