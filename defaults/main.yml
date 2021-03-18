@@ -5,6 +5,7 @@ aiida_extras:
 - rest
 - docs
 - atomic_tools
+aiida_temp_folder: "/tmp"
 aiida_data_folder: "${HOME}/.local/share/aiida"
 aiida_templates_folder: "${HOME}/.local/share/aiida"
 aiida_source_folder: "${HOME}/src"
