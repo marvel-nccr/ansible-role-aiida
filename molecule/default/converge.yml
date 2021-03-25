@@ -29,5 +29,6 @@
         folder: "/usr/bin"
         executable: "pw.x"
         plugin: quantumespresso.pw
+        version: "6.5"
       aiida_profile_name: name-with-dashes  # use dashes to check systemd compatibility
       vm_headless: false  # test creation of desktop shortcut

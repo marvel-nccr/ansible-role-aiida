@@ -2,12 +2,12 @@
   include_tasks: code-setup.yml
   vars:
   - aiida_code:
-      label: "{{ plugin.value.code_prefix }}-{{ plugin.value.version }}-{{ code_params.name }}"
+      label: "{{ plugin.value.code_prefix }}-{{ code_params.name if code_params.name != plugin.value.code_prefix else '' }}-{{ code_params.version }}"
       template: code.yml
       executable: "{{ code_params.executable | default(code_params.name) }}"
       folder: "{{ code_params.folder }}"
       plugin: "{{ code_params.plugin }}"
-      description: "{{ plugin.key }} {{ code_params.name }} v{{ plugin.value.version }}"
+      description: "{{ plugin.key }} {{ code_params.name }}, original plugin version {{ plugin.value.version }}, executable version {{ code_params.version }}"
   loop: "{{ lookup('vars', plugin.value.codes_var) }}"
   loop_control:
     loop_var: code_params
