@@ -2,7 +2,7 @@
   include_tasks: code-setup.yml
   vars:
   - aiida_code:
-      label: "{{ plugin.value.code_prefix }}-{{ code_params.name if code_params.name != plugin.value.code_prefix else '' }}-{{ code_params.version }}"
+      label: "{{ plugin.value.code_prefix }}{{ '-' + code_params.name if code_params.name != plugin.value.code_prefix else '' }}-{{ code_params.version }}"
       template: code.yml
       executable: "{{ code_params.executable | default(code_params.name) }}"
       folder: "{{ code_params.folder }}"
