@@ -71,6 +71,7 @@ aiida_computer_run_folder: "${HOME}/.aiida_run"
 
   # - name: name
   #   plugin: plugin.name
+  #   version: 1.0 # version of the executable, not plugin
   #   folder: /path/to
   #   executable: executable.exe  # if this is omitted, then the `name` will be used
 
