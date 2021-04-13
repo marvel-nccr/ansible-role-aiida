@@ -64,6 +64,7 @@ aiida_computer_cpus: 2
 aiida_computer_scheduler: direct
 aiida_computer_transport: local
 aiida_computer_run_folder: "${HOME}/.aiida_run"
+aiida_computer_mpirun_command: "mpirun -np {tot_num_mpiprocs}"
 
 # `codes_var` below will be looked up dynamically,
 # or ignored if it cannot be found,
