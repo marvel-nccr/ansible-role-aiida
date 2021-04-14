@@ -92,7 +92,7 @@ aiida_plugins:
     code_prefix: cp2k
     codes_var: "cp2k_executables"
   aiida-fleur:
-    version: "1.1.2"
+    version: "1.1.4"
     code_prefix: fleur
     codes_var: "fleur_executables"
   aiida-nwchem:
