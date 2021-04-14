@@ -38,6 +38,14 @@
     command: "{{ aiida_venv }}/bin/pip check --no-color"
     changed_when: false
 
+  # pymatgen can fail when the numpy it was compiled against is downgraded/upgraded
+  # (e.g. due to a package pinning numpy)
+  # ValueError: numpy.ndarray size changed, may indicate binary incompatibility. Expected 88 from C header, got 80 from PyObject
+  # this is not identified by pip check!
+  - name: test pymatgen import
+    command: "{{ aiida_venv }}/bin/python -c 'import pymatgen'"
+    changed_when: false
+
   - name: is daemon running?
     command: "{{ aiida_venv }}/bin/verdi daemon status"
     changed_when: false
