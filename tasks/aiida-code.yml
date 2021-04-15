@@ -8,6 +8,7 @@
       folder: "{{ code_params.folder }}"
       plugin: "{{ code_params.plugin }}"
       description: "{{ plugin.key }} {{ code_params.name }}, original plugin version {{ plugin.value.version }}, executable version {{ code_params.version }}"
+      prepend_text: "{{ code_params.prepend_text | default('') }}"
   loop: "{{ lookup('vars', plugin.value.codes_var) }}"
   loop_control:
     loop_var: code_params
