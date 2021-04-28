@@ -42,7 +42,6 @@
   pip:
     requirements: "{{ aiida_data_folder }}/requirements.txt"
     virtualenv: "{{ aiida_venv }}"
-    extra_args: "--use-feature=2020-resolver"
   register: requirements_install
 
 - name: Install aiida-core from GitHub (editable)
