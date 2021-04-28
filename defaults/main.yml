@@ -1,5 +1,5 @@
 aiida_python_version: "3.7"
-aiida_version: "1.6.2"
+aiida_version: "1.6.1"
 aiida_tag: v{{ aiida_version }}
 aiida_extras:
 - rest
@@ -126,27 +126,6 @@ aiida_plugins:
     version: "2.1.0"
   aiida-common-workflows:
     version: "0.1.0"
-
-# aiida_pseudopotentials:
-# - type: aiida-pseudo-sssp
-#   version: "1.1"
-#   functional: "PBE"
-#   protocol: "efficiency"
-# - type: aiida-pseudo-sssp
-#   version: "1.1"
-#   functional: "PBE"
-#   protocol: "precision"
-# - type: oncv
-#   name: sg15-oncv-1.1
-#   url: http://www.quantum-simulation.org/potentials/sg15_oncv/sg15_oncv_upf_2015-10-07.tar.gz
-
-
-# - name: SSSP/1.1/PBE/efficiency
-#   command: install sssp --version 1.1 --functional PBE --protocol efficiency --traceback
-# - name: SSSP/1.1/PBE/precision
-#   command: install sssp --version 1.1 --functional PBE --protocol precision --traceback
-# - name: sg15-oncv/1.1
-#   command: install family
 
 # pseudos
 aiida_pseudopotentials:
