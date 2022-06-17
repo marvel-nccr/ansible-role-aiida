@@ -5,17 +5,17 @@
     version: "{{ aiida_tag }}"
   register: git_checkout
 
-- name: Read aiida-core setup.json
+- name: Read aiida-core pyproject.toml
   slurp:
-    src: "{{ aiida_source_folder }}/aiida-core/setup.json"
-  register: aiida_setup_slurp
+    src: "{{ aiida_source_folder }}/aiida-core/pyproject.toml"
+  register: aiida_pyproject_slurp
 
 - name: Write pip requirements file
   template:
     src: pip-requirements.j2
     dest: "{{ aiida_data_folder }}/requirements.txt"
   vars:
-    aiida_setup: "{{ aiida_setup_slurp.content | b64decode | from_json }}"
+    aiida_pyproject: "{{ aiida_pyproject_slurp.content | b64decode | from_toml }}"
   register: aiida_pip_requirements
 
 - name: Write pip constraints file
@@ -36,7 +36,6 @@
     python_venv_state: present
     python_venv_packages: "{{ aiida_install_packages }}"
   register: pip_install
-  notify: reentry scan
 
 - name: Install aiida-core + plugins into venv
   pip:
@@ -52,7 +51,6 @@
     editable: true
     extra_args: "--no-deps"
   register: aiida_core_install
-  notify: reentry scan
   # this is necessary because, for some reason, installs with
   # 'editable: true' always show as "changed"
   when: git_checkout.changed or requirements_install.changed
@@ -62,7 +60,7 @@
 - name: "Activate verdi TAB completion in aiida virtualenv"
   lineinfile:
     path: "{{ aiida_venv }}/bin/activate"
-    line: 'eval "$(verdi completioncommand)"'
+    line: 'eval "$(_VERDI_COMPLETE=bash_source verdi)"'
 
 - name: copy profile config
   become: true

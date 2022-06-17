@@ -14,7 +14,7 @@
 
 # check whether pp family is already installed
 - name: list PP families
-  shell: "{{ aiida_venv }}/bin/verdi data upf listfamilies"
+  shell: "{{ aiida_venv }}/bin/verdi data core.upf listfamilies"
   changed_when: false
   register: aiida_pps
 

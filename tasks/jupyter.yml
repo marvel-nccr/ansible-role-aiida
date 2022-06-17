@@ -19,7 +19,7 @@
 - name: "Activate verdi TAB completion in jupyter virtualenv"
   lineinfile:
     path: "{{ aiida_jupyter_venv }}/bin/activate"
-    line: 'eval "$(verdi completioncommand)"'
+    line: 'eval "$(_VERDI_COMPLETE=bash_source verdi)"'
 
 - name: Add {{ aiida_venv }} to jupyter kernels
   shell: "{{ aiida_venv }}/bin/python -m ipykernel install --name {{ aiida_kernel_name }} --user"
