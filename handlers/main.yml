@@ -1,2 +1,0 @@
-- name: reentry scan
-  command: "{{ aiida_venv }}/bin/reentry scan"

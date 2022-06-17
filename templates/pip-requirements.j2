@@ -1,15 +1,15 @@
 aiida-core=={{ aiida_version }}
 
 # install_requires
-{% for dep in aiida_setup.install_requires %}
+{% for dep in aiida_pyproject.project.dependencies %}
 {{ dep }}
 {% endfor %}
 
-{% for extra in aiida_setup.extras_require %}
+{% for extra in aiida_pyproject.project["optional-dependencies"] %}
 {% if extra in aiida_extras %}
 
 # extra = {{ extra }}
-{% for dep in aiida_setup.extras_require[extra] %}
+{% for dep in aiida_pyproject.project["optional-dependencies"][extra] %}
 {{ dep }}
 {% endfor %}
 {% endif %}

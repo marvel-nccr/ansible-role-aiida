@@ -23,6 +23,12 @@
     vars:
         # just to test whether this also works
       aiida_data_folder: "/usr/local/share"
+      aiida_plugins:
+        aiida-quantumespresso-test:
+          version: "4.0.0a1"
+          code_prefix: qe
+          codes_var: "quantum_espresso_executables"
+          omit_plugins: ["quantumespresso.hp", "wannier90"]
       quantum_espresso_version: "6.5"
       quantum_espresso_executables:
       - name: pw

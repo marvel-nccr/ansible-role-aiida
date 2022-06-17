@@ -32,7 +32,7 @@ provisioner:
       all:
         vars:
           ansible_python_interpreter: /usr/bin/python3
-          aiida_python_version: "${MOLECULE_PYTHON_VERSION:-3.7}"
+          aiida_python_version: "${MOLECULE_PYTHON_VERSION:-3.8}"
           install_node: "${MOLECULE_INSTALL_NODE:-no}"
           # for testing in docker container
           jupyter_ip: "0.0.0.0"

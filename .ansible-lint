@@ -5,3 +5,12 @@ warn_list:
   - '208'  # File permissions unset or incorrect
   - '305'  # Use shell only when shell functionality is required
   - '503'  # Tasks that run when changed should likely be handlers
+  # new warning categories
+  - experimental  # all rules tagged as experimental
+  - fqcn-builtins  # Use FQCN for builtin actions.
+  - ignore-errors  # Use failed_when and specify error conditions instead of using ignore_errors.
+  - no-changed-when  # Commands should not change things if nothing needs doing.
+  - schema  # Perform JSON Schema Validation for known lintable kinds.
+  - unnamed-task  # All tasks should be named.
+  - var-spacing  # Jinja2 variables and filters should have spaces before and after.
+  - yaml  # Violations reported by yamllint.

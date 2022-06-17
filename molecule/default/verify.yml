@@ -10,7 +10,7 @@
     include_vars: ../../defaults/main.yml
 
   - name: list PP families
-    command: "{{ aiida_venv }}/bin/verdi data upf listfamilies"
+    command: "{{ aiida_venv }}/bin/verdi data core.upf listfamilies"
     changed_when: false
     register: aiida_pps
 
