@@ -2,6 +2,8 @@ allow_duplicates: false
 
 galaxy_info:
   author: "MARVEL NCCR"
+  role_name: aiida
+  namespace: marvel_nccr
   description: "An ansible role that installs and configures [AiiDA](http://www.aiida.net/) on Ubuntu, RHEL, CentOS and Fedora."
   license: MIT
   min_ansible_version: 2.5
