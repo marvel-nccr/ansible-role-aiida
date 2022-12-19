@@ -4,6 +4,7 @@
   pip:
     executable: "/usr/local/bin/pip{{ aiida_python_version }}"
     name:
+    - setuptools
     - virtualenv
     - virtualenvwrapper
 
