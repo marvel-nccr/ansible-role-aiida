@@ -1,10 +1,17 @@
-- name: Add virtualenvwrapper package (pip{{ aiida_python_version }})
+- name: Add setuptools
   become: true
   become_user: "{{ root_user }}"
   pip:
     executable: "/usr/local/bin/pip{{ aiida_python_version }}"
     name:
     - setuptools
+
+- name: Add virtualenvwrapper package (pip{{ aiida_python_version }})
+  become: true
+  become_user: "{{ root_user }}"
+  pip:
+    executable: "/usr/local/bin/pip{{ aiida_python_version }}"
+    name:
     - virtualenv
     - virtualenvwrapper
 
