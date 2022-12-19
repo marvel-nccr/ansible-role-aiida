@@ -13,8 +13,6 @@
 - include_tasks: aiida-deps-debian.yml
   tags: [aiida_deps]
   when: ansible_os_family|lower == 'debian'
-- import_tasks: virtualenvwrapper.yml
-  tags: [aiida_venv]
 
 # Start and setup Postgresql and RabbitMQ, create folders
 - import_tasks: aiida-prepare.yml
@@ -25,6 +23,10 @@
 # install and setup AiiDA, including profile etc.
 - import_tasks: aiida-core.yml
   tags: [aiida, aiida_core]
+# if this is moved before aiida-core, install of package fails
+# because pkg_resources is not found
+- import_tasks: virtualenvwrapper.yml
+  tags: [aiida_venv]
 - import_tasks: jupyter.yml
   tags: [aiida, aiida_core, aiida_jupyter]
 - import_tasks: aiida-profile.yml
