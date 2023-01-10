@@ -17,14 +17,20 @@
 # Start and setup Postgresql and RabbitMQ, create folders
 - import_tasks: aiida-prepare.yml
   tags: [aiida, aiida_prepare]
+- import_tasks: aiida-folders.yml
+  tags: [aiida, aiida_folders]
 
 # install and setup AiiDA, including profile etc.
 - import_tasks: aiida-core.yml
   tags: [aiida, aiida_core]
+# if this is moved before aiida-core, install of package fails
+# because pkg_resources is not found
 - import_tasks: virtualenvwrapper.yml
-  tags: [aiida, aiida_core, aiida_venv]
+  tags: [aiida_venv]
 - import_tasks: jupyter.yml
   tags: [aiida, aiida_core, aiida_jupyter]
+- import_tasks: aiida-profile.yml
+  tags: [aiida, aiida_core, aiida_profile]
 - import_tasks: aiida-daemon.yml
   tags: [aiida_daemon, aiida_core]
 - import_tasks: aiida-rest.yml

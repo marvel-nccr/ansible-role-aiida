@@ -47,36 +47,3 @@
     become: true
     become_user: "{{ root_user }}"
     shell: rabbitmq-server > /dev/null 2>&1 &
-
-- name: Setup postgres db
-  become: true
-  become_user: "{{ aiida_postgres_user }}"
-  postgresql_db:
-    name: "{{ aiida_postgres_db }}"
-
-- name: Setup postgres db user
-  become: true
-  become_user: "{{ aiida_postgres_user }}"
-  postgresql_user:
-    db: "{{ aiida_postgres_db }}"
-    name: "{{ aiida_postgres_db_user }}"
-    password: "{{ aiida_postgres_db_pw }}"
-    encrypted: true
-
-- name: add aiida templates folder
-  become: true
-  become_user: "{{ root_user }}"
-  file:
-    path: "{{ aiida_templates_folder |  regex_replace('\\$\\{HOME}', current_user_home) }}"
-    state: "directory"
-    mode: 0755
-    owner: "{{ current_user }}"
-
-- name: add aiida data folder
-  become: true
-  become_user: "{{ root_user }}"
-  file:
-    path: "{{ aiida_data_folder |  regex_replace('\\$\\{HOME}', current_user_home) }}"
-    state: "directory"
-    mode: 0755
-    owner: "{{ current_user }}"
